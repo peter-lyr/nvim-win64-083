@@ -39,6 +39,10 @@ local plugins = function(use)
   use({ "tom-anders/telescope-vim-bookmarks.nvim" })
   use({ "nvim-telescope/telescope-ui-select.nvim" })
   -- use({ "ahmedkhalf/project.nvim" }) -- 不再更新官方修改
+
+  use({ 'rafi/awesome-vim-colorschemes' })
+  use({ 'EdenEast/nightfox.nvim' })
+  use({ 'folke/tokyonight.nvim' })
 end
 
 return packer.startup(function(use)

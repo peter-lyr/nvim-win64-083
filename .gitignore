@@ -11,3 +11,6 @@ packer.nvim
 telescope-ui-select.nvim
 telescope-vim-bookmarks.nvim
 vim-bookmarks
+awesome-vim-colorschemes
+nightfox.nvim
+tokyonight.nvim
