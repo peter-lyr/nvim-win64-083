@@ -1,8 +1,5 @@
-local a = vim.api
-local c = vim.cmd
 local f = vim.fn
 local g = vim.g
-local s = vim.keymap.set
 
 local M = {}
 
@@ -14,31 +11,16 @@ local do_generateplugin_lua_path = generateplugin_path:joinpath('lua', 'do_gener
 local do_generateplugin_plugin_path = generateplugin_path:joinpath('plugin', 'generateplugin.lua')
 
 M.run = function(params)
-  if not g.generateplugin_do_loaded then
-    g.generateplugin_do_loaded = 1
 
-    -- -- 以下自定义，可增加
-    -- sta, packadd = pcall(c, ' packadd generateplugin-nvim')
-    -- if not sta then
-    --   print("no  packadd generateplugin-nvim:", packadd)
-    -- end
-    -- sta, generateplugin_nvim = pcall(require, 'generateplugin_nvim')
-    -- if not sta then
-    --   print("no generateplugin_nvim:", generateplugin_nvim)
-    -- else
-    --   local generateplugin_setup_table = {
-    --   }
-    --   generateplugin_nvim.setup(generateplugin_setup_table)
-    -- end
-    -- -- 以上自定义，可增加
-
-  end
+  -- if not params or #params == 0 then
+  --   return
+  -- end
 
   -- 以下自定义，可删除
   if not params or #params > 0 and #params[1] == 'do' then
     return
   end
-  function read(path, dirname)
+  local read = function(path, dirname)
     local content = {}
     local lines = path:readlines()
     for _, v in ipairs(lines) do
