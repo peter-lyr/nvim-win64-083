@@ -1,6 +1,7 @@
 local c = vim.cmd
 local f = vim.fn
 local g = vim.g
+local o = vim.opt
 
 local M = {}
 
@@ -61,6 +62,7 @@ M.run = function()
     local sta, treesitter_context = pcall(require, "treesitter-context")
     if not sta then
       print('no treesitter-context')
+      return
     end
     treesitter_context.setup({})
   end
