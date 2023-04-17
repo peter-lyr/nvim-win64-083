@@ -1,4 +1,6 @@
 !**
 NetrwTreeListing
 nvim-treesitter
+nvim-treesitter-context
+nvim-ts-rainbow
 packer.nvim
