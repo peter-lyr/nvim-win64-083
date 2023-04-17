@@ -3,7 +3,7 @@
 .vim-bookmarks
 *.lnk
 NetrwTreeListing
-# 目录
+# plugin目录
 nvim-treesitter
 nvim-treesitter-context
 nvim-ts-rainbow
@@ -14,3 +14,13 @@ vim-bookmarks
 awesome-vim-colorschemes
 nightfox.nvim
 tokyonight.nvim
+# 匹配
+# 输出文件或文件夹
+saved_images
+output
+*.html
+*.pdf
+*.docx
+# 大的输入文件或文件夹
+*.csv
+[0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_[0-9][0-9]-[0-9][0-9]-[0-9][0-9]*.*
