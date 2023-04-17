@@ -43,6 +43,8 @@ local plugins = function(use)
   use({ 'rafi/awesome-vim-colorschemes' })
   use({ 'EdenEast/nightfox.nvim' })
   use({ 'folke/tokyonight.nvim' })
+
+  use({ "dstein64/vim-startuptime", opt = true })
 end
 
 return packer.startup(function(use)
