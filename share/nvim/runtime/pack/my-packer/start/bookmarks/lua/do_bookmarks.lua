@@ -2,14 +2,16 @@ local c = vim.cmd
 local g = vim.g
 local s = vim.keymap.set
 
+
 g.bookmarks_do_loaded = 1
 g.bookmark_save_per_working_dir = 1
 g.bookmark_auto_save = 1
 g.bookmark_no_default_key_mappings = 1
-local sta
-sta, Packadd = pcall(c, 'packadd vim-bookmarks')
+
+
+local sta, packadd = pcall(c, 'packadd vim-bookmarks')
 if not sta then
-  print(Packadd)
+  print(packadd)
   local opt = { silent = true }
   s({ 'n', 'v' }, 'ma', ':ec "no bookmarks"<cr>', opt)
   s({ 'n', 'v' }, 'mm', ':ec "no bookmarks"<cr>', opt)
@@ -21,7 +23,7 @@ if not sta then
   s({ 'n', 'v' }, 'mkk', ':ec "no bookmarks"<cr>', opt)
   s({ 'n', 'v' }, 'mjj', ':ec "no bookmarks"<cr>', opt)
   s({ 'n', 'v' }, 'mg', ':ec "no bookmarks"<cr>', opt)
-  return
+  return nil
 end
 
 
