@@ -30,6 +30,8 @@ packer.init({
 
 local plugins = function(use)
   use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", opt = true })
+  use({ "p00f/nvim-ts-rainbow", opt = true })
+  use({ "nvim-treesitter/nvim-treesitter-context", opt = true })
 end
 
 return packer.startup(function(use)
