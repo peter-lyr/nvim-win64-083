@@ -33,6 +33,7 @@ end
 
 return packer.startup(function(use)
   use('wbthomason/packer.nvim')
+  -- use('nvim-lua/plenary.nvim') -- 不再更新官方修改
 
   plugins(use)
 
