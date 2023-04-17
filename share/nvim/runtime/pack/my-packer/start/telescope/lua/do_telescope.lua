@@ -1,5 +1,4 @@
 local c = vim.cmd
-local g = vim.g
 
 local sta
 local packadd
