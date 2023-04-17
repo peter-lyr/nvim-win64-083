@@ -33,7 +33,7 @@ if not g.treesitter_loaded then
       local parser_path = f.expand("$VIMRUNTIME") .. "\\my-neovim-data\\treesitter-parser"
       o.runtimepath:append(parser_path)
       treesitter.setup {
-        ensure_installed = 'all',
+        ensure_installed = {}, -- 'all',
         sync_install = false,
         auto_install = false,
         parser_install_dir = parser_path,
