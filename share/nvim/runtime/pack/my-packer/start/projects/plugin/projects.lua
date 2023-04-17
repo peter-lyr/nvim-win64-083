@@ -15,7 +15,7 @@ end
 
 if not g.projects_startup then
   g.projects_startup = 1
-  g.projects_cursormoved = a.nvim_create_autocmd({"CursorMoved"}, {
+  g.projects_cursormoved = a.nvim_create_autocmd({ "CursorMoved" }, {
     callback = function()
       a.nvim_del_autocmd(g.projects_cursormoved)
       projects()

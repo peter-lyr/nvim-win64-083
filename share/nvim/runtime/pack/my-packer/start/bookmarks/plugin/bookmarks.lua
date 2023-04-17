@@ -21,7 +21,7 @@ end
 
 if not g.bookmarks_startup then
   g.bookmarks_startup = 1
-  g.bookmarks_cursormoved = a.nvim_create_autocmd({"CursorMoved"}, {
+  g.bookmarks_cursormoved = a.nvim_create_autocmd({ "CursorMoved" }, {
     callback = function()
       a.nvim_del_autocmd(g.bookmarks_cursormoved)
       bookmarks()
@@ -33,7 +33,7 @@ a.nvim_create_user_command('BookmarkS', function(params)
   bookmarks(params['fargs'])
 end, { nargs = "*", })
 
-local opt = {silent = true}
+local opt = { silent = true }
 
 s({ 'n', 'v' }, 'ma', ':BookmarkS BookmarkShowAll<cr>', opt)
 s({ 'n', 'v' }, 'mm', ':BookmarkS BookmarkToggle<cr>', opt)

@@ -11,7 +11,6 @@ local do_generateplugin_lua_path = generateplugin_path:joinpath('lua', 'do_gener
 local do_generateplugin_plugin_path = generateplugin_path:joinpath('plugin', 'generateplugin.lua')
 
 M.run = function(params)
-
   -- if not params or #params == 0 then
   --   return
   -- end
@@ -26,7 +25,7 @@ M.run = function(params)
     for _, v in ipairs(lines) do
       local newline, _ = string.gsub(v, 'generateplugin', dirname)
       local s1, _ = string.sub(dirname, 1, 1)
-      local s2, _ = string.sub(dirname, 2, #dirname-1)
+      local s2, _ = string.sub(dirname, 2, #dirname - 1)
       local s3, _ = string.sub(dirname, #dirname, #dirname)
       newline, _ = string.gsub(newline, 'GeneratePlugiN', f['toupper'](s1) .. s2 .. f['toupper'](s3))
       table.insert(content, newline)
@@ -70,7 +69,6 @@ M.run = function(params)
     luanamepath:write(do_generateplugin_lua_content, 'w')
   end
   -- 以上自定义，可删除
-
 end
 
 return M

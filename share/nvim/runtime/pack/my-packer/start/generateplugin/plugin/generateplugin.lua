@@ -39,7 +39,7 @@ a.nvim_create_user_command('GeneratePlugiN', function(params)
   generateplugin(params['fargs'])
 end, { nargs = "*", })
 
-local opt = {silent = true}
+local opt = { silent = true }
 
 
-s({'n', 'v'}, '<leader><leader><leader>z', ':GeneratePlugiN do<cr>', opt)
+s({ 'n', 'v' }, '<leader><leader><leader>z', ':GeneratePlugiN do<cr>', opt)
