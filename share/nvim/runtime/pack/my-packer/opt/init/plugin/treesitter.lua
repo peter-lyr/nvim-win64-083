@@ -10,19 +10,19 @@ if not g.treesitter_loaded then
   g.treesitter_cursormoved = a.nvim_create_autocmd({"CursorMoved"}, {
     callback = function()
       a.nvim_del_autocmd(g.treesitter_cursormoved)
-      local sta, _ = pcall(c, 'packadd nvim-treesitter')
+      local sta, packadd = pcall(c, 'packadd nvim-treesitter')
       if not sta then
-        print("no nvim-treesitter")
+        print("no nvim-treesitter:", packadd)
         return
       end
-      local sta, _ = pcall(c, 'packadd nvim-treesitter-context')
+      local sta, packadd = pcall(c, 'packadd nvim-treesitter-context')
       if not sta then
-        print("no nvim-treesitter-context")
+        print("no nvim-treesitter-context:", packadd)
         return
       end
-      local sta, _ = pcall(c, 'packadd nvim-ts-rainbow')
+      local sta, packadd = pcall(c, 'packadd nvim-ts-rainbow')
       if not sta then
-        print("no nvim-ts-rainbow")
+        print("no nvim-ts-rainbow:", packadd)
         return
       end
       local status, treesitter = pcall(require, "nvim-treesitter.configs")

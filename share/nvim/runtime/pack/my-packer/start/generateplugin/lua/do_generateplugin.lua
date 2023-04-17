@@ -18,13 +18,13 @@ M.run = function(params)
     g.generateplugin_do_loaded = 1
 
     -- -- 以下自定义，可增加
-    -- sta, _ = pcall(c, ' packadd generateplugin-nvim')
+    -- sta, packadd = pcall(c, ' packadd generateplugin-nvim')
     -- if not sta then
-    --   print("no  packadd generateplugin-nvim")
+    --   print("no  packadd generateplugin-nvim:", packadd)
     -- end
     -- sta, generateplugin_nvim = pcall(require, 'generateplugin_nvim')
     -- if not sta then
-    --   print("no generateplugin_nvim")
+    --   print("no generateplugin_nvim:", generateplugin_nvim)
     -- else
     --   local generateplugin_setup_table = {
     --   }

@@ -19,6 +19,7 @@ local packer_bootstrap = ensure_packer()
 
 local sta, packer = pcall(require, 'packer')
 if not sta then
+  print("no packer:", packer)
   return
 end
 

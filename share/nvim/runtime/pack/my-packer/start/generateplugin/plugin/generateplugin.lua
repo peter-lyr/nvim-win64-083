@@ -12,7 +12,7 @@ local generateplugin = function(params)
     a.nvim_del_autocmd(g.generateplugin_cursormoved)
     sta, do_generateplugin = pcall(require, 'do_generateplugin')
     if not sta then
-      print("no do_generateplugin")
+      print("no do_generateplugin:", do_generateplugin)
       return
     end
   end
