@@ -2,15 +2,16 @@
 --   return
 -- end
 
-local fn = vim.fn
+local f = vim.fn
+local c = vim.cmd
 
 local ensure_packer = function()
-  local install_path = fn.expand('$VIMRUNTIME') .. '\\pack\\packer\\start\\packer.nvim'
-  if fn.empty(fn.glob(install_path)) > 0 then
+  local install_path = f.expand('$VIMRUNTIME') .. '\\pack\\packer\\start\\packer.nvim'
+  if f.empty(f.glob(install_path)) > 0 then
     print('git clone packer.nvim...')
-    fn.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
+    f.system({ 'git', 'clone', '--depth', '1', 'https://github.com/wbthomason/packer.nvim', install_path })
     print('clone dnoe!')
-    vim.cmd('packadd packer.nvim')
+    c('packadd packer.nvim')
     return true
   end
   return false
@@ -24,14 +25,20 @@ if not sta then
 end
 
 packer.init({
-  package_root = fn.expand('$VIMRUNTIME') .. '\\pack',
-  compile_path = fn.expand('$VIMRUNTIME') .. '\\plugin'
+  package_root = f.expand('$VIMRUNTIME') .. '\\pack',
+  compile_path = f.expand('$VIMRUNTIME') .. '\\plugin'
 })
 
 local plugins = function(use)
   use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", opt = true })
   use({ "p00f/nvim-ts-rainbow", opt = true })
   use({ "nvim-treesitter/nvim-treesitter-context", opt = true })
+
+  -- use({ "nvim-telescope/telescope.nvim", branch = "0.1.x", opt = true }) -- 不再更新官方修改
+  use({ "MattesGroeger/vim-bookmarks", opt = true })
+  use({ "tom-anders/telescope-vim-bookmarks.nvim" })
+  use({ "nvim-telescope/telescope-ui-select.nvim" })
+  -- use({ "ahmedkhalf/project.nvim" }) -- 不再更新官方修改
 end
 
 return packer.startup(function(use)

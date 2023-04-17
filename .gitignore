@@ -1,6 +1,13 @@
 !**
+# 文件
+.vim-bookmarks
+*.lnk
 NetrwTreeListing
+# 目录
 nvim-treesitter
 nvim-treesitter-context
 nvim-ts-rainbow
 packer.nvim
+telescope-ui-select.nvim
+telescope-vim-bookmarks.nvim
+vim-bookmarks
