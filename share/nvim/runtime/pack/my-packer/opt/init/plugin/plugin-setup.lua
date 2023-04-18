@@ -1,6 +1,6 @@
-if 1 then
-  return
-end
+-- if 1 then
+--   return
+-- end
 
 local f = vim.fn
 local c = vim.cmd
@@ -47,6 +47,8 @@ local plugins = function(use)
   use({ "dstein64/vim-startuptime", opt = true })
 
   -- use('prichrd/netrw.nvim') -- 不再更新官方修改
+
+  use({ '907th/vim-auto-save', opt = true })
 end
 
 return packer.startup(function(use)
