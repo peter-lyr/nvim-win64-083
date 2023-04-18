@@ -45,6 +45,8 @@ local plugins = function(use)
   use({ 'folke/tokyonight.nvim' })
 
   use({ "dstein64/vim-startuptime", opt = true })
+
+  -- use('prichrd/netrw.nvim') -- 不再更新官方修改
 end
 
 return packer.startup(function(use)
