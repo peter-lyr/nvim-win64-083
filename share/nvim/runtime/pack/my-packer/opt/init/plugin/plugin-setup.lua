@@ -20,7 +20,7 @@ local packer_bootstrap = ensure_packer()
 
 local sta, packer = pcall(require, 'packer')
 if not sta then
-  print("no packer:", packer)
+  print('no packer:', packer)
   return
 end
 
@@ -30,21 +30,21 @@ packer.init({
 })
 
 local plugins = function(use)
-  use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate", opt = true })
-  use({ "p00f/nvim-ts-rainbow", opt = true })
-  use({ "nvim-treesitter/nvim-treesitter-context", opt = true })
+  use({ 'nvim-treesitter/nvim-treesitter', run = ':TSUpdate', opt = true })
+  use({ 'p00f/nvim-ts-rainbow', opt = true })
+  use({ 'nvim-treesitter/nvim-treesitter-context', opt = true })
 
-  -- use({ "nvim-telescope/telescope.nvim", branch = "0.1.x", opt = true }) -- 不再更新官方修改
-  use({ "MattesGroeger/vim-bookmarks", opt = true })
-  use({ "tom-anders/telescope-vim-bookmarks.nvim" })
-  use({ "nvim-telescope/telescope-ui-select.nvim" })
-  -- use({ "ahmedkhalf/project.nvim" }) -- 不再更新官方修改
+  -- use({ 'nvim-telescope/telescope.nvim', branch = '0.1.x', opt = true }) -- 不再更新官方修改
+  use({ 'MattesGroeger/vim-bookmarks', opt = true })
+  use({ 'tom-anders/telescope-vim-bookmarks.nvim' })
+  use({ 'nvim-telescope/telescope-ui-select.nvim' })
+  -- use({ 'ahmedkhalf/project.nvim' }) -- 不再更新官方修改
 
   use({ 'rafi/awesome-vim-colorschemes' })
   use({ 'EdenEast/nightfox.nvim' })
   use({ 'folke/tokyonight.nvim' })
 
-  use({ "dstein64/vim-startuptime", opt = true })
+  use({ 'dstein64/vim-startuptime', opt = true })
 
   -- use('prichrd/netrw.nvim') -- 不再更新官方修改
 
