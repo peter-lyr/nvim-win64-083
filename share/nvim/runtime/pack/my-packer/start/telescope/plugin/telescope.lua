@@ -6,7 +6,6 @@ local telescope = function(params)
   if not g.telescope_loaded then
     local sta
     g.telescope_loaded = 1
-    a.nvim_del_autocmd(g.telescope_cursormoved)
     sta, Do_telescope = pcall(require, 'do_telescope')
     if not sta then
       print("no do_telescope:", Do_telescope)
@@ -17,16 +16,6 @@ local telescope = function(params)
     return
   end
   Do_telescope.run(params)
-end
-
-if not g.telescope_startup then
-  g.telescope_startup = 1
-  g.telescope_cursormoved = a.nvim_create_autocmd({ "CursorMoved" }, {
-    callback = function()
-      a.nvim_del_autocmd(g.telescope_cursormoved)
-      telescope()
-    end,
-  })
 end
 
 a.nvim_create_user_command('TelescopE', function(params)
