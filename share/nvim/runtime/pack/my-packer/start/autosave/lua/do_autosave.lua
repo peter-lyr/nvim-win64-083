@@ -10,10 +10,3 @@ if not sta then
   print(packadd)
   return
 end
-
-local M = {}
-
-M.run = function()
-end
-
-return M
