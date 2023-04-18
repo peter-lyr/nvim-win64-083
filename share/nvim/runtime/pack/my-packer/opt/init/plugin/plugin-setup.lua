@@ -51,6 +51,8 @@ local plugins = function(use)
   use({ '907th/vim-auto-save', opt = true })
 
   use({ 'preservim/nerdcommenter', opt = true })
+
+  use({ "jghauser/mkdir.nvim" })
 end
 
 return packer.startup(function(use)

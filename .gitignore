@@ -17,6 +17,7 @@ NetrwTreeListing
 **/pack/packer/**/vim-startuptime
 **/pack/packer/**/vim-auto-save
 **/pack/packer/**/nerdcommenter
+**/pack/packer/**/mkdir.nvim
 # my-neovim-data
 **/my-neovim-data/project_nvim
 # 匹配
