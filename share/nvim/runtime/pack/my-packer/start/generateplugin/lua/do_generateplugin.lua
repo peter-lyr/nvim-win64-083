@@ -69,6 +69,7 @@ M.run = function(params)
     luanamepath:write(do_generateplugin_lua_content, 'w')
   end
   -- 以上自定义，可删除
+
 end
 
 return M
