@@ -53,6 +53,8 @@ local plugins = function(use)
   use({ 'preservim/nerdcommenter', opt = true })
 
   use({ "jghauser/mkdir.nvim" })
+
+  use({ "windwp/nvim-autopairs" })
 end
 
 return packer.startup(function(use)
