@@ -24,11 +24,11 @@ end
 
 a.nvim_create_user_command('BadwhitespacE', function(params)
   badwhitespace(params['fargs'])
-end, { nargs = "*", })
+end, { nargs = '*', })
 
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '<leader>ee', ":BadwhitespacE Erase<CR>", opt)
-s({ 'n', 'v' }, '<leader>eh', ":BadwhitespacE Hide<CR> ", opt)
-s({ 'n', 'v' }, '<leader>es', ":BadwhitespacE Show<CR> ", opt)
+s({ 'n', 'v' }, '<leader>ee', ':BadwhitespacE Erase<CR>', opt)
+s({ 'n', 'v' }, '<leader>eh', ':BadwhitespacE Hide<CR> ', opt)
+s({ 'n', 'v' }, '<leader>es', ':BadwhitespacE Show<CR> ', opt)
