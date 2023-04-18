@@ -49,6 +49,8 @@ local plugins = function(use)
   -- use('prichrd/netrw.nvim') -- 不再更新官方修改
 
   use({ '907th/vim-auto-save', opt = true })
+
+  use({ 'preservim/nerdcommenter', opt = true })
 end
 
 return packer.startup(function(use)

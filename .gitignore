@@ -4,18 +4,19 @@
 *.lnk
 NetrwTreeListing
 # plugin目录
-nvim-treesitter
-nvim-treesitter-context
-nvim-ts-rainbow
-packer.nvim
-telescope-ui-select.nvim
-telescope-vim-bookmarks.nvim
-vim-bookmarks
-awesome-vim-colorschemes
-nightfox.nvim
-tokyonight.nvim
-vim-startuptime
-vim-auto-save
+**/pack/packer/**/nvim-treesitter
+**/pack/packer/**/nvim-treesitter-context
+**/pack/packer/**/nvim-ts-rainbow
+**/pack/packer/**/packer.nvim
+**/pack/packer/**/telescope-ui-select.nvim
+**/pack/packer/**/telescope-vim-bookmarks.nvim
+**/pack/packer/**/vim-bookmarks
+**/pack/packer/**/awesome-vim-colorschemes
+**/pack/packer/**/nightfox.nvim
+**/pack/packer/**/tokyonight.nvim
+**/pack/packer/**/vim-startuptime
+**/pack/packer/**/vim-auto-save
+**/pack/packer/**/nerdcommenter
 # my-neovim-data
 **/my-neovim-data/project_nvim
 # 匹配
