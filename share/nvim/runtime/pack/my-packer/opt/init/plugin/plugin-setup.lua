@@ -59,6 +59,8 @@ local plugins = function(use)
   use({ 'bitc/vim-bad-whitespace', opt = true })
 
   use({ 'nvim-tree/nvim-web-devicons' })
+
+  use({ 'tpope/vim-surround', opt = true })
 end
 
 return packer.startup(function(use)

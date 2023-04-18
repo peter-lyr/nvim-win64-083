@@ -21,6 +21,7 @@ NetrwTreeListing
 **/pack/packer/**/nvim-autopairs
 **/pack/packer/**/vim-bad-whitespace
 **/pack/packer/**/nvim-web-devicons
+**/pack/packer/**/vim-surround
 # my-neovim-data
 **/my-neovim-data/project_nvim
 # 匹配
