@@ -130,7 +130,10 @@ local get_paths = function(dname)
       break
     end
     cnt = #name
-    table.insert(paths, rep(name))
+    name = rep(name)
+    if #name > 0 then
+      table.insert(paths, name)
+    end
     path = path:parent()
   end
   return paths
@@ -248,8 +251,11 @@ function M.toggle(mode)
     elseif mode == 'sel' then
       local dname, _ = rep(M.get_dname())
       local paths = get_paths(dname)
-      if #paths then
+      if paths and #paths > 0 then
         u.select(paths, { prompt = 'netrw open' }, function(choice)
+          if not choice then
+            return
+          end
           open_netrw()
           c('Explore ' .. choice)
         end)
