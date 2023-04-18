@@ -55,6 +55,8 @@ local plugins = function(use)
   use({ "jghauser/mkdir.nvim" })
 
   use({ "windwp/nvim-autopairs" })
+
+  use({ "bitc/vim-bad-whitespace", opt = true })
 end
 
 return packer.startup(function(use)

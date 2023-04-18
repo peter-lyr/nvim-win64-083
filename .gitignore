@@ -19,6 +19,7 @@ NetrwTreeListing
 **/pack/packer/**/nerdcommenter
 **/pack/packer/**/mkdir.nvim
 **/pack/packer/**/nvim-autopairs
+**/pack/packer/**/vim-bad-whitespace
 # my-neovim-data
 **/my-neovim-data/project_nvim
 # 匹配
