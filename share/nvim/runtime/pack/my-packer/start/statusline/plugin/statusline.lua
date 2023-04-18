@@ -13,13 +13,19 @@ local statusline = function()
         autocmd ColorScheme * call statusline#color()
       ]]
   end
+  f['statusline#color']()
 end
+
+local cnt = 0
 
 if not g.statusline_startup then
   g.statusline_startup = 1
   g.statusline_cursormoved = a.nvim_create_autocmd({ "CursorMoved", "InsertEnter" }, {
     callback = function()
-      a.nvim_del_autocmd(g.statusline_cursormoved)
+      cnt = cnt + 1
+      if cnt > 2 then
+        a.nvim_del_autocmd(g.statusline_cursormoved)
+      end
       statusline()
     end,
   })
