@@ -5,7 +5,6 @@ local s = vim.keymap.set
 local bookmarks = function(params)
   if not g.bookmarks_loaded then
     g.bookmarks_loaded = 1
-    a.nvim_del_autocmd(g.bookmarks_cursormoved)
     local sta
     sta, Do_bookmarks = pcall(require, 'do_bookmarks')
     if not sta then
@@ -17,16 +16,6 @@ local bookmarks = function(params)
     return
   end
   Do_bookmarks.run(params)
-end
-
-if not g.bookmarks_startup then
-  g.bookmarks_startup = 1
-  g.bookmarks_cursormoved = a.nvim_create_autocmd({ "CursorMoved" }, {
-    callback = function()
-      a.nvim_del_autocmd(g.bookmarks_cursormoved)
-      bookmarks()
-    end,
-  })
 end
 
 a.nvim_create_user_command('BookmarkS', function(params)
