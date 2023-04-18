@@ -3,28 +3,32 @@ local f = vim.fn
 local g = vim.g
 local o = vim.opt
 
+local sta
+
 local M = {}
 
 M.run = function()
   if not g.treesitter_do_loaded then
     g.treesitter_do_loaded = 1
-    local sta, packadd = pcall(c, 'packadd nvim-treesitter')
+    local packadd
+    sta, packadd = pcall(c, 'packadd nvim-treesitter')
     if not sta then
-      print("no packadd nvim-treesitter:", packadd)
+      print(packadd)
       return
     end
-    local sta, treesitter = pcall(require, "nvim-treesitter.configs")
+    local treesitter
+    sta, treesitter = pcall(require, "nvim-treesitter.configs")
     if not sta then
-      print('no nvim-treesitter.configs:', treesitter)
+      print(treesitter)
       return
     end
-    local sta, packadd = pcall(c, 'packadd nvim-treesitter-context')
+    sta, packadd = pcall(c, 'packadd nvim-treesitter-context')
     if not sta then
-      print("no packadd nvim-treesitter-context:", packadd)
+      print(packadd)
     end
-    local sta, packadd = pcall(c, 'packadd nvim-ts-rainbow')
+    sta, packadd = pcall(c, 'packadd nvim-ts-rainbow')
     if not sta then
-      print("no packadd nvim-ts-rainbow:", packadd)
+      print(packadd)
     end
     local parser_path = f.expand("$VIMRUNTIME") .. "\\my-neovim-data\\treesitter-parser"
     o.runtimepath:append(parser_path)
@@ -59,9 +63,10 @@ M.run = function()
         max_file_lines = nil,
       }
     })
-    local sta, treesitter_context = pcall(require, "treesitter-context")
+    local treesitter_context
+    sta, treesitter_context = pcall(require, "treesitter-context")
     if not sta then
-      print('no treesitter-context')
+      print(treesitter_context)
       return
     end
     treesitter_context.setup({})
