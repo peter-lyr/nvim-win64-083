@@ -31,6 +31,7 @@ NetrwTreeListing
 **/pack/packer/**/vim-fugitive
 **/pack/packer/**/diffview.nvim
 **/pack/packer/**/which-key.nvim
+**/pack/packer/**/vim-projectroot
 # my-neovim-data
 **/my-neovim-data/project_nvim
 # 匹配

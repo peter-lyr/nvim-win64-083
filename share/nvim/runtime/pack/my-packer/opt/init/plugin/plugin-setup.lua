@@ -82,6 +82,8 @@ local plugins = function(use)
   use({ 'sindrets/diffview.nvim', opt = true })
 
   use({ 'folke/which-key.nvim' })
+
+  use({ 'dbakker/vim-projectroot' })
 end
 
 return packer.startup(function(use)
