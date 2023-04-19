@@ -1,4 +1,5 @@
 local c = vim.cmd
+local g = vim.g
 
 local sta
 local packadd
@@ -131,6 +132,16 @@ M.run = function(params)
     return
   end
   local cmd = table.concat(params, ' ')
+  if cmd == 'projects' then
+    if not g.do_projects then
+      sta, g.do_projects = pcall(require, 'do_projects')
+      if not sta then
+        print(g.do_projects)
+        return
+      end
+      return
+    end
+  end
   c(string.format([[
   try
     Telescope %s
