@@ -25,6 +25,13 @@ if not sta then
   return
 end
 
+local actions_layout
+sta, actions_layout = pcall(require, 'telescope.actions.layout')
+if not sta then
+  print(actions_layout)
+  return
+end
+
 c[[
 autocmd User TelescopePreviewerLoaded setlocal number | setlocal wrap
 ]]
@@ -36,6 +43,9 @@ telescope.setup({
       height = 0.99,
       width = 0.99,
     },
+    preview = {
+      hide_on_startup = true,
+    },
     mappings = {
       i = {
         ['<a-m>'] = actions.close,
@@ -46,6 +56,7 @@ telescope.setup({
         ['<c-l>'] = actions.select_vertical,
         ['<c-k>'] = actions.select_tab,
         ['<c-o>'] = actions.select_default,
+				['<c-\\>'] = actions_layout.toggle_preview,
       },
       n = {
         ['ql'] = actions.close,
@@ -57,6 +68,7 @@ telescope.setup({
         ['<c-l>'] = actions.select_vertical,
         ['<c-k>'] = actions.select_tab,
         ['<c-o>'] = actions.select_default,
+				['<c-\\>'] = actions_layout.toggle_preview,
       }
     },
     file_ignore_patterns = {
