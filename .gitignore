@@ -4,25 +4,25 @@
 *.lnk
 NetrwTreeListing
 # plugin目录
+**/pack/packer/**/awesome-vim-colorschemes
+**/pack/packer/**/hop.nvim
+**/pack/packer/**/mkdir.nvim
+**/pack/packer/**/nerdcommenter
+**/pack/packer/**/nightfox.nvim
+**/pack/packer/**/nvim-autopairs
 **/pack/packer/**/nvim-treesitter
 **/pack/packer/**/nvim-treesitter-context
 **/pack/packer/**/nvim-ts-rainbow
+**/pack/packer/**/nvim-web-devicons
 **/pack/packer/**/packer.nvim
 **/pack/packer/**/telescope-ui-select.nvim
 **/pack/packer/**/telescope-vim-bookmarks.nvim
-**/pack/packer/**/vim-bookmarks
-**/pack/packer/**/awesome-vim-colorschemes
-**/pack/packer/**/nightfox.nvim
 **/pack/packer/**/tokyonight.nvim
-**/pack/packer/**/vim-startuptime
 **/pack/packer/**/vim-auto-save
-**/pack/packer/**/nerdcommenter
-**/pack/packer/**/mkdir.nvim
-**/pack/packer/**/nvim-autopairs
 **/pack/packer/**/vim-bad-whitespace
-**/pack/packer/**/nvim-web-devicons
+**/pack/packer/**/vim-bookmarks
+**/pack/packer/**/vim-startuptime
 **/pack/packer/**/vim-surround
-**/pack/packer/**/hop.nvim
 # my-neovim-data
 **/my-neovim-data/project_nvim
 # 匹配
