@@ -73,10 +73,10 @@ telescope.setup({
       }
     },
     file_ignore_patterns = {
-      '.svn',
-      '.vs',
-      '.git',
-      '.cache',
+      '%.svn',
+      '%.vs',
+      '%.git',
+      '%.cache',
       'obj',
       'build',
       'my%-neovim%-data',
