@@ -79,6 +79,7 @@ telescope.setup({
       '.cache',
       'obj',
       'build',
+      'my%-neovim%-data',
       '%.js',
       '%.asc',
       '%.hex',
