@@ -80,6 +80,8 @@ local plugins = function(use)
   use({ 'lewis6991/gitsigns.nvim' })
   use({ 'tpope/vim-fugitive', opt = true })
   use({ 'sindrets/diffview.nvim', opt = true })
+
+  use({ 'folke/which-key.nvim' })
 end
 
 return packer.startup(function(use)
