@@ -16,7 +16,7 @@ end
 
 if not g.cmp_startup then
   g.cmp_startup = 1
-  g.cmp_cursormoved = a.nvim_create_autocmd({"InsertEnter", "CmdlineEnter"}, {
+  g.cmp_cursormoved = a.nvim_create_autocmd({"CursorMoved", "InsertEnter", "CmdlineEnter"}, {
     callback = function()
       a.nvim_del_autocmd(g.cmp_cursormoved)
       cmp()
