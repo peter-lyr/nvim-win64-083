@@ -56,7 +56,7 @@ telescope.setup({
         ['<c-l>'] = actions.select_vertical,
         ['<c-k>'] = actions.select_tab,
         ['<c-o>'] = actions.select_default,
-				['<c-\\>'] = actions_layout.toggle_preview,
+				['<a-n>'] = actions_layout.toggle_preview,
       },
       n = {
         ['ql'] = actions.close,
@@ -68,7 +68,7 @@ telescope.setup({
         ['<c-l>'] = actions.select_vertical,
         ['<c-k>'] = actions.select_tab,
         ['<c-o>'] = actions.select_default,
-				['<c-\\>'] = actions_layout.toggle_preview,
+				['n'] = actions_layout.toggle_preview,
       }
     },
     file_ignore_patterns = {
