@@ -40,3 +40,4 @@ output
 *.csv
 [0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]_[0-9][0-9]-[0-9][0-9]-[0-9][0-9]*.*
 __pycache__
+**/my-neovim-data/mason/packages/lua-language-server/log
