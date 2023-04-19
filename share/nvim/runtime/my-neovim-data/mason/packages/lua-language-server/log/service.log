@@ -1,9 +1,9 @@
-[14:02:50.459][info] [#0:D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server\main.lua:66]: Lua Lsp startup, root: 	D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server
-[14:02:50.474][info] [#0:D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server\main.lua:67]: ROOT:	D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server
-[14:02:50.474][info] [#0:D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server\main.lua:68]: LOGPATH:	D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server/log
-[14:02:50.474][info] [#0:D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server\main.lua:69]: METAPATH:	D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server/meta
-[14:02:50.490][info] [#0:D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server\main.lua:70]: VERSION:	3.6.18
-[14:02:50.865][info] [#0:script\service\service.lua:144]: 
+[19:03:54.886][info] [#0:D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server\main.lua:66]: Lua Lsp startup, root: 	D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server
+[19:03:54.901][info] [#0:D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server\main.lua:67]: ROOT:	D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server
+[19:03:54.901][info] [#0:D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server\main.lua:68]: LOGPATH:	D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server/log
+[19:03:54.901][info] [#0:D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server\main.lua:69]: METAPATH:	D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server/meta
+[19:03:54.917][info] [#0:D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server\main.lua:70]: VERSION:	3.6.18
+[19:03:56.573][info] [#0:script\service\service.lua:144]: 
 ========= Medical Examination Report =========
     --------------- Memory ---------------
         Total: 2.114 MB
@@ -25,7 +25,7 @@
         Holdon:   0
         Waiting:  0
 ==============================================
-[14:02:51.021][info] [#0:script\client.lua:657]: Client init	{
+[19:03:56.698][info] [#0:script\client.lua:657]: Client init	{
   capabilities = {
     callHierarchy = {
       dynamicRegistration = false
@@ -161,7 +161,7 @@
     version = "0.8.3"
   },
   initializationOptions = {},
-  processId = 18036,
+  processId = 19352,
   rootPath = "D:\\Desktop\\nvim-win64-083",
   rootUri = "file:///D:/Desktop/nvim-win64-083",
   trace = "off",
@@ -170,7 +170,7 @@
       uri = "file:///D:/Desktop/nvim-win64-083"
     } }
 }
-[14:02:51.021][info] [#0:script\language.lua:137]: VSC language: nil
-[14:02:51.021][info] [#0:script\language.lua:138]: LS  language: en-us
-[14:02:51.021][info] [#0:script\workspace\workspace.lua:38]: Workspace init root: 	file:///D:/Desktop/nvim-win64-083
-[14:02:51.021][info] [#0:script\workspace\workspace.lua:42]: Log path: 	D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server/log/file_D_Desktop_nvim-win64-083.log
+[19:03:56.698][info] [#0:script\language.lua:137]: VSC language: nil
+[19:03:56.698][info] [#0:script\language.lua:138]: LS  language: en-us
+[19:03:56.698][info] [#0:script\workspace\workspace.lua:38]: Workspace init root: 	file:///D:/Desktop/nvim-win64-083
+[19:03:56.698][info] [#0:script\workspace\workspace.lua:42]: Log path: 	D:/Desktop/nvim-win64-083/share/nvim/runtime/my-neovim-data/mason/packages/lua-language-server/log/file_D_Desktop_nvim-win64-083.log
