@@ -114,6 +114,23 @@ lspconfig.lua_ls.setup({
     }
     return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname)
   end,
+  settings = {
+    Lua = {
+      diagnostics = {
+        globals = { "vim" }
+      },
+      runtime = {
+        version = 'LuaJIT',
+      },
+      workspace = {
+        library = a.nvim_get_runtime_file('', true),
+        checkThirdParty = false,
+      },
+      telemetry = {
+        enable = false,
+      },
+    },
+  }
 })
 
 
