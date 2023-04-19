@@ -69,7 +69,7 @@ end
 
 local is_hide_en = function()
   local cnt = 0
-  for i=1, f['winnr']('$') do
+  for i = 1, f['winnr']('$') do
     if f['getbufvar'](f['winbufnr'](i), '&buftype') ~= 'nofile' then
       cnt = cnt + 1
     end
@@ -124,16 +124,17 @@ function M.toggle_terminal(terminal, chdir)
       if terminal == 'ipython' then
         f['feedkeys']([[:call feedkeys("i\<cr>\<esc>")]])
         local t0 = os.clock()
-        while os.clock() - t0 <= 0.02 do end
-        c[[call feedkeys("\<cr>")]]
+        while os.clock() - t0 <= 0.02 do
+        end
+        c [[call feedkeys("\<cr>")]]
       else
-        c[[call feedkeys("i\<cr>\<esc>")]]
+        c [[call feedkeys("i\<cr>\<esc>")]]
       end
       return
     else
       if #terminal_bufnrs == 1 then
         if is_hide_en() then
-          c'hide'
+          c 'hide'
         end
         return
       end
@@ -142,7 +143,7 @@ function M.toggle_terminal(terminal, chdir)
     bnr_idx = bnr_idx + 1
     if bnr_idx > #terminal_bufnrs then
       if is_hide_en() then
-        c'hide'
+        c 'hide'
       end
       return
     else
@@ -152,13 +153,13 @@ function M.toggle_terminal(terminal, chdir)
     if terminal_bufnrs then
       if not try_goto_terminal() then
         if #fname > 0 or o.modified:get() == true then
-          c'split'
+          c 'split'
         end
       end
       c(string.format("b%d", terminal_bufnrs[1]))
     else
       if not one then
-        c'split'
+        c 'split'
       end
       c(string.format('te %s', terminal))
     end
@@ -172,7 +173,7 @@ local get_paragraph = function(sep)
   local paragraph = {}
   local linenr = f['line']('.')
   local lines = 0
-  for i=linenr, 1, -1 do
+  for i = linenr, 1, -1 do
     local line = f['getline'](i)
     if #line > 0 then
       lines = lines + 1
@@ -181,7 +182,7 @@ local get_paragraph = function(sep)
       break
     end
   end
-  for i=linenr+1, f['line']('$') do
+  for i = linenr + 1, f['line']('$') do
     local line = f['getline'](i)
     if #line > 0 then
       table.insert(paragraph, line)
@@ -233,17 +234,18 @@ function M.send_cmd(terminal, cmd, show) -- show "1" 时，send后不hide
     if terminal == 'ipython' then
       f['feedkeys']([[:call feedkeys("i\<cr>\<esc>")]])
       local t0 = os.clock()
-      while os.clock() - t0 <= 0.02 do end
-      c[[call feedkeys("\<cr>")]]
+      while os.clock() - t0 <= 0.02 do
+      end
+      c [[call feedkeys("\<cr>")]]
     else
-      c[[call feedkeys("i\<cr>\<esc>")]]
+      c [[call feedkeys("i\<cr>\<esc>")]]
     end
     if show ~= '1' then
       if is_hide_en() then
         vim.loop.new_timer():start(100, 0,
           function()
             vim.schedule(function()
-              c'hide'
+              c 'hide'
             end)
           end)
       end
@@ -252,13 +254,13 @@ function M.send_cmd(terminal, cmd, show) -- show "1" 时，send后不hide
     if terminal_bufnrs then
       if not try_goto_terminal() then
         if #fname > 0 or o.modified:get() == true then
-          c'split'
+          c 'split'
         end
       end
       c(string.format("b%d", terminal_bufnrs[1]))
     else
       if not one then
-        c'split'
+        c 'split'
       end
       c(string.format('te %s', terminal))
     end

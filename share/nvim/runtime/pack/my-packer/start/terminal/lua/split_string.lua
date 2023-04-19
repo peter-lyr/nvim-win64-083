@@ -5,7 +5,7 @@ function M.split_string(inputstr, sep)
     sep = "%s"
   end
   local t = {}
-  for str in string.gmatch(inputstr, "([^"..sep.."]+)") do
+  for str in string.gmatch(inputstr, "([^" .. sep .. "]+)") do
     table.insert(t, str)
   end
   return t
