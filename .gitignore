@@ -23,6 +23,7 @@ NetrwTreeListing
 **/pack/packer/**/vim-bookmarks
 **/pack/packer/**/vim-startuptime
 **/pack/packer/**/vim-surround
+**/pack/packer/**/nvim-cmp
 # my-neovim-data
 **/my-neovim-data/project_nvim
 # 匹配

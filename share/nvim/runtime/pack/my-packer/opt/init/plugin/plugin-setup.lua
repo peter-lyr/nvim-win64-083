@@ -66,6 +66,12 @@ local plugins = function(use)
 
   -- use({ 'SirVer/ultisnips', opt = true })                  -- 不再更新官方修改
   -- use({ 'quangnguyen30192/cmp-nvim-ultisnips', opt = true }) -- 不再更新官方修改
+
+  use({ 'hrsh7th/nvim-cmp', opt = true })
+  -- use({'hrsh7th/cmp-nvim-lsp', opt = true}) -- 不再更新官方修改
+  -- use({'hrsh7th/cmp-buffer', opt = true}) -- 不再更新官方修改
+  -- use({'hrsh7th/cmp-path', opt = true}) -- 不再更新官方修改
+  -- use({'hrsh7th/cmp-cmdline', opt = true}) -- 不再更新官方修改
 end
 
 return packer.startup(function(use)
