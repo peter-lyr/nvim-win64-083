@@ -3,7 +3,7 @@ local c = vim.cmd
 local g = vim.g
 local s = vim.keymap.set
 
-local opt = {silent = true}
+local opt = { silent = true }
 
 s({ 'n', 'v', }, '<leader>1', '1gt', opt)
 s({ 'n', 'v', }, '<leader>2', '2gt', opt)
@@ -32,8 +32,8 @@ s({ 'n', 'v', }, '<c-s-l>', ':try <bar> tabmove + <bar> catch <bar> endtry<cr>',
 s({ 'n', 'v', }, '<c-s-k>', 'gT', opt)
 s({ 'n', 'v', }, '<c-s-j>', 'gt', opt)
 
-a.nvim_create_autocmd({"TabLeave"}, {
+a.nvim_create_autocmd({ "TabLeave" }, {
   callback = function()
-  g.lasttab = vim.fn['tabpagenr']()
-end
+    g.lasttab = vim.fn['tabpagenr']()
+  end
 })
