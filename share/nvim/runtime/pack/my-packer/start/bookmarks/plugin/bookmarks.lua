@@ -6,16 +6,16 @@ local bookmarks = function(params)
   if not g.bookmarks_loaded then
     g.bookmarks_loaded = 1
     local sta
-    sta, Do_bookmarks = pcall(require, 'do_bookmarks')
+    sta, g.do_bookmarks = pcall(require, 'do_bookmarks')
     if not sta then
-      print("no do_bookmarks:", Do_bookmarks)
+      print("no do_bookmarks:", g.do_bookmarks)
       return
     end
   end
-  if not Do_bookmarks then
+  if not g.do_bookmarks then
     return
   end
-  Do_bookmarks.run(params)
+  g.do_bookmarks.run(params)
 end
 
 a.nvim_create_user_command('BookmarkS', function(params)

@@ -141,6 +141,14 @@ M.run = function(params)
       end
       return
     end
+  elseif string.find(cmd, '^vim_bookmarks') then
+    if not g.do_bookmarks then
+      sta, g.do_bookmarks = pcall(require, 'do_bookmarks')
+      if not sta then
+        print("no do_bookmarks:", g.do_bookmarks)
+        return
+      end
+    end
   end
   c(string.format([[
   try
