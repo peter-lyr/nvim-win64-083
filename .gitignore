@@ -24,6 +24,9 @@ NetrwTreeListing
 **/pack/packer/**/vim-startuptime
 **/pack/packer/**/vim-surround
 **/pack/packer/**/nvim-cmp
+**/pack/packer/**/nvim-lspconfig
+**/pack/packer/**/mason.nvim
+**/pack/packer/**/mason-lspconfig.nvim
 # my-neovim-data
 **/my-neovim-data/project_nvim
 # 匹配

@@ -72,6 +72,10 @@ local plugins = function(use)
   -- use({'hrsh7th/cmp-buffer', opt = true}) -- 不再更新官方修改
   -- use({'hrsh7th/cmp-path', opt = true}) -- 不再更新官方修改
   -- use({'hrsh7th/cmp-cmdline', opt = true}) -- 不再更新官方修改
+
+  use({ 'neovim/nvim-lspconfig', opt = true })
+  use({ 'williamboman/mason.nvim' })
+  use({ 'williamboman/mason-lspconfig.nvim' })
 end
 
 return packer.startup(function(use)
