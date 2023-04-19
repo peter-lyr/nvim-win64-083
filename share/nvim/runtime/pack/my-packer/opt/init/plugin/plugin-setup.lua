@@ -63,6 +63,9 @@ local plugins = function(use)
   use({ 'tpope/vim-surround', opt = true })
 
   use({ 'phaazon/hop.nvim', branch = 'v2', opt = true })
+
+  -- use({ 'SirVer/ultisnips', opt = true })                  -- 不再更新官方修改
+  -- use({ 'quangnguyen30192/cmp-nvim-ultisnips', opt = true }) -- 不再更新官方修改
 end
 
 return packer.startup(function(use)
