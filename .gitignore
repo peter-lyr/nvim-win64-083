@@ -27,6 +27,9 @@ NetrwTreeListing
 **/pack/packer/**/nvim-lspconfig
 **/pack/packer/**/mason.nvim
 **/pack/packer/**/mason-lspconfig.nvim
+**/pack/packer/**/gitsigns.nvim
+**/pack/packer/**/vim-fugitive
+**/pack/packer/**/diffview.nvim
 # my-neovim-data
 **/my-neovim-data/project_nvim
 # 匹配

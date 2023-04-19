@@ -76,6 +76,10 @@ local plugins = function(use)
   use({ 'neovim/nvim-lspconfig', opt = true })
   use({ 'williamboman/mason.nvim' })
   use({ 'williamboman/mason-lspconfig.nvim' })
+
+  use({ 'lewis6991/gitsigns.nvim' })
+  use({ 'tpope/vim-fugitive', opt = true })
+  use({ 'sindrets/diffview.nvim', opt = true })
 end
 
 return packer.startup(function(use)
