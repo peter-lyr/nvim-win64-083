@@ -50,6 +50,6 @@ s({'n', 'v'}, '<leader>bj', ':BufferneW down<cr>', opt)
 s({'n', 'v'}, '<leader>bh', ':BufferneW left<cr>', opt)
 s({'n', 'v'}, '<leader>bl', ':BufferneW right<cr>', opt)
 
-s({'n', 'v'}, '<leader>x', ':BufferneW copy_fpath<cr>:try|hide|catch|endtry<cr>', opt)
+s({'n', 'v'}, '<leader>x', ':BufferneW copy_fpath_silent<cr>:try|hide|catch|endtry<cr>', opt)
 s({'n', 'v'}, '<a-bs>', ':bw!<cr>', opt)
 s({'n', 'v'}, 'ZX', ':qa!<cr>', opt)

@@ -26,6 +26,13 @@ function M.copy_fpath()
   print(M.stack_fpath)
 end
 
+function M.copy_fpath_silent()
+  local fname = a['nvim_buf_get_name'](0)
+  if #fname > 0 then
+    M.stack_fpath = fname
+  end
+end
+
 M.run = function(params)
   if not params or #params == 0 then
     return
@@ -33,6 +40,8 @@ M.run = function(params)
   local cmd = params[1]
   if cmd == 'copy_fpath' then
     M.copy_fpath()
+  elseif cmd == 'copy_fpath_silent' then
+    M.copy_fpath_silent()
   else
     M.open(cmd)
   end
