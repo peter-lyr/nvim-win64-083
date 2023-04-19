@@ -7,11 +7,9 @@ local c = vim.cmd
 local o = vim.opt
 local a = vim.api
 local m = string.match
-local s = vim.keymap.set
 
 function M.is_terminal(bufname, terminal)
   if m(bufname, '^term://') then
-    local ret = false
     local is_ipython = m(bufname, ':ipython$')
     local is_bash = m(bufname, ':bash$')
     local is_powershell = m(bufname, ':powershell$')
@@ -45,8 +43,8 @@ end
 
 local get_terminal_bufnrs = function(terminal)
   local terminal_bufnrs = {}
-  for k, v in pairs(f['getbufinfo']()) do
-    local one, certain = M.is_terminal(v['name'], terminal)
+  for _, v in pairs(f['getbufinfo']()) do
+    local _, certain = M.is_terminal(v['name'], terminal)
     if certain then
       table.insert(terminal_bufnrs, v['bufnr'])
     end
@@ -57,7 +55,7 @@ local get_terminal_bufnrs = function(terminal)
   return terminal_bufnrs
 end
 
-function index_of(arr, val)
+local index_of = function(arr, val)
   if not arr then
     return nil
   end
@@ -110,7 +108,6 @@ function M.toggle_terminal(terminal, chdir)
     return
   end
   local fname = a['nvim_buf_get_name'](0)
-  local bnr = f['bufnr']()
   local terminal_bufnrs = get_terminal_bufnrs(terminal)
   local one, certain = M.is_terminal(fname, terminal)
   if certain then
@@ -122,7 +119,7 @@ function M.toggle_terminal(terminal, chdir)
       elseif chdir == '-' then
         chdir = '-'
       end
-      local chdir = string.gsub(chdir, "\\", '/')
+      chdir = string.gsub(chdir, "\\", '/')
       a['nvim_chan_send'](b.terminal_job_id, string.format('cd %s', chdir))
       if terminal == 'ipython' then
         f['feedkeys']([[:call feedkeys("i\<cr>\<esc>")]])
@@ -141,7 +138,7 @@ function M.toggle_terminal(terminal, chdir)
         return
       end
     end
-    bnr_idx = index_of(terminal_bufnrs, f['bufnr']())
+    local bnr_idx = index_of(terminal_bufnrs, f['bufnr']())
     bnr_idx = bnr_idx + 1
     if bnr_idx > #terminal_bufnrs then
       if is_hide_en() then
@@ -229,7 +226,6 @@ function M.send_cmd(terminal, cmd, show) -- show "1" 时，send后不hide
     cmd_to_send = cmd
   end
   local fname = a['nvim_buf_get_name'](0)
-  local bnr = f['bufnr']()
   local terminal_bufnrs = get_terminal_bufnrs(terminal)
   local one, certain = M.is_terminal(fname, terminal)
   if certain then
