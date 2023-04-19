@@ -26,6 +26,16 @@ local netrw = function(params)
   Do_netrw.run(params)
 end
 
+if not g.netrw_startup then
+  g.netrw_startup = 1
+  g.netrw_cursormoved = a.nvim_create_autocmd({ "CursorMoved" }, {
+    callback = function()
+      a.nvim_del_autocmd(g.netrw_cursormoved)
+      netrw()
+    end,
+  })
+end
+
 a.nvim_create_user_command('NetrW', function(params)
   netrw(params['fargs'])
 end, { nargs = "*", })
