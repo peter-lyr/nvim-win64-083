@@ -13,16 +13,16 @@ local sta, packadd = pcall(c, 'packadd vim-bookmarks')
 if not sta then
   print(packadd)
   local opt = { silent = true }
-  s({ 'n', 'v' }, 'ma', ':ec "no bookmarks"<cr>', opt)
-  s({ 'n', 'v' }, 'mm', ':ec "no bookmarks"<cr>', opt)
-  s({ 'n', 'v' }, 'mi', ':ec "no bookmarks"<cr>', opt)
-  s({ 'n', 'v' }, 'ms', ':ec "no bookmarks"<cr>', opt)
-  s({ 'n', 'v' }, 'mw', ':ec "no bookmarks"<cr>', opt)
-  s({ 'n', 'v' }, 'mc', ':ec "no bookmarks"<cr>', opt)
-  s({ 'n', 'v' }, 'mx', ':ec "no bookmarks"<cr>', opt)
-  s({ 'n', 'v' }, 'mkk', ':ec "no bookmarks"<cr>', opt)
-  s({ 'n', 'v' }, 'mjj', ':ec "no bookmarks"<cr>', opt)
-  s({ 'n', 'v' }, 'mg', ':ec "no bookmarks"<cr>', opt)
+  s('n', 'ma', ':ec "no bookmarks"<cr>', opt)
+  s('n', 'mm', ':ec "no bookmarks"<cr>', opt)
+  s('n', 'mi', ':ec "no bookmarks"<cr>', opt)
+  s('n', 'ms', ':ec "no bookmarks"<cr>', opt)
+  s('n', 'mw', ':ec "no bookmarks"<cr>', opt)
+  s('n', 'mc', ':ec "no bookmarks"<cr>', opt)
+  s('n', 'mx', ':ec "no bookmarks"<cr>', opt)
+  s('n', 'mkk', ':ec "no bookmarks"<cr>', opt)
+  s('n', 'mjj', ':ec "no bookmarks"<cr>', opt)
+  s('n', 'mg', ':ec "no bookmarks"<cr>', opt)
   return nil
 end
 
