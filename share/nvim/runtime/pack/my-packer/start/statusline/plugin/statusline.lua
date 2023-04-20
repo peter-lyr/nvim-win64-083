@@ -20,7 +20,7 @@ local cnt = 0
 
 if not g.statusline_startup then
   g.statusline_startup = 1
-  g.statusline_cursormoved = a.nvim_create_autocmd({ "CursorMoved", "InsertEnter", "FocusLost" }, {
+  g.statusline_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'InsertEnter', 'FocusLost' }, {
     callback = function()
       cnt = cnt + 1
       if cnt > 2 then

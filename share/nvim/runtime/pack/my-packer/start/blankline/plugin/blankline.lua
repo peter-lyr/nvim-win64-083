@@ -9,6 +9,7 @@ g.blankline_lua = f['expand']('<sfile>')
 local blankline = function()
   if not g.blankline_loaded then
     g.blankline_loaded = 1
+    a.nvim_del_autocmd(g.blankline_cursormoved)
     sta, Do_blankline = pcall(require, 'do_blankline')
     if not sta then
       print(Do_blankline)
@@ -23,7 +24,7 @@ end
 
 if not g.blankline_startup then
   g.blankline_startup = 1
-  g.blankline_cursormoved = a.nvim_create_autocmd({"CursorMoved", "FocusLost"}, {
+  g.blankline_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'CursorHold' }, {
     callback = function()
       blankline()
     end,

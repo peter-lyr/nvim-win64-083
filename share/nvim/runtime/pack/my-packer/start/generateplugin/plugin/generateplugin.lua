@@ -16,13 +16,10 @@ local generateplugin_loaded = nil
 g.generateplugin_lua = f['expand']('<sfile>')
 
 local check = function ()
-  if generateplugin_autocnt >= generateplugin_autoload_max_cnt then
+  if generateplugin_autocnt >= generateplugin_autoload_max_cnt or generateplugin_autocnt == 0 then
     if generateplugin_autocmd then
       a.nvim_del_autocmd(generateplugin_autocmd)
     end
-    generateplugin_loaded = true
-  end
-  if generateplugin_autocnt == 0 then
     generateplugin_loaded = true
   end
 end
@@ -45,7 +42,7 @@ local generateplugin = function(params)
   do_generateplugin.run(params)
 end
 
-generateplugin_autocmd = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost' }, {
+generateplugin_autocmd = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'CursorHold' }, {
   callback = function()
     generateplugin_autocnt = generateplugin_autocnt + 1
     generateplugin()

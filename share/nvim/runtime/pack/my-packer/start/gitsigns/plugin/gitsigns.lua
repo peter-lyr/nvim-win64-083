@@ -7,6 +7,7 @@ local sta
 local gitsigns = function(cmd, refresh)
   if not g.gitsigns_loaded then
     g.gitsigns_loaded = 1
+    a.nvim_del_autocmd(g.gitsigns_cursormoved)
     sta, Do_gitsigns = pcall(require, 'do_gitsigns')
     if not sta then
       print(Do_gitsigns)
@@ -31,18 +32,27 @@ a.nvim_create_user_command('GitsignS', function(params)
     end
   end
   gitsigns(cmd, refresh)
-end, { nargs = "*", })
+end, { nargs = '*', })
+
+if not g.gitsigns_startup then
+  g.gitsigns_startup = 1
+  g.gitsigns_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'CursorHold' }, {
+    callback = function()
+      gitsigns()
+    end,
+  })
+end
 
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '<leader>gr', ":GitsignS reset_hunk 1<cr>", opt)
-s({ 'n', 'v' }, '<leader>gR', ":GitsignS reset_buffer 1<cr>", opt)
-s({ 'n', 'v' }, '<leader>k', ":GitsignS prev_hunk 0<cr>", opt)
-s({ 'n', 'v' }, '<leader>j', ":GitsignS next_hunk 0<cr>", opt)
-s({ 'n', 'v' }, '<leader>gp', ":GitsignS preview_hunk 0<cr>", opt)
-s({ 'n', 'v' }, '<leader>gx', ":GitsignS select_hunk 0<cr>", opt)
-s({ 'n', 'v' }, '<leader>gd', ":GitsignS diffthis 0<cr>", opt)
-s({ 'n', 'v' }, '<leader>gD', ":GitsignS diffthis HEAD~1 0<cr>", opt)
-s({ 'n', 'v' }, '<leader>gtd', ":GitsignS toggle_deleted 0<cr>", opt)
-s({ 'n', 'v' }, '<leader>gtb', ":GitsignS toggle_current_line_blame 0<cr>", opt)
+s({ 'n', 'v' }, '<leader>gr', ':GitsignS reset_hunk 1<cr>', opt)
+s({ 'n', 'v' }, '<leader>gR', ':GitsignS reset_buffer 1<cr>', opt)
+s({ 'n', 'v' }, '<leader>k', ':GitsignS prev_hunk 0<cr>', opt)
+s({ 'n', 'v' }, '<leader>j', ':GitsignS next_hunk 0<cr>', opt)
+s({ 'n', 'v' }, '<leader>gp', ':GitsignS preview_hunk 0<cr>', opt)
+s({ 'n', 'v' }, '<leader>gx', ':GitsignS select_hunk 0<cr>', opt)
+s({ 'n', 'v' }, '<leader>gd', ':GitsignS diffthis 0<cr>', opt)
+s({ 'n', 'v' }, '<leader>gD', ':GitsignS diffthis HEAD~1 0<cr>', opt)
+s({ 'n', 'v' }, '<leader>gtd', ':GitsignS toggle_deleted 0<cr>', opt)
+s({ 'n', 'v' }, '<leader>gtb', ':GitsignS toggle_current_line_blame 0<cr>', opt)

@@ -11,9 +11,7 @@ local sta
 local terminal = function(params)
   if not g.loaded_do_terminal then
     g.loaded_do_terminal = 1
-    if g.projects_cursormoved then
-      a.nvim_del_autocmd(g.projects_cursormoved)
-    end
+    a.nvim_del_autocmd(g.terminal_cursormoved)
     sta, Do_terminal = pcall(require, 'do_terminal')
     if not sta then
       print(Do_terminal)
@@ -28,7 +26,7 @@ end
 
 if not g.terminal_startup then
   g.terminal_startup = 1
-  g.terminal_cursormoved = a.nvim_create_autocmd({ "CursorMoved", "FocusLost" }, {
+  g.terminal_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'CursorHold' }, {
     callback = function()
       terminal()
     end,
@@ -37,7 +35,7 @@ end
 
 a.nvim_create_user_command('TerminaL', function(params)
   terminal(params['fargs'])
-end, { nargs = "*", })
+end, { nargs = '*', })
 
 
 local opt = { silent = true }
