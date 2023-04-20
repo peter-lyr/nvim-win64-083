@@ -98,6 +98,8 @@ local plugins = function(use)
   use({ 'dstein64/nvim-scrollview', opt = true })
 
   use({ 'stevearc/aerial.nvim', opt = true })
+
+  use({ 'iamcco/markdown-preview.nvim', run = function() f['mkdp#util#install']() end })
 end
 
 return packer.startup(function(use)
