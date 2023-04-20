@@ -35,6 +35,7 @@ NetrwTreeListing
 **/pack/packer/**/indent-blankline.nvim
 **/pack/packer/**/nvim-bqf
 **/pack/packer/**/vim-highlighter
+**/pack/packer/**/vim-searchindex
 # my-neovim-data
 **/my-neovim-data/project_nvim
 # 匹配

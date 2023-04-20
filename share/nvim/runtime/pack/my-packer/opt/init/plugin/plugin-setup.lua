@@ -90,6 +90,8 @@ local plugins = function(use)
   use({ 'kevinhwang91/nvim-bqf', opt = true })
 
   use({ 'azabiong/vim-highlighter' })
+
+  use({ 'google/vim-searchindex', opt = true })
 end
 
 return packer.startup(function(use)
