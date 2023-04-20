@@ -15,26 +15,17 @@ local generateplugin_loaded = nil
 
 g.generateplugin_lua = f['expand']('<sfile>')
 
-local check = function ()
-  if generateplugin_autocnt >= generateplugin_autoload_max_cnt or generateplugin_autocnt == 0 then
-    if generateplugin_autocmd then
-      a.nvim_del_autocmd(generateplugin_autocmd)
-    end
-    generateplugin_loaded = true
-  end
-end
-
 local generateplugin = function(params)
   if not generateplugin_loaded then
-    check()
+    generateplugin_loaded = true
     sta, do_generateplugin = pcall(require, 'do_generateplugin')
     if not sta then
       print(do_generateplugin)
       return
     end
-    if generateplugin_autocnt > 0 then
-      return
-    end
+  end
+  if generateplugin_autocnt >= generateplugin_autoload_max_cnt and generateplugin_autocmd then
+    a.nvim_del_autocmd(generateplugin_autocmd)
   end
   if not do_generateplugin then
     return
