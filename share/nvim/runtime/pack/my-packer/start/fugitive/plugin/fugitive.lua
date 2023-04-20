@@ -13,6 +13,9 @@ local fugitive = function(cmd)
       return
     end
   end
+  if not cmd or #cmd == 0 then
+    return
+  end
   c(cmd)
 end
 

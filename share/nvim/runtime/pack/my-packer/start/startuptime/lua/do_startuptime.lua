@@ -17,8 +17,9 @@ end
 
 M.run = function(params)
   if not params or #params == 0 then
-    c'StartupTime'
+    return
   end
+  c'StartupTime'
 end
 
 return M

@@ -39,4 +39,4 @@ end
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '<leader><leader><leader>y', ':StartuptimE<cr>', opt)
+s({ 'n', 'v' }, '<leader><leader><leader>y', ':StartuptimE do<cr>', opt)
