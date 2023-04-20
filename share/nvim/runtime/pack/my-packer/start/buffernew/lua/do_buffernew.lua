@@ -5,13 +5,13 @@ local M = {}
 
 local open_fpath = function()
   if M.split == 'up' then
-    c'leftabove split'
+    c 'leftabove split'
   elseif M.split == 'right' then
-    c'rightbelow vsplit'
+    c 'rightbelow vsplit'
   elseif M.split == 'down' then
-    c'rightbelow split'
+    c 'rightbelow split'
   elseif M.split == 'left' then
-    c'leftabove vsplit'
+    c 'leftabove vsplit'
   end
   c('e ' .. M.stack_fpath)
 end

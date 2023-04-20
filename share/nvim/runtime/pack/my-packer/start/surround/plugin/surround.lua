@@ -1,10 +1,12 @@
 local a = vim.api
-local g = vim.g
+
+local surround_cursormoved = nil
+local surround_loaded = nil
 
 local surround = function()
-  if not g.surround_loaded then
-    g.surround_loaded = 1
-    a.nvim_del_autocmd(g.surround_cursormoved)
+  if not surround_loaded then
+    surround_loaded = 1
+    a.nvim_del_autocmd(surround_cursormoved)
     local sta, do_surround = pcall(require, 'do_surround')
     if not sta then
       print(do_surround)
@@ -12,11 +14,8 @@ local surround = function()
   end
 end
 
-if not g.surround_startup then
-  g.surround_startup = 1
-  g.surround_cursormoved = a.nvim_create_autocmd({ 'InsertEnter', 'CursorMoved', 'FocusLost', 'CursorHold' }, {
-    callback = function()
-      surround()
-    end,
-  })
-end
+surround_cursormoved = a.nvim_create_autocmd({ 'InsertEnter', 'CursorMoved', 'FocusLost', 'CursorHold' }, {
+  callback = function()
+    surround()
+  end,
+})

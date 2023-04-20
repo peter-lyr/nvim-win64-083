@@ -1,13 +1,13 @@
 local a = vim.api
-local f = vim.fn
-local g = vim.g
 local s = vim.keymap.set
+
+local diffview_loaded = nil
 
 local sta
 
 local diffview = function(params)
-  if not g.diffview_loaded then
-    g.diffview_loaded = 1
+  if not diffview_loaded then
+    diffview_loaded = 1
     sta, Do_diffview = pcall(require, 'do_diffview')
     if not sta then
       print(Do_diffview)

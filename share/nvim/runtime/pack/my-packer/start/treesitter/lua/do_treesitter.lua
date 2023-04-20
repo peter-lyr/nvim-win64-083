@@ -1,15 +1,16 @@
 local c = vim.cmd
 local f = vim.fn
-local g = vim.g
 local o = vim.opt
+
+local treesitter_do_loaded = nil
 
 local sta
 
 local M = {}
 
 M.run = function()
-  if not g.treesitter_do_loaded then
-    g.treesitter_do_loaded = 1
+  if not treesitter_do_loaded then
+    treesitter_do_loaded = 1
     local packadd
     sta, packadd = pcall(c, 'packadd nvim-treesitter')
     if not sta then

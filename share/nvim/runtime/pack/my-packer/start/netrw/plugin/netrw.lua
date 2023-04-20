@@ -3,15 +3,18 @@ local f = vim.fn
 local g = vim.g
 local s = vim.keymap.set
 
+local netrw_cursormoved = nil
+local netrw_loaded = nil
+
 local sta
 
 g.netrw_lua = f['expand']('<sfile>')
 
 
 local netrw = function(params)
-  if not g.netrw_loaded then
-    g.netrw_loaded = 1
-    a.nvim_del_autocmd(g.netrw_cursormoved)
+  if not netrw_loaded then
+    netrw_loaded = 1
+    a.nvim_del_autocmd(netrw_cursormoved)
     sta, Do_netrw = pcall(require, 'do_netrw')
     if not sta then
       print(Do_netrw)
@@ -24,14 +27,11 @@ local netrw = function(params)
   Do_netrw.run(params)
 end
 
-if not g.netrw_startup then
-  g.netrw_startup = 1
-  g.netrw_cursormoved = a.nvim_create_autocmd({ 'BufNew', 'CursorMoved', 'FocusLost', 'CursorHold' }, {
-    callback = function()
-      netrw()
-    end,
-  })
-end
+netrw_cursormoved = a.nvim_create_autocmd({ 'BufNew', 'CursorMoved', 'FocusLost', 'CursorHold' }, {
+  callback = function()
+    netrw()
+  end,
+})
 
 a.nvim_create_user_command('NetrW', function(params)
   netrw(params['fargs'])

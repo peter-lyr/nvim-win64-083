@@ -1,12 +1,13 @@
 local a = vim.api
-local g = vim.g
 local s = vim.keymap.set
+
+local loaded_do_tortoisesvn = nil
 
 local sta
 
 local tortoisesvn_exe = function(cmd, root, yes)
-  if not g.loaded_do_tortoisesvn then
-    g.loaded_do_tortoisesvn = 1
+  if not loaded_do_tortoisesvn then
+    loaded_do_tortoisesvn = 1
     sta, Do_tortoisesvn = pcall(require, 'do_tortoisesvn')
     if not sta then
       print(Do_tortoisesvn)

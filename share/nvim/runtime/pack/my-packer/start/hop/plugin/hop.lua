@@ -1,12 +1,13 @@
 local a = vim.api
-local g = vim.g
 local s = vim.keymap.set
+
+local hop_loaded = nil
 
 local sta
 
 local hop = function(params)
-  if not g.hop_loaded then
-    g.hop_loaded = 1
+  if not hop_loaded then
+    hop_loaded = 1
     sta, Do_hop = pcall(require, 'do_hop')
     if not sta then
       print(Do_hop)

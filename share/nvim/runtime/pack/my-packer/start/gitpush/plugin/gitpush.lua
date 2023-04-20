@@ -3,14 +3,17 @@ local f = vim.fn
 local g = vim.g
 local s = vim.keymap.set
 
+local gitpush_loaded = nil
+local gitpush_cursormoved = nil
+
 local sta
 
 g.gitpush_lua = f['expand']('<sfile>')
 
 local gitpush = function(params)
-  if not g.gitpush_loaded then
-    g.gitpush_loaded = 1
-    a.nvim_del_autocmd(g.gitpush_cursormoved)
+  if not gitpush_loaded then
+    gitpush_loaded = 1
+    a.nvim_del_autocmd(gitpush_cursormoved)
     sta, Do_gitpush = pcall(require, 'do_gitpush')
     if not sta then
       print(Do_gitpush)
@@ -27,14 +30,11 @@ a.nvim_create_user_command('GitpusH', function(params)
   gitpush(params['fargs'])
 end, { nargs = '*', })
 
-if not g.gitpush_startup then
-  g.gitpush_startup = 1
-  g.gitpush_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'CursorHold' }, {
-    callback = function()
-      gitpush()
-    end,
-  })
-end
+gitpush_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'CursorHold' }, {
+  callback = function()
+    gitpush()
+  end,
+})
 
 
 local opt = { silent = true }

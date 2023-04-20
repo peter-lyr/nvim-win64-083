@@ -1,12 +1,14 @@
 local a = vim.api
-local g = vim.g
 local s = vim.keymap.set
 
+local telescope_loaded = nil
+local telescope_cursormoved = nil
+
 local telescope = function(params)
-  if not g.telescope_loaded then
+  if not telescope_loaded then
     local sta
-    g.telescope_loaded = 1
-    a.nvim_del_autocmd(g.telescope_cursormoved)
+    telescope_loaded = 1
+    a.nvim_del_autocmd(telescope_cursormoved)
     sta, Do_telescope = pcall(require, 'do_telescope')
     if not sta then
       print('no do_telescope:', Do_telescope)
@@ -23,14 +25,11 @@ a.nvim_create_user_command('TelescopE', function(params)
   telescope(params['fargs'])
 end, { nargs = '*', })
 
-if not g.telescope_startup then
-  g.telescope_startup = 1
-  g.telescope_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'CursorHold' }, {
-    callback = function()
-      telescope()
-    end,
-  })
-end
+telescope_cursormoved = a.nvim_create_autocmd({ 'InsertEnter', 'CursorMoved', 'FocusLost', 'CursorHold' }, {
+  callback = function()
+    telescope()
+  end,
+})
 
 local opt = { silent = true }
 

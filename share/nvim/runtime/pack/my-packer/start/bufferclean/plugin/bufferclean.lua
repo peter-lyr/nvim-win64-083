@@ -1,16 +1,15 @@
 local a = vim.api
-local f = vim.fn
-local g = vim.g
 local s = vim.keymap.set
+
+local bufferclean_loaded = nil
+local bufferclean_cursormoved = nil
 
 local sta
 
-g.bufferclean_lua = f['expand']('<sfile>')
-
 local bufferclean = function(params)
-  if not g.bufferclean_loaded then
-    g.bufferclean_loaded = 1
-    a.nvim_del_autocmd(g.bufferclean_cursormoved)
+  if not bufferclean_loaded then
+    bufferclean_loaded = 1
+    a.nvim_del_autocmd(bufferclean_cursormoved)
     sta, Do_bufferclean = pcall(require, 'do_bufferclean')
     if not sta then
       print(Do_bufferclean)
@@ -27,14 +26,11 @@ a.nvim_create_user_command('BuffercleaN', function(params)
   bufferclean(params['fargs'])
 end, { nargs = '*', })
 
-if not g.bufferclean_startup then
-  g.bufferclean_startup = 1
-  g.bufferclean_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'CursorHold' }, {
-    callback = function()
-      bufferclean()
-    end,
-  })
-end
+bufferclean_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'CursorHold' }, {
+  callback = function()
+    bufferclean()
+  end,
+})
 
 
 local opt = { silent = true }

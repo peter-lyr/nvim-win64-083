@@ -1,11 +1,12 @@
-local g = vim.g
 local c = vim.cmd
 local a = vim.api
 local f = vim.fn
 
-g.set_tabline = a.nvim_create_autocmd({ 'TabEnter' }, {
+local set_tabline = nil
+
+set_tabline = a.nvim_create_autocmd({ 'TabEnter' }, {
   callback = function()
-    a.nvim_del_autocmd(g.set_tabline)
+    a.nvim_del_autocmd(set_tabline)
     c([[set tabline=%!tabline#tabline()]])
   end,
 })

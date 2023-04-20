@@ -1,7 +1,8 @@
 local a = vim.api
 local c = vim.cmd
-local g = vim.g
 local s = vim.keymap.set
+
+local lasttab = 0
 
 local opt = { silent = true }
 
@@ -17,8 +18,8 @@ s({ 'n', 'v', }, '<leader>9', '9gt', opt)
 s({ 'n', 'v', }, '<leader>0', '<cmd>:tablast<cr>', opt)
 
 local space_enter = function()
-  if vim.fn['exists']('g:lasttab') == 1 then
-    c("tabn " .. g.lasttab)
+  if lasttab ~= 0 then
+    c("tabn " .. lasttab)
   end
 end
 
@@ -34,6 +35,6 @@ s({ 'n', 'v', }, '<c-s-j>', 'gt', opt)
 
 a.nvim_create_autocmd({ "TabLeave" }, {
   callback = function()
-    g.lasttab = vim.fn['tabpagenr']()
+    lasttab = vim.fn['tabpagenr']()
   end
 })

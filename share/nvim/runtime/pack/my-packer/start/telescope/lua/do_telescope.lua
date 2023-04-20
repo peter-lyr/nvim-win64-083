@@ -1,5 +1,4 @@
 local c = vim.cmd
-local g = vim.g
 
 local sta
 local packadd
@@ -125,25 +124,27 @@ end
 
 local M = {}
 
+local do_projects
+local do_bookmarks
+
 M.run = function(params)
   if not params or #params == 0 then
     return
   end
   local cmd = table.concat(params, ' ')
   if cmd == 'projects' then
-    if not g.do_projects then
-      sta, g.do_projects = pcall(require, 'do_projects')
+    if not do_projects then
+      sta, do_projects = pcall(require, 'do_projects')
       if not sta then
-        print(g.do_projects)
+        print(do_projects)
         return
       end
-      return
     end
   elseif string.find(cmd, '^vim_bookmarks') then
-    if not g.do_bookmarks then
-      sta, g.do_bookmarks = pcall(require, 'do_bookmarks')
+    if not do_bookmarks then
+      sta, do_bookmarks = pcall(require, 'do_bookmarks')
       if not sta then
-        print("no do_bookmarks:", g.do_bookmarks)
+        print(do_bookmarks)
         return
       end
     end

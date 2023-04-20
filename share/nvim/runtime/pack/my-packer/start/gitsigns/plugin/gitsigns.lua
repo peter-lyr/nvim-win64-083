@@ -1,13 +1,15 @@
 local a = vim.api
-local g = vim.g
 local s = vim.keymap.set
+
+local gitsigns_cursormoved = nil
+local gitsigns_loaded = nil
 
 local sta
 
 local gitsigns = function(cmd, refresh)
-  if not g.gitsigns_loaded then
-    g.gitsigns_loaded = 1
-    a.nvim_del_autocmd(g.gitsigns_cursormoved)
+  if not gitsigns_loaded then
+    gitsigns_loaded = 1
+    a.nvim_del_autocmd(gitsigns_cursormoved)
     sta, Do_gitsigns = pcall(require, 'do_gitsigns')
     if not sta then
       print(Do_gitsigns)
@@ -34,14 +36,11 @@ a.nvim_create_user_command('GitsignS', function(params)
   gitsigns(cmd, refresh)
 end, { nargs = '*', })
 
-if not g.gitsigns_startup then
-  g.gitsigns_startup = 1
-  g.gitsigns_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'CursorHold' }, {
-    callback = function()
-      gitsigns()
-    end,
-  })
-end
+gitsigns_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'CursorHold' }, {
+  callback = function()
+    gitsigns()
+  end,
+})
 
 
 local opt = { silent = true }

@@ -1,5 +1,4 @@
 local f = vim.fn
-local g = vim.g
 
 local sta, project_nvim = pcall(require, "project_nvim")
 if not sta then

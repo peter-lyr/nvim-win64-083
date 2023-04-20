@@ -1,21 +1,24 @@
 local a = vim.api
-local g = vim.g
 local s = vim.keymap.set
 
+local do_bookmarks = nil
+local bookmarks_loaded = nil
+
+local sta
+
 local bookmarks = function(params)
-  if not g.bookmarks_loaded then
-    g.bookmarks_loaded = 1
-    local sta
-    sta, g.do_bookmarks = pcall(require, 'do_bookmarks')
+  if not bookmarks_loaded then
+    bookmarks_loaded = 1
+    sta, do_bookmarks = pcall(require, 'do_bookmarks')
     if not sta then
-      print("no do_bookmarks:", g.do_bookmarks)
+      print(do_bookmarks)
       return
     end
   end
-  if not g.do_bookmarks then
+  if not do_bookmarks then
     return
   end
-  g.do_bookmarks.run(params)
+  do_bookmarks.run(params)
 end
 
 a.nvim_create_user_command('BookmarkS', function(params)

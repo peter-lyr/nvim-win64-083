@@ -1,13 +1,15 @@
 local a = vim.api
-local g = vim.g
 local s = vim.keymap.set
+
+local buffernew_loaded = nil
+local buffernew_cursormoved = nil
 
 local sta
 
 local buffernew = function(params)
-  if not g.buffernew_loaded then
-    g.buffernew_loaded = 1
-    a.nvim_del_autocmd(g.buffernew_cursormoved)
+  if not buffernew_loaded then
+    buffernew_loaded = 1
+    a.nvim_del_autocmd(buffernew_cursormoved)
     sta, Do_buffernew = pcall(require, 'do_buffernew')
     if not sta then
       print(Do_buffernew)
@@ -24,14 +26,11 @@ a.nvim_create_user_command('BufferneW', function(params)
   buffernew(params['fargs'])
 end, { nargs = '*', })
 
-if not g.buffernew_startup then
-  g.buffernew_startup = 1
-  g.buffernew_cursormoved = a.nvim_create_autocmd({ 'CursorHold', 'FocusLost' }, {
-    callback = function()
-      buffernew()
-    end,
-  })
-end
+buffernew_cursormoved = a.nvim_create_autocmd({ 'CursorHold', 'FocusLost' }, {
+  callback = function()
+    buffernew()
+  end,
+})
 
 
 local opt = { silent = true }
