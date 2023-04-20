@@ -1,4 +1,13 @@
-local sta, aerial = pcall(require, 'aerial')
+local c = vim.cmd
+
+local sta, packadd = pcall(c, 'packadd aerial.nvim')
+if not sta then
+  print(packadd)
+  return
+end
+
+local aerial
+sta, aerial = pcall(require, 'aerial')
 if not sta then
   print(aerial)
   return
