@@ -32,6 +32,7 @@ NetrwTreeListing
 **/pack/packer/**/diffview.nvim
 **/pack/packer/**/which-key.nvim
 **/pack/packer/**/vim-projectroot
+**/pack/packer/**/indent-blankline.nvim
 # my-neovim-data
 **/my-neovim-data/project_nvim
 # 匹配
