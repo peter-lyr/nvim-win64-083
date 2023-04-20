@@ -123,9 +123,6 @@ if not sta then
 end
 
 
-c('ec "telescope init ok"')
-
-
 local M = {}
 
 M.run = function(params)
