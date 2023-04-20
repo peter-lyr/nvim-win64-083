@@ -18,7 +18,6 @@ if not g.surround_startup then
   g.surround_startup = 1
   g.surround_cursormoved = a.nvim_create_autocmd({"InsertEnter", "FocusLost"}, {
     callback = function()
-      a.nvim_del_autocmd(g.surround_cursormoved)
       surround()
     end,
   })

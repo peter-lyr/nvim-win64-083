@@ -7,9 +7,6 @@ local sta
 local hop = function(params)
   if not g.hop_loaded then
     g.hop_loaded = 1
-    if g.hop_cursormoved then
-      a.nvim_del_autocmd(g.hop_cursormoved)
-    end
     sta, Do_hop = pcall(require, 'do_hop')
     if not sta then
       print(Do_hop)

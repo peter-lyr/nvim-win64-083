@@ -10,9 +10,6 @@ g.startuptime_lua = f['expand']('<sfile>')
 local startuptime = function()
   if not g.startuptime_loaded then
     g.startuptime_loaded = 1
-    if g.startuptime_cursormoved then
-      a.nvim_del_autocmd(g.startuptime_cursormoved)
-    end
     sta, Do_startuptime = pcall(require, 'do_startuptime')
     if not sta then
       print(Do_startuptime)

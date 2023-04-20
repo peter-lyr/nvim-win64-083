@@ -7,9 +7,6 @@ local sta
 local buffernew = function(params)
   if not g.buffernew_loaded then
     g.buffernew_loaded = 1
-    if g.buffernew_cursormoved then
-      a.nvim_del_autocmd(g.buffernew_cursormoved)
-    end
     sta, Do_buffernew = pcall(require, 'do_buffernew')
     if not sta then
       print(Do_buffernew)

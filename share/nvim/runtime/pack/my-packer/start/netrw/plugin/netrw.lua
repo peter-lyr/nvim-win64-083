@@ -30,7 +30,6 @@ if not g.netrw_startup then
   g.netrw_startup = 1
   g.netrw_cursormoved = a.nvim_create_autocmd({ "BufNew", "FocusLost" }, {
     callback = function()
-      a.nvim_del_autocmd(g.netrw_cursormoved)
       netrw()
     end,
   })

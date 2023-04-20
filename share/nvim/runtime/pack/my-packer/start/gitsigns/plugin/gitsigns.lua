@@ -7,9 +7,6 @@ local sta
 local gitsigns = function(cmd, refresh)
   if not g.gitsigns_loaded then
     g.gitsigns_loaded = 1
-    if g.gitsigns_cursormoved then
-      a.nvim_del_autocmd(g.gitsigns_cursormoved)
-    end
     sta, Do_gitsigns = pcall(require, 'do_gitsigns')
     if not sta then
       print(Do_gitsigns)

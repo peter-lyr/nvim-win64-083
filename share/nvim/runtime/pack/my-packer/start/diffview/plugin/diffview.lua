@@ -8,9 +8,6 @@ local sta
 local diffview = function(params)
   if not g.diffview_loaded then
     g.diffview_loaded = 1
-    if g.diffview_cursormoved then
-      a.nvim_del_autocmd(g.diffview_cursormoved)
-    end
     sta, Do_diffview = pcall(require, 'do_diffview')
     if not sta then
       print(Do_diffview)

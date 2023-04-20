@@ -30,7 +30,6 @@ if not g.terminal_startup then
   g.terminal_startup = 1
   g.terminal_cursormoved = a.nvim_create_autocmd({ "CursorMoved", "FocusLost" }, {
     callback = function()
-      a.nvim_del_autocmd(g.terminal_cursormoved)
       terminal()
     end,
   })

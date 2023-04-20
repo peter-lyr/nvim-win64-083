@@ -29,7 +29,6 @@ end
 --   g.generateplugin_startup = 1
 --   g.generateplugin_cursormoved = a.nvim_create_autocmd({"CursorMoved", "FocusLost"}, {
 --     callback = function()
---       a.nvim_del_autocmd(g.generateplugin_cursormoved)
 --       generateplugin()
 --     end,
 --   })

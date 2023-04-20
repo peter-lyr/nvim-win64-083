@@ -7,9 +7,6 @@ local sta
 local badwhitespace = function(params)
   if not g.badwhitespace_loaded then
     g.badwhitespace_loaded = 1
-    if g.badwhitespace_cursormoved then
-      a.nvim_del_autocmd(g.badwhitespace_cursormoved)
-    end
     sta, Do_badwhitespace = pcall(require, 'do_badwhitespace')
     if not sta then
       print(Do_badwhitespace)

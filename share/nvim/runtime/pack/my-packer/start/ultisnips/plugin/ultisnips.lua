@@ -21,7 +21,6 @@ if not g.ultisnips_startup then
   g.ultisnips_startup = 1
   g.ultisnips_cursormoved = a.nvim_create_autocmd({"InsertEnter", "FocusLost"}, {
     callback = function()
-      a.nvim_del_autocmd(g.ultisnips_cursormoved)
       ultisnips()
     end,
   })
