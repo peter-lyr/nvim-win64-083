@@ -1,44 +1,62 @@
 local a = vim.api
 local f = vim.fn
 local g = vim.g
-local s = vim.keymap.set
+
+-- local c = vim.cmd
+-- local o = vim.opt
 
 local sta
 
+local do_generateplugin = nil
+local generateplugin_autocmd = nil
+local generateplugin_autocnt = 0
+local generateplugin_autoload_max_cnt = 1
+local generateplugin_loaded = nil
+
 g.generateplugin_lua = f['expand']('<sfile>')
 
-local generateplugin = function(params)
-  if not g.generateplugin_loaded then
-    g.generateplugin_loaded = 1
-    if g.generateplugin_cursormoved then
-      a.nvim_del_autocmd(g.generateplugin_cursormoved)
+local check = function ()
+  if generateplugin_autocnt >= generateplugin_autoload_max_cnt then
+    if generateplugin_autocmd then
+      a.nvim_del_autocmd(generateplugin_autocmd)
     end
-    sta, Do_generateplugin = pcall(require, 'do_generateplugin')
+    generateplugin_loaded = true
+  end
+  if generateplugin_autocnt == 0 then
+    generateplugin_loaded = true
+  end
+end
+
+local generateplugin = function(params)
+  if not generateplugin_loaded then
+    check()
+    sta, do_generateplugin = pcall(require, 'do_generateplugin')
     if not sta then
-      print(Do_generateplugin)
+      print(do_generateplugin)
+      return
+    end
+    if generateplugin_autocnt > 0 then
       return
     end
   end
-  if not Do_generateplugin then
+  if not do_generateplugin then
     return
   end
-  Do_generateplugin.run(params)
+  do_generateplugin.run(params)
 end
 
--- if not g.generateplugin_startup then
---   g.generateplugin_startup = 1
---   g.generateplugin_cursormoved = a.nvim_create_autocmd({"CursorMoved", "FocusLost"}, {
---     callback = function()
---       generateplugin()
---     end,
---   })
--- end
+generateplugin_autocmd = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost' }, {
+  callback = function()
+    generateplugin_autocnt = generateplugin_autocnt + 1
+    generateplugin()
+  end,
+})
 
 a.nvim_create_user_command('GeneratePlugiN', function(params)
   generateplugin(params['fargs'])
-end, { nargs = "*", })
+end, { nargs = '*', })
 
+
+local s = vim.keymap.set
 local opt = { silent = true }
-
-
 s({ 'n', 'v' }, '<leader><leader><leader>z', ':GeneratePlugiN do<cr>', opt)
