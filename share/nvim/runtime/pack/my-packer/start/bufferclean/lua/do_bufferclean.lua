@@ -28,12 +28,11 @@ M.run = function(params)
   local cur_wnr = f['bufwinnr'](f['bufnr']())
   local ids = {}
   if params[1] == 'cur' then
-    for wnr=1, f['winnr']('$') do
+    for wnr = 1, f['winnr']('$') do
       if wnr ~= cur_wnr then
         local bnr = f['winbufnr'](wnr)
         if f['getbufvar'](bnr, '&buftype') ~= 'nofile' then
-          local fname = a['nvim_buf_get_name'](bnr)
-          fname = string.gsub(fname, '\\', '/')
+          local fname = rep(a['nvim_buf_get_name'](bnr))
           if cur_fname == fname then
             table.insert(ids, f['win_getid'](wnr))
           end
@@ -45,7 +44,7 @@ M.run = function(params)
     end
   else
     local nms = {}
-    for wnr=1, f['winnr']('$') do
+    for wnr = 1, f['winnr']('$') do
       local bnr = f['winbufnr'](wnr)
       if f['getbufvar'](bnr, '&buftype') ~= 'nofile' then
         local fname = rep(a['nvim_buf_get_name'](bnr))
