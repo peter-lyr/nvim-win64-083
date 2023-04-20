@@ -36,6 +36,7 @@ NetrwTreeListing
 **/pack/packer/**/nvim-bqf
 **/pack/packer/**/vim-highlighter
 **/pack/packer/**/vim-searchindex
+**/pack/packer/**/asyncrun.vim
 # my-neovim-data
 **/my-neovim-data/project_nvim
 # 匹配

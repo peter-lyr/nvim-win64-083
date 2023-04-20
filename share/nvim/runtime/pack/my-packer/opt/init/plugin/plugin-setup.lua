@@ -92,6 +92,8 @@ local plugins = function(use)
   use({ 'azabiong/vim-highlighter' })
 
   use({ 'google/vim-searchindex', opt = true })
+
+  use({ 'skywind3000/asyncrun.vim', opt = true })
 end
 
 return packer.startup(function(use)
