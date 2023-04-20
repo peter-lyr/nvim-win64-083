@@ -69,7 +69,7 @@ telescope.setup({
         ['<c-l>'] = actions.select_vertical,
         ['<c-k>'] = actions.select_tab,
         ['<c-o>'] = actions.select_default,
-				['n'] = actions_layout.toggle_preview,
+				['w'] = actions_layout.toggle_preview,
       }
     },
     file_ignore_patterns = {
