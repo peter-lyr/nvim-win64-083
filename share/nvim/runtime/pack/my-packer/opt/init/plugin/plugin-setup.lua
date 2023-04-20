@@ -100,6 +100,8 @@ local plugins = function(use)
   use({ 'stevearc/aerial.nvim', opt = true })
 
   use({ 'iamcco/markdown-preview.nvim', run = function() f['mkdp#util#install']() end })
+
+  use({ 'CRAG666/code_runner.nvim' })
 end
 
 return packer.startup(function(use)

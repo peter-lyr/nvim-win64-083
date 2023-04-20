@@ -40,6 +40,7 @@ NetrwTreeListing
 **/pack/packer/**/nvim-scrollview
 **/pack/packer/**/aerial.nvim
 **/pack/packer/**/markdown-preview.nvim
+**/pack/packer/**/code_runner.nvim
 # my-neovim-data
 **/my-neovim-data/project_nvim
 # 匹配
