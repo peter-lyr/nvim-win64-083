@@ -33,6 +33,9 @@ local system_cd_string = function(absfolder)
 end
 
 function M.run(cmd, root, yes)
+  if not cmd then
+    return
+  end
   local path = (root == 'root') and f['projectroot#get'](a['nvim_buf_get_name'](0)) or a['nvim_buf_get_name'](0)
   if yes == 'yes' or index_of({ 'y', 'Y' }, f['trim'](f['input']("Sure to update? [Y/n]: ", 'Y'))) then
     f['execute'](string.format("silent !%s && start tortoiseproc.exe /command:%s /path:\"%s\"", system_cd_string(path),
