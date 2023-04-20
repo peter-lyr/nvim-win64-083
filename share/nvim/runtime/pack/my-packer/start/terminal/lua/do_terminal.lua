@@ -1,12 +1,35 @@
 local M = {}
 
-local g = vim.g
-local b = vim.b
-local f = vim.fn
-local c = vim.cmd
-local o = vim.opt
 local a = vim.api
+local b = vim.b
+local c = vim.cmd
+local f = vim.fn
+local g = vim.g
 local m = string.match
+local o = vim.opt
+local s = vim.keymap.set
+
+local file_exists = function(name)
+  local ptr = io.open(name, "r")
+  if ptr ~= nil then
+    io.close(ptr)
+    return true
+  else
+    return false
+  end
+end
+
+if not g.bufleave_readablefile_autocmd then
+  g.bufleave_readablefile = f['getcwd']()
+  g.bufleave_readablefile_autocmd = a.nvim_create_autocmd({ "BufLeave" }, {
+    callback = function()
+      local fname = a['nvim_buf_get_name'](0)
+      if file_exists(fname) then
+        g.bufleave_readablefile = fname
+      end
+    end,
+  })
+end
 
 function M.is_terminal(bufname, terminal)
   if m(bufname, '^term://') then
@@ -103,6 +126,8 @@ function M.toggle_terminal(terminal, chdir)
       chdir = '..'
     elseif chdir == '-' then
       chdir = '-'
+    elseif chdir == 'cwd' then
+      chdir = f['getcwd']()
     end
     c(string.format('silent !cd %s & start %s', chdir, terminal))
     return
@@ -194,26 +219,26 @@ local get_paragraph = function(sep)
   return table.concat(paragraph, sep)
 end
 
-function M.send_cmd(terminal, cmd, show) -- show "1" 时，send后不hide
+function M.send_cmd(terminal, to_send, show) -- show时，send后不hide
   if g.builtin_terminal_ok == 0 then
     c(string.format('silent !start %s', terminal))
     return
   end
   local cmd_to_send = ''
-  if cmd == '<curline>' then
+  if to_send == 'curline' then
     cmd_to_send = f['getline']('.')
-  elseif cmd == '<paragraph>' then
-    if terminal == 'cmd' then
+  elseif to_send == 'paragraph' then
+    if terminal == 'to_send' then
       cmd_to_send = get_paragraph(' && ')
     elseif terminal == 'powershell' then
       cmd_to_send = get_paragraph('; ')
     else
       cmd_to_send = get_paragraph('\n')
     end
-  elseif cmd == '<clipboard>' then
+  elseif to_send == 'clipboard' then
     local clipboard = f['getreg']('+')
     clipboard = clipboard:gsub("^%s*(.-)%s*$", "%1") -- trim_string
-    if terminal == 'cmd' then
+    if terminal == 'to_send' then
       cmd_to_send = string.gsub(clipboard, '\n', ' && ')
     elseif terminal == 'powershell' then
       cmd_to_send = string.gsub(clipboard, '\n', '; ')
@@ -224,7 +249,7 @@ function M.send_cmd(terminal, cmd, show) -- show "1" 时，send后不hide
     end
     print('cmd_to_send', cmd_to_send)
   else
-    cmd_to_send = cmd
+    cmd_to_send = to_send
   end
   local fname = a['nvim_buf_get_name'](0)
   local terminal_bufnrs = get_terminal_bufnrs(terminal)
@@ -240,7 +265,7 @@ function M.send_cmd(terminal, cmd, show) -- show "1" 时，send后不hide
     else
       c [[call feedkeys("i\<cr>\<esc>")]]
     end
-    if show ~= '1' then
+    if show ~= 'show' then
       if is_hide_en() then
         vim.loop.new_timer():start(100, 0,
           function()
@@ -269,5 +294,61 @@ function M.send_cmd(terminal, cmd, show) -- show "1" 时，send后不hide
     end
   end
 end
+
+function M.run(params)
+  if not params or #params == 0 then
+    return
+  end
+  local terminal = params[1]
+  if #params == 1 then
+    M.toggle_terminal(terminal, '')
+  elseif #params == 2 then
+    local chdir = params[2]
+    M.toggle_terminal(terminal, chdir)
+  elseif #params == 4 then
+    local send = params[2]
+    if send == 'send' then
+      local to_send = params[3]
+      local show = params[4]
+        Do_terminal.send_cmd(terminal, to_send, show)
+    end
+  end
+end
+
+s({ 'n', 'v' }, '\\<bs>q', ':TerminaL cmd cwd<cr>', opt)
+s({ 'n', 'v' }, '\\<bs>w', ':TerminaL ipython cwd<cr>', opt)
+s({ 'n', 'v' }, '\\<bs>e', ':TerminaL bash cwd<cr>', opt)
+s({ 'n', 'v' }, '\\<bs>r', ':TerminaL powershell cwd<cr>', opt)
+
+s({ 'n', 'v' }, '\\\\q', ':TerminaL cmd .<cr>', opt)
+s({ 'n', 'v' }, '\\\\w', ':TerminaL ipython .<cr>', opt)
+s({ 'n', 'v' }, '\\\\e', ':TerminaL bash .<cr>', opt)
+s({ 'n', 'v' }, '\\\\r', ':TerminaL powershell .<cr>', opt)
+
+s({ 'n', 'v' }, '\\[q', ':TerminaL cmd u<cr>', opt)
+s({ 'n', 'v' }, '\\[w', ':TerminaL ipython u<cr>', opt)
+s({ 'n', 'v' }, '\\[e', ':TerminaL bash u<cr>', opt)
+s({ 'n', 'v' }, '\\[r', ':TerminaL powershell u<cr>', opt)
+
+s({ 'n', 'v' }, '\\]q', ':TerminaL cmd -<cr>', opt)
+s({ 'n', 'v' }, '\\]w', ':TerminaL ipython -<cr>', opt)
+s({ 'n', 'v' }, '\\]e', ':TerminaL bash -<cr>', opt)
+s({ 'n', 'v' }, '\\]r', ':TerminaL powershell -<cr>', opt)
+
+
+s({ 'n', 'v' }, '\\<cr>q', ':TerminaL cmd send curline show<cr>', opt)
+s({ 'n', 'v' }, '\\<cr>w', ':TerminaL ipython send curline show<cr>', opt)
+s({ 'n', 'v' }, '\\<cr>e', ':TerminaL bash send curline show<cr>', opt)
+s({ 'n', 'v' }, '\\<cr>r', ':TerminaL powershell send curline show<cr>', opt)
+
+s({ 'n', 'v' }, '\\<cr><cr>q', ':TerminaL cmd send paragraph show<cr>', opt)
+s({ 'n', 'v' }, '\\<cr><cr>w', ':TerminaL ipython send paragraph show<cr>', opt)
+s({ 'n', 'v' }, '\\<cr><cr>e', ':TerminaL bash send paragraph show<cr>', opt)
+s({ 'n', 'v' }, '\\<cr><cr>r', ':TerminaL powershell send paragraph show<cr>', opt)
+
+s({ 'n', 'v' }, '\\<cr><cr><cr>q', ':TerminaL cmd send clipboard show<cr>', opt)
+s({ 'n', 'v' }, '\\<cr><cr><cr>w', ':TerminaL ipython send clipboard show<cr>', opt)
+s({ 'n', 'v' }, '\\<cr><cr><cr>e', ':TerminaL bash send clipboard show<cr>', opt)
+s({ 'n', 'v' }, '\\<cr><cr><cr>r', ':TerminaL powershell send clipboard show<cr>', opt)
 
 return M
