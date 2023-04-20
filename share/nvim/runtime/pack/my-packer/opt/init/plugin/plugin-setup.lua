@@ -88,6 +88,8 @@ local plugins = function(use)
   use({ 'lukas-reineke/indent-blankline.nvim', opt = true })
 
   use({ 'kevinhwang91/nvim-bqf', opt = true })
+
+  use({ 'azabiong/vim-highlighter' })
 end
 
 return packer.startup(function(use)
