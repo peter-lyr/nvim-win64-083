@@ -7,7 +7,7 @@ local sta
 
 g.startuptime_lua = f['expand']('<sfile>')
 
-local startuptime = function()
+local startuptime = function(params)
   if not g.startuptime_loaded then
     g.startuptime_loaded = 1
     a.nvim_del_autocmd(g.startuptime_cursormoved)
@@ -20,11 +20,11 @@ local startuptime = function()
   if not Do_startuptime then
     return
   end
-  Do_startuptime.run()
+  Do_startuptime.run(params)
 end
 
-a.nvim_create_user_command('StartuptimE', function()
-  startuptime()
+a.nvim_create_user_command('StartuptimE', function(params)
+  startuptime(params['fargs'])
 end, { nargs = '*', })
 
 if not g.startuptime_startup then
