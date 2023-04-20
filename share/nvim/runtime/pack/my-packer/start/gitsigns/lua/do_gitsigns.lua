@@ -16,6 +16,9 @@ gitsigns.setup({
 local M = {}
 
 M.run = function(cmd, refresh)
+  if not cmd or #cmd == 0 then
+    return
+  end
   c('Gitsigns ' .. cmd)
   if refresh == "1" then
     c[[call feedkeys(":e!\<cr>")]]
