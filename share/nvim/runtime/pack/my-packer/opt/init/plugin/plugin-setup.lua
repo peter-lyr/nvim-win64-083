@@ -1,6 +1,6 @@
-if 1 then
-  return
-end
+-- if 1 then
+--   return
+-- end
 
 local f = vim.fn
 local c = vim.cmd
@@ -86,6 +86,8 @@ local plugins = function(use)
   use({ 'dbakker/vim-projectroot' })
 
   use({ 'lukas-reineke/indent-blankline.nvim', opt = true })
+
+  use({ 'kevinhwang91/nvim-bqf', opt = true })
 end
 
 return packer.startup(function(use)

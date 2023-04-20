@@ -33,6 +33,7 @@ NetrwTreeListing
 **/pack/packer/**/which-key.nvim
 **/pack/packer/**/vim-projectroot
 **/pack/packer/**/indent-blankline.nvim
+**/pack/packer/**/nvim-bqf
 # my-neovim-data
 **/my-neovim-data/project_nvim
 # 匹配
