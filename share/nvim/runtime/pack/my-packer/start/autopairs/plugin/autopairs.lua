@@ -16,7 +16,7 @@ end
 
 if not g.autopairs_startup then
   g.autopairs_startup = 1
-  g.autopairs_cursormoved = a.nvim_create_autocmd({"InsertEnter"}, {
+  g.autopairs_cursormoved = a.nvim_create_autocmd({"InsertEnter", "FocusLost"}, {
     callback = function()
       a.nvim_del_autocmd(g.autopairs_cursormoved)
       autopairs()

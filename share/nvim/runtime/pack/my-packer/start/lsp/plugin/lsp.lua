@@ -16,7 +16,7 @@ end
 
 if not g.lsp_startup then
   g.lsp_startup = 1
-  g.lsp_cursormoved = a.nvim_create_autocmd({"CursorMoved"}, {
+  g.lsp_cursormoved = a.nvim_create_autocmd({"CursorMoved", "FocusLost"}, {
     callback = function()
       a.nvim_del_autocmd(g.lsp_cursormoved)
       lsp()

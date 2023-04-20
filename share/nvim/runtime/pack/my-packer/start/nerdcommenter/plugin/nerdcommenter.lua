@@ -16,7 +16,7 @@ end
 
 if not g.nerdcommenter_startup then
   g.nerdcommenter_startup = 1
-  g.nerdcommenter_cursormoved = a.nvim_create_autocmd({ "CursorMoved" }, {
+  g.nerdcommenter_cursormoved = a.nvim_create_autocmd({ "CursorMoved", "FocusLost" }, {
     callback = function()
       a.nvim_del_autocmd(g.nerdcommenter_cursormoved)
       nerdcommenter()

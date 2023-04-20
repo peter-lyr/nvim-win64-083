@@ -21,7 +21,7 @@ end
 
 if not g.treesitter_startup then
   g.treesitter_startup = 1
-  g.treesitter_cursormoved = a.nvim_create_autocmd({"CursorMoved"}, {
+  g.treesitter_cursormoved = a.nvim_create_autocmd({"CursorMoved", "FocusLost"}, {
     callback = function()
       a.nvim_del_autocmd(g.treesitter_cursormoved)
       treesitter()
