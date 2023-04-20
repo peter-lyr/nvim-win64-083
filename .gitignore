@@ -38,6 +38,7 @@ NetrwTreeListing
 **/pack/packer/**/vim-searchindex
 **/pack/packer/**/asyncrun.vim
 **/pack/packer/**/nvim-scrollview
+**/pack/packer/**/aerial.nvim
 # my-neovim-data
 **/my-neovim-data/project_nvim
 # 匹配

@@ -96,6 +96,8 @@ local plugins = function(use)
   use({ 'skywind3000/asyncrun.vim', opt = true })
 
   use({ 'dstein64/nvim-scrollview', opt = true })
+
+  use({ 'stevearc/aerial.nvim', opt = true })
 end
 
 return packer.startup(function(use)
