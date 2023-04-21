@@ -2,7 +2,6 @@ import os
 import re
 import sys
 import time
-from multiprocessing import Pool
 
 
 absdir = os.path.dirname(os.path.realpath(__file__))
@@ -194,7 +193,7 @@ def render_html_file(html_p):
     # driver = webdriver.Chrome(ChromeDriverManager(version="94.0.4606.81").install(), options=options)
     driver.get(html_p)
     html = driver.page_source
-    pattern = re.compile('(<script type="text[^>]*?>[\s\S]*?)</script>')
+    pattern = re.compile(r'(<script type="text[^>]*?>[\s\S]*?)</script>')
     html, _ = re.subn(pattern, '', html)
     html = html.replace('</body>', '<script type="text/x-mathjax-config">MathJax.Hub.Register.StartupHook(' + \
             '"End",function(){window.status="ready";});</script>\n\n </body>')
@@ -211,7 +210,7 @@ def image2base64(html_p):
         if 'data:' in img_src and ';base64,/' in img_src:
             continue
         try:
-            with open(img_src, 'rb') as f:
+            with open(os.path.normpath(os.path.join(os.path.dirname(html_p), img_src)), 'rb') as f:
                 image_bytes = base64.b64encode(f.read())
         except Exception as e:
             print('''os.path.curdir: ''', os.path.curdir)
