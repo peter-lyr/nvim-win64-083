@@ -1,8 +1,9 @@
 local a = vim.api
 local s = vim.keymap.set
 
-local buffernew_loaded = nil
-local buffernew_cursormoved = nil
+local buffernew_loaded
+local buffernew_cursormoved
+local do_buffernew
 
 local sta
 
@@ -10,16 +11,16 @@ local buffernew = function(params)
   if not buffernew_loaded then
     buffernew_loaded = 1
     a.nvim_del_autocmd(buffernew_cursormoved)
-    sta, Do_buffernew = pcall(require, 'do_buffernew')
+    sta, do_buffernew = pcall(require, 'do_buffernew')
     if not sta then
-      print(Do_buffernew)
+      print(do_buffernew)
       return
     end
   end
-  if not Do_buffernew then
+  if not do_buffernew then
     return
   end
-  Do_buffernew.run(params)
+  do_buffernew.run(params)
 end
 
 a.nvim_create_user_command('BufferneW', function(params)
