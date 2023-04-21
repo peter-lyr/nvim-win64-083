@@ -27,7 +27,7 @@ a.nvim_create_user_command('BufferneW', function(params)
   buffernew(params['fargs'])
 end, { nargs = '*', })
 
-buffernew_cursormoved = a.nvim_create_autocmd({ 'CursorHold', 'FocusLost' }, {
+buffernew_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'CursorHold', 'FocusLost' }, {
   callback = function()
     buffernew()
   end,
