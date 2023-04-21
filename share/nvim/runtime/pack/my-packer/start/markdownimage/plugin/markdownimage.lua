@@ -29,6 +29,6 @@ end, { nargs = "*", })
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '<leader><f3>', ':MarkdownimagE getimage sel_png<cr>', opt)
-s({ 'n', 'v' }, '<leader><leader><f3>', ':MarkdownimagE getimage sel_jpg<cr>', opt)
-s({ 'n', 'v' }, '<leader><leader><leader><f3>', ':MarkdownimagE updatesrc cur<cr>', opt)
+s({ 'n', 'v' }, '<leader><f3>', ':<c-u>MarkdownimagE getimage sel_png<cr>', opt)
+s({ 'n', 'v' }, '<leader><leader><f3>', ':<c-u>MarkdownimagE getimage sel_jpg<cr>', opt)
+s({ 'n', 'v' }, '<leader><leader><leader><f3>', ':<c-u>MarkdownimagE updatesrc cur<cr>', opt)

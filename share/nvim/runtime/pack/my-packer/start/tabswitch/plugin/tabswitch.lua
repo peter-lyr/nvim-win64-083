@@ -25,11 +25,11 @@ end
 
 s({ 'n', 'v', }, '<leader><cr>', space_enter, opt)
 
-s({ 'n', 'v' }, '<cr>', ':tabnext<cr>', opt)
-s({ 'n', 'v' }, '<s-cr>', ':tabprevious<cr>', opt)
+s({ 'n', 'v' }, '<cr>', ':<c-u>tabnext<cr>', opt)
+s({ 'n', 'v' }, '<s-cr>', ':<c-u>tabprevious<cr>', opt)
 
-s({ 'n', 'v', }, '<c-s-h>', ':try <bar> tabmove - <bar> catch <bar> endtry<cr>', opt)
-s({ 'n', 'v', }, '<c-s-l>', ':try <bar> tabmove + <bar> catch <bar> endtry<cr>', opt)
+s({ 'n', 'v', }, '<c-s-h>', ':<c-u>try <bar> tabmove - <bar> catch <bar> endtry<cr>', opt)
+s({ 'n', 'v', }, '<c-s-l>', ':<c-u>try <bar> tabmove + <bar> catch <bar> endtry<cr>', opt)
 s({ 'n', 'v', }, '<c-s-k>', 'gT', opt)
 s({ 'n', 'v', }, '<c-s-j>', 'gt', opt)
 

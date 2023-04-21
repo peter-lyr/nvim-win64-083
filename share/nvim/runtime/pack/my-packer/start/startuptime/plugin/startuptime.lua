@@ -35,4 +35,4 @@ startuptime_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'C
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '<leader><leader><leader>y', ':StartuptimE do<cr>', opt)
+s({ 'n', 'v' }, '<leader><leader><leader>y', ':<c-u>StartuptimE do<cr>', opt)

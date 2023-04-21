@@ -40,8 +40,8 @@ end, { nargs = '*', })
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '<leader>l', ':NetrW toggle_fix<cr>', opt)
-s({ 'n', 'v' }, '<leader><leader>l', ':NetrW fix_unfix<cr>', opt)
-s({ 'n', 'v' }, '<leader>;', ':NetrW toggle_search_fname<cr>', opt)
-s({ 'n', 'v' }, '<leader><leader>;', ':NetrW toggle_search_cwd<cr>', opt)
-s({ 'n', 'v' }, '<leader>\'', ':NetrW toggle_search_sel<cr>', opt)
+s({ 'n', 'v' }, '<leader>l', ':<c-u>NetrW toggle_fix<cr>', opt)
+s({ 'n', 'v' }, '<leader><leader>l', ':<c-u>NetrW fix_unfix<cr>', opt)
+s({ 'n', 'v' }, '<leader>;', ':<c-u>NetrW toggle_search_fname<cr>', opt)
+s({ 'n', 'v' }, '<leader><leader>;', ':<c-u>NetrW toggle_search_cwd<cr>', opt)
+s({ 'n', 'v' }, '<leader>\'', ':<c-u>NetrW toggle_search_sel<cr>', opt)

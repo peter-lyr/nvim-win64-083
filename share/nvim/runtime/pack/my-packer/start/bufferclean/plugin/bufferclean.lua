@@ -35,5 +35,5 @@ bufferclean_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'C
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '<leader>hh', ':BuffercleaN cur<cr>', opt)
-s({ 'n', 'v' }, '<leader><leader>hh', ':BuffercleaN all<cr>', opt)
+s({ 'n', 'v' }, '<leader>hh', ':<c-u>BuffercleaN cur<cr>', opt)
+s({ 'n', 'v' }, '<leader><leader>hh', ':<c-u>BuffercleaN all<cr>', opt)

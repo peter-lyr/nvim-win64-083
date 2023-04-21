@@ -13,7 +13,7 @@ aerial_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'Cursor
   end,
 })
 
-s({ 'n', 'v' }, '<leader>,', ':AerialToggle float<cr>')
-s({ 'n', 'v' }, '<leader><', ':AerialCloseAll<cr>')
-s({ 'n', 'v' }, ']a', ':AerialNext<cr>')
-s({ 'n', 'v' }, '[a', ':AerialPrev<cr>')
+s({ 'n', 'v' }, '<leader>,', ':<c-u>AerialToggle float<cr>')
+s({ 'n', 'v' }, '<leader><', ':<c-u>AerialCloseAll<cr>')
+s({ 'n', 'v' }, ']a', ':<c-u>AerialNext<cr>')
+s({ 'n', 'v' }, '[a', ':<c-u>AerialPrev<cr>')

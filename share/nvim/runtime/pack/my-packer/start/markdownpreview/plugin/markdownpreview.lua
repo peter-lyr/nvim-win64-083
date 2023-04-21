@@ -28,7 +28,7 @@ a.nvim_create_user_command('MPreview', function(params)
   markdownpreview_exe(unpack(params['fargs']))
 end, { nargs = "*", })
 
-s({ 'n', 'v' }, '<f3>', ":MPreview MarkdownPreviewToggle<cr>", { silent = true })
+s({ 'n', 'v' }, '<f3>', ":<c-u>MPreview MarkdownPreviewToggle<cr>", { silent = true })
 
 
 g.mkdp_theme = 'light'

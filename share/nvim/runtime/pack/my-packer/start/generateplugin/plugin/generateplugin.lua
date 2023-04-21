@@ -47,4 +47,4 @@ end, { nargs = '*', })
 
 local s = vim.keymap.set
 local opt = { silent = true }
-s({ 'n', 'v' }, '<leader><leader><leader>z', ':GeneratePlugiN do<cr>', opt)
+s({ 'n', 'v' }, '<leader><leader><leader>z', ':<c-u>GeneratePlugiN do<cr>', opt)

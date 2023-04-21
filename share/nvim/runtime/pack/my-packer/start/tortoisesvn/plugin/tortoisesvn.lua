@@ -27,4 +27,4 @@ end, { nargs = "*", })
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '<leader>vi', ':TortoisesvN<cr>', opt)
+s({ 'n', 'v' }, '<leader>vi', ':<c-u>TortoisesvN<cr>', opt)

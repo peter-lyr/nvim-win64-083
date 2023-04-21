@@ -27,10 +27,10 @@ end, { nargs = "*", })
 local opt = { silent = true }
 
 
-s({ 'n', 'v' }, '<leader>gi', ':DiffvieW filehistory<cr>', opt)
-s({ 'n', 'v' }, '<leader>go', ':DiffvieW open<cr>', opt)
-s({ 'n', 'v' }, '<leader>gq', ':DiffvieW quit<cr>', opt)
+s({ 'n', 'v' }, '<leader>gi', ':<c-u>DiffvieW filehistory<cr>', opt)
+s({ 'n', 'v' }, '<leader>go', ':<c-u>DiffvieW open<cr>', opt)
+s({ 'n', 'v' }, '<leader>gq', ':<c-u>DiffvieW quit<cr>', opt)
 
-s({ 'n', 'v' }, '<leader>gT', ':DiffvieW toggle_history_cnt<cr>', opt)
-s({ 'n', 'v' }, '<leader>ge', ':DiffvieW DiffviewRefresh<cr>', opt)
-s({ 'n', 'v' }, '<leader>gl', ':DiffvieW DiffviewToggleFiles<cr>', opt)
+s({ 'n', 'v' }, '<leader>gT', ':<c-u>DiffvieW toggle_history_cnt<cr>', opt)
+s({ 'n', 'v' }, '<leader>ge', ':<c-u>DiffvieW DiffviewRefresh<cr>', opt)
+s({ 'n', 'v' }, '<leader>gl', ':<c-u>DiffvieW DiffviewToggleFiles<cr>', opt)

@@ -41,5 +41,5 @@ end, { nargs = '*', })
 
 local s = vim.keymap.set
 local opt = { silent = true }
-s({ 'n', 'v' }, '\\1', ':Markdown2PdfHtmlDocx create<cr>', opt)
-s({ 'n', 'v' }, '\\2', ':Markdown2PdfHtmlDocx delete<cr>', opt)
+s({ 'n', 'v' }, '\\1', ':<c-u>Markdown2PdfHtmlDocx create<cr>', opt)
+s({ 'n', 'v' }, '\\2', ':<c-u>Markdown2PdfHtmlDocx delete<cr>', opt)

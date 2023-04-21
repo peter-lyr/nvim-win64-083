@@ -35,4 +35,4 @@ end, { nargs = '*', })
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '<leader><leader>ta', ':MarkdowntablE align<cr>', opt)
+s({ 'n', 'v' }, '<leader><leader>ta', ':<c-u>MarkdowntablE align<cr>', opt)

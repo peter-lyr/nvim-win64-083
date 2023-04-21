@@ -34,6 +34,6 @@ fugitive_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'Curs
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '<leader>gg', ':FugitivE Git<cr>', opt)
-s({ 'n', 'v' }, '<leader>gA', ':FugitivE Git add -A<cr>', opt)
-s({ 'n', 'v' }, '<leader>ga', ':FugitivE Git add %<cr>', opt)
+s({ 'n', 'v' }, '<leader>gg', ':<c-u>FugitivE Git<cr>', opt)
+s({ 'n', 'v' }, '<leader>gA', ':<c-u>FugitivE Git add -A<cr>', opt)
+s({ 'n', 'v' }, '<leader>ga', ':<c-u>FugitivE Git add %<cr>', opt)

@@ -53,4 +53,4 @@ end, { nargs = "*", })
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '<leader>m', ':QuickfiX toggle<cr>', opt)
+s({ 'n', 'v' }, '<leader>m', ':<c-u>QuickfiX toggle<cr>', opt)

@@ -40,7 +40,7 @@ end, { nargs = '*', })
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '\\q', ':TerminaL cmd<cr>', opt)
-s({ 'n', 'v' }, '\\w', ':TerminaL ipython<cr>', opt)
-s({ 'n', 'v' }, '\\e', ':TerminaL bash<cr>', opt)
-s({ 'n', 'v' }, '\\r', ':TerminaL powershell<cr>', opt)
+s({ 'n', 'v' }, '\\q', ':<c-u>TerminaL cmd<cr>', opt)
+s({ 'n', 'v' }, '\\w', ':<c-u>TerminaL ipython<cr>', opt)
+s({ 'n', 'v' }, '\\e', ':<c-u>TerminaL bash<cr>', opt)
+s({ 'n', 'v' }, '\\r', ':<c-u>TerminaL powershell<cr>', opt)

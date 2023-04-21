@@ -45,13 +45,13 @@ gitsigns_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'Curs
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '<leader>gr', ':GitsignS reset_hunk 1<cr>', opt)
-s({ 'n', 'v' }, '<leader>gR', ':GitsignS reset_buffer 1<cr>', opt)
-s({ 'n', 'v' }, '<leader>k', ':GitsignS prev_hunk 0<cr>', opt)
-s({ 'n', 'v' }, '<leader>j', ':GitsignS next_hunk 0<cr>', opt)
-s({ 'n', 'v' }, '<leader>gp', ':GitsignS preview_hunk 0<cr>', opt)
-s({ 'n', 'v' }, '<leader>gx', ':GitsignS select_hunk 0<cr>', opt)
-s({ 'n', 'v' }, '<leader>gd', ':GitsignS diffthis 0<cr>', opt)
-s({ 'n', 'v' }, '<leader>gD', ':GitsignS diffthis HEAD~1 0<cr>', opt)
-s({ 'n', 'v' }, '<leader>gtd', ':GitsignS toggle_deleted 0<cr>', opt)
-s({ 'n', 'v' }, '<leader>gtb', ':GitsignS toggle_current_line_blame 0<cr>', opt)
+s({ 'n', 'v' }, '<leader>gr', ':<c-u>GitsignS reset_hunk 1<cr>', opt)
+s({ 'n', 'v' }, '<leader>gR', ':<c-u>GitsignS reset_buffer 1<cr>', opt)
+s({ 'n', 'v' }, '<leader>k', ':<c-u>GitsignS prev_hunk 0<cr>', opt)
+s({ 'n', 'v' }, '<leader>j', ':<c-u>GitsignS next_hunk 0<cr>', opt)
+s({ 'n', 'v' }, '<leader>gp', ':<c-u>GitsignS preview_hunk 0<cr>', opt)
+s({ 'n', 'v' }, '<leader>gx', ':<c-u>GitsignS select_hunk 0<cr>', opt)
+s({ 'n', 'v' }, '<leader>gd', ':<c-u>GitsignS diffthis 0<cr>', opt)
+s({ 'n', 'v' }, '<leader>gD', ':<c-u>GitsignS diffthis HEAD~1 0<cr>', opt)
+s({ 'n', 'v' }, '<leader>gtd', ':<c-u>GitsignS toggle_deleted 0<cr>', opt)
+s({ 'n', 'v' }, '<leader>gtb', ':<c-u>GitsignS toggle_current_line_blame 0<cr>', opt)

@@ -44,12 +44,12 @@ gitpush_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'Curso
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '<leader>g1', ':GitpusH add_commit_push<cr>', opt)
-s({ 'n', 'v' }, '<leader>g2', ':GitpusH commit_push<cr>', opt)
-s({ 'n', 'v' }, '<leader>g3', ':GitpusH just_push<cr>', opt)
-s({ 'n', 'v' }, '<leader>g4', ':GitpusH add_commit<cr>', opt)
-s({ 'n', 'v' }, '<leader>g5', ':GitpusH just_commit<cr>', opt)
-s({ 'n', 'v' }, '<leader>gI', ':GitpusH git_init<cr>', opt)
+s({ 'n', 'v' }, '<leader>g1', ':<c-u>GitpusH add_commit_push<cr>', opt)
+s({ 'n', 'v' }, '<leader>g2', ':<c-u>GitpusH commit_push<cr>', opt)
+s({ 'n', 'v' }, '<leader>g3', ':<c-u>GitpusH just_push<cr>', opt)
+s({ 'n', 'v' }, '<leader>g4', ':<c-u>GitpusH add_commit<cr>', opt)
+s({ 'n', 'v' }, '<leader>g5', ':<c-u>GitpusH just_commit<cr>', opt)
+s({ 'n', 'v' }, '<leader>gI', ':<c-u>GitpusH git_init<cr>', opt)
 s({ 'n', 'v' }, '<leader>g<f1>',
   [[:silent exe '!start cmd /c "git log --all --graph --decorate --oneline" && pause'<cr>]], opt)
 -- s({ 'n', 'v' }, '<leader>g<f1>', function() start_cmd('git log --all --graph --decorate --oneline') end, opt)

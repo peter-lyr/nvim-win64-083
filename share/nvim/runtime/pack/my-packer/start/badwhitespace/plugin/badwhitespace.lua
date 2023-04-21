@@ -35,6 +35,6 @@ badwhitespace_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '<leader>ee', ':BadwhitespacE Erase<cr>', opt)
-s({ 'n', 'v' }, '<leader>eh', ':BadwhitespacE Hide<cr> ', opt)
-s({ 'n', 'v' }, '<leader>es', ':BadwhitespacE Show<cr> ', opt)
+s({ 'n', 'v' }, '<leader>ee', ':<c-u>BadwhitespacE Erase<cr>', opt)
+s({ 'n', 'v' }, '<leader>eh', ':<c-u>BadwhitespacE Hide<cr> ', opt)
+s({ 'n', 'v' }, '<leader>es', ':<c-u>BadwhitespacE Show<cr> ', opt)
