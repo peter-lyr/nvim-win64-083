@@ -27,4 +27,3 @@ o.fileformats = 'dos'
 o.foldmethod = "indent"
 o.foldlevel = 99
 o.signcolumn = "auto:9"
-o.shada = "!,'1000,<50,s10,h"
