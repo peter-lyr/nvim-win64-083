@@ -13,6 +13,7 @@ end
 local lang = {
   'c',
   'cpp',
+  'python',
 }
 
 local tab_width = function()
