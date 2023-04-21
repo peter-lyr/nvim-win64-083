@@ -82,26 +82,17 @@ local plugins = function(use)
   use({ 'sindrets/diffview.nvim', opt = true })
 
   use({ 'folke/which-key.nvim' })
-
   use({ 'dbakker/vim-projectroot' })
-
   use({ 'lukas-reineke/indent-blankline.nvim', opt = true })
-
   use({ 'kevinhwang91/nvim-bqf', opt = true })
-
   use({ 'azabiong/vim-highlighter', opt = true })
-
   use({ 'google/vim-searchindex', opt = true })
-
   use({ 'skywind3000/asyncrun.vim', opt = true })
-
   use({ 'dstein64/nvim-scrollview', opt = true })
-
   use({ 'stevearc/aerial.nvim', opt = true })
-
   use({ 'iamcco/markdown-preview.nvim', run = function() f['mkdp#util#install']() end, opt = true })
-
   use({ 'CRAG666/code_runner.nvim' })
+
 end
 
 return packer.startup(function(use)
