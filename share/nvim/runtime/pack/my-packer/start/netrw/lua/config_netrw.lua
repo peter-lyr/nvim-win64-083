@@ -620,7 +620,7 @@ local delete_sel_list = function()
     end
     empty_sel_list()
   else
-    c "echomsg 'canceled'"
+    print('canceled!')
   end
 end
 
@@ -634,13 +634,16 @@ local move_sel_list = function(payload)
         dname = string.format('%s%s', target, dname)
         if Path:new(dname):exists() then
           c'redraw'
-          local dname_new = f['input']("Existed! Rename? ", dname)
-          if #dname_new and dname_new ~= dname then
+          local dname_new = f['input'](v .. " ->\nExisted! Rename? ", dname)
+          if #dname_new > 0 and dname_new ~= dname then
             f['system'](string.format('move "%s" "%s"', string.sub(v, 1, #v - 1), dname_new))
+          elseif #dname_new == 0 then
+            print('cancel all!')
+            return
           else
             c'redraw'
-            print('canceled!')
-            return
+            print(v .. ' -> failed!')
+            goto continue
           end
         else
           f['system'](string.format('move "%s" "%s"', string.sub(v, 1, #v - 1), dname))
@@ -650,24 +653,28 @@ local move_sel_list = function(payload)
         fname = string.format('%s%s', target, fname)
         if Path:new(fname):exists() then
           c'redraw'
-          local fname_new = f['input']("Existed! Rename? ", fname)
-          if #fname_new and fname_new ~= fname then
+          local fname_new = f['input'](v .. " ->\nExisted! Rename? ", fname)
+          if #fname_new > 0 and fname_new ~= fname then
             f['system'](string.format('move "%s" "%s"', v, fname_new))
+          elseif #fname_new == 0 then
+            print('cancel all!')
+            return
           else
             c'redraw'
-            print('canceled!')
-            return
+            print(v .. ' -> failed!')
+            goto continue
           end
         else
           f['system'](string.format('move "%s" "%s"', v, fname))
         end
       end
       pcall(c, "bw! " .. rep(v))
+      ::continue::
     end
     empty_sel_list()
     f['netrw#Call']("NetrwRefresh", 1, f['netrw#Call']("NetrwBrowseChgDir", 1, './'))
   else
-    c "echomsg 'canceled'"
+    print('canceled!')
   end
 end
 
@@ -678,42 +685,55 @@ local copy_sel_list = function(payload)
     for _, v in ipairs(g.netrw_sel_list) do
       if Path:new(v):is_dir() then
         local dname = get_fname_tail(v)
-        dname = string.format('%s%s\\', target, dname)
+        dname = string.format('%s%s', target, dname)
         if Path:new(dname):exists() then
           c'redraw'
-          local dname_new = f['input']("Existed! Rename? ", dname)
-          if #dname_new and dname_new ~= dname then
-            f['system'](string.format('xcopy "%s" "%s" /s /e /f', string.sub(v, 1, #v - 1), dname_new))
+          local dname_new = f['input'](v .. " ->\nExisted! Rename? ", dname)
+          if #dname_new > 0 and dname_new ~= dname then
+            if dname_new[#dname_new] ~= '\\' then
+              dname_new = dname_new .. '\\'
+            end
+            f['system'](string.format('xcopy "%s" "%s" /s /e /f', v, dname_new))
+          elseif #dname_new == 0 then
+            print('cancel all!')
+            return
           else
             c'redraw'
-            print('canceled!')
-            return
+            print(v .. ' -> failed!')
+            goto continue
           end
         else
-          f['system'](string.format('xcopy "%s" "%s" /s /e /f', string.sub(v, 1, #v - 1), dname))
+          if dname[#dname] ~= '\\' then
+            dname = dname .. '\\'
+          end
+          f['system'](string.format('xcopy "%s" "%s" /s /e /f', v, dname))
         end
       else
         local fname = get_fname_tail(v)
         fname = string.format('%s%s', target, fname)
         if Path:new(fname):exists() then
           c'redraw'
-          local fname_new = f['input']("Existed! Rename? ", fname)
-          if #fname_new and fname_new ~= fname then
+          local fname_new = f['input'](v .. "\n ->Existed! Rename? ", fname)
+          if #fname_new > 0 and fname_new ~= fname then
             f['system'](string.format('copy "%s" "%s"', v, fname_new))
+          elseif #fname_new == 0 then
+            print('cancel all!')
+            return
           else
             c'redraw'
-            print('canceled!')
-            return
+            print(v .. ' -> failed!')
+            goto continue
           end
         else
           f['system'](string.format('copy "%s" "%s"', v, fname))
         end
       end
       f['netrw#Call']("NetrwRefresh", 1, f['netrw#Call']("NetrwBrowseChgDir", 1, './'))
+      ::continue::
     end
     empty_sel_list()
   else
-    c "echomsg 'canceled'"
+    print('canceled!')
   end
 end
 
