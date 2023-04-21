@@ -139,4 +139,42 @@ function M.getimage(params)
   end
 end
 
+local get_saved_images_dir = function(fname)
+  local dir = Path:new(fname):parent()
+  local cnt = #dir.filename
+  while 1 do
+    dir = dir:parent()
+    if cnt < #dir.filename then
+      break
+    end
+    cnt = #dir.filename
+    local path = dir:joinpath('saved_images')
+    if path:exists() then
+      return path.filename
+    end
+  end
+  return nil
+end
+
+function M.updatesrc(params)
+  local fname = a.nvim_buf_get_name(0)
+  local saved_images_dir = get_saved_images_dir(fname)
+  if not saved_images_dir then
+    print('no saved_images dir')
+    return
+  end
+  print(vim.inspect(params))
+end
+
+function M.run(params)
+  if #params ~= 2 then
+    return false
+  end
+  if params[1] == 'getimage' then
+    M.getimage(params)
+  elseif params[1] == 'updatesrc' then
+    M.updatesrc(params)
+  end
+end
+
 return M

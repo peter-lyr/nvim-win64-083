@@ -20,7 +20,7 @@ local markdownimage_exe = function(params)
   if not do_markdownimage or do_markdownimage == false then
     return
   end
-  do_markdownimage.getimage(params)
+  do_markdownimage.run(params)
 end
 
 a.nvim_create_user_command('MarkdownimagE', function(params)
@@ -29,5 +29,6 @@ end, { nargs = "*", })
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '<leader><f3>', ':MarkdownimagE sel_png append<cr>', opt)
-s({ 'n', 'v' }, '<leader><leader><f3>', ':MarkdownimagE sel_jpg append<cr>', opt)
+s({ 'n', 'v' }, '<leader><f3>', ':MarkdownimagE getimage sel_png<cr>', opt)
+s({ 'n', 'v' }, '<leader><leader><f3>', ':MarkdownimagE getimage sel_jpg<cr>', opt)
+s({ 'n', 'v' }, '<leader><leader><leader><f3>', ':MarkdownimagE updatesrc cur<cr>', opt)
