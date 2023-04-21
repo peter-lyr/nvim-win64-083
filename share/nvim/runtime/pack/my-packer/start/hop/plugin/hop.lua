@@ -27,5 +27,5 @@ end, { nargs = '*', })
 
 local opt = { silent = true }
 
-s({'n', 'v'}, 'gi', ':HoP Char1<cr>', opt)
-s({'n', 'v'}, 'go', ':HoP Char2<cr>', opt)
+s({'n', 'v'}, 's', ':HoP Char1<cr>', opt)
+s({'n', 'v'}, 'f', ':HoP Char2<cr>', opt)
