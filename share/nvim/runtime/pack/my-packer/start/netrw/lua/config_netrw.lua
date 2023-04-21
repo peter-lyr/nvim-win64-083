@@ -630,9 +630,37 @@ local move_sel_list = function(payload)
   if index_of({ 'y', 'Y', 'yes', 'Yes', 'YES' }, res) then
     for _, v in ipairs(g.netrw_sel_list) do
       if Path:new(v):is_dir() then
-        f['system'](string.format('move "%s" "%s"', string.sub(v, 1, #v - 1), target))
+        local dname = get_fname_tail(v)
+        dname = string.format('%s%s', target, dname)
+        if Path:new(dname):exists() then
+          c'redraw'
+          local dname_new = f['input']("Existed! Rename? ", dname)
+          if #dname_new and dname_new ~= dname then
+            f['system'](string.format('move "%s" "%s"', string.sub(v, 1, #v - 1), dname_new))
+          else
+            c'redraw'
+            print('canceled!')
+            return
+          end
+        else
+          f['system'](string.format('move "%s" "%s"', string.sub(v, 1, #v - 1), dname))
+        end
       else
-        f['system'](string.format('move "%s" "%s"', v, target))
+        local fname = get_fname_tail(v)
+        fname = string.format('%s%s', target, fname)
+        if Path:new(fname):exists() then
+          c'redraw'
+          local fname_new = f['input']("Existed! Rename? ", fname)
+          if #fname_new and fname_new ~= fname then
+            f['system'](string.format('move "%s" "%s"', v, fname_new))
+          else
+            c'redraw'
+            print('canceled!')
+            return
+          end
+        else
+          f['system'](string.format('move "%s" "%s"', v, fname))
+        end
       end
       pcall(c, "bw! " .. rep(v))
     end
