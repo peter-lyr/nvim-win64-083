@@ -54,6 +54,19 @@ local rep = function(path)
   return path
 end
 
+local rep_reverse = function(path)
+  path, _ = string.gsub(path, '\\', '/')
+  return path
+end
+
+local replace = function(str)
+  local arr = {}
+  for i in string.gmatch(str, "[^/]+") do
+    table.insert(arr, "..")
+  end
+  return table.concat(arr, "/")
+end
+
 function M.getimage(params)
   if #params == 0 then
     return false
@@ -110,7 +123,11 @@ function M.getimage(params)
           if ft ~= 'markdown' then
             return false
           end
-          local image_rel_path = ''
+          local projectroot = rep_reverse(projectroot_path.filename)
+          local file_dir = rep_reverse(Path:new(fname):parent().filename)
+          local rel = string.sub(file_dir, #projectroot+1, -1)
+          rel = replace(rel)
+          local image_rel_path = rel .. '/saved_images/' .. only_image_name
           f['append'](linenr, string.format('![%s{%s}](%s)', only_image_name, absolute_image_hash, image_rel_path))
         end
         if timeout > 30 then
