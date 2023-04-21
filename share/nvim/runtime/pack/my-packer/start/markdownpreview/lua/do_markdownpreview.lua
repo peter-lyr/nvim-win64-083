@@ -26,7 +26,10 @@ g.mkdp_markdown_css = path:joinpath('autoload', 'mkdp_markdown.css')['filename']
 
 function M.do_markdownpreview(cmd)
   if o.ft:get() == 'markdown' then
-    c(cmd)
+    sta, _ = pcall(c, cmd)
+    if not sta then
+      print('BufEnter and try again')
+    end
   end
 end
 
