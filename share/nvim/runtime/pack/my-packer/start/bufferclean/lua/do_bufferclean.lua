@@ -25,7 +25,7 @@ M.run = function(params)
     return
   end
   local cur_fname = rep(a['nvim_buf_get_name'](0))
-  local cur_wnr = f['bufwinnr'](f['bufnr']())
+  local cur_wnr = f['winnr']()
   local ids = {}
   if params[1] == 'cur' then
     for wnr = 1, f['winnr']('$') do
