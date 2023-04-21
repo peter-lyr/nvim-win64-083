@@ -3,14 +3,15 @@ local a = vim.api
 local s = vim.keymap.set
 
 local do_markdownpreview
+local loaded_do_markdownpreview
 
 local sta
 
 g.markdownpreview_lua = vim.fn['expand']('<sfile>')
 
 local markdownpreview_exe = function(cmd)
-  if not g.loaded_do_markdownpreview then
-    g.loaded_do_markdownpreview = 1
+  if not loaded_do_markdownpreview then
+    loaded_do_markdownpreview = 1
     sta, do_markdownpreview = pcall(require, 'do_markdownpreview')
     if not sta then
       print(do_markdownpreview)
