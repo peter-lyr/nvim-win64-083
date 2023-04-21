@@ -4,7 +4,21 @@ local g = vim.g
 local c = vim.cmd
 local o = vim.opt
 
-local Path = require("plenary.path")
+local sta
+
+local packadd
+sta, packadd = pcall(c, 'packadd markdown-preview.nvim')
+if not sta then
+  print(packadd)
+  return
+end
+
+local Path
+sta, Path = pcall(require, "plenary.path")
+if not Path then
+  print(Path)
+  return
+end
 
 local path = Path:new(g.markdownpreview_lua)
 path = path:parent():parent()
