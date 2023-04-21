@@ -1167,7 +1167,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:github/clojure-lsp/clojure-lsp@2023.02.27-13.12.12",
+      "id": "pkg:github/clojure-lsp/clojure-lsp@2023.04.19-12.43.29",
       "asset": [
         {
           "target": "darwin_arm64",
@@ -1337,7 +1337,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:github/github/codeql-cli-binaries@v2.12.7",
+      "id": "pkg:github/github/codeql-cli-binaries@v2.13.0",
       "asset": [
         {
           "target": [
@@ -4332,7 +4332,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:github/redhat-developer/vscode-xml@0.24.0",
+      "id": "pkg:github/redhat-developer/vscode-xml@0.25.0",
       "asset": [
         {
           "target": [
@@ -4713,7 +4713,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:github/azdavis/millet@v0.9.3",
+      "id": "pkg:github/azdavis/millet@v0.9.4",
       "asset": [
         {
           "target": "darwin_arm64",
@@ -5607,7 +5607,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:npm/%40prisma/language-server@31.0.2073"
+      "id": "pkg:npm/%40prisma/language-server@31.0.2076"
     },
     "bin": {
       "prisma-language-server": "npm:prisma-language-server"
@@ -6871,7 +6871,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:github/slint-ui/slint@v1.0.0",
+      "id": "pkg:github/slint-ui/slint@v1.0.1",
       "asset": [
         {
           "target": "linux_x64",
@@ -7122,6 +7122,43 @@
     }
   },
   {
+    "name": "sonarlint-language-server",
+    "description": "SonarLint language server.",
+    "homepage": "https://github.com/SonarSource/sonarlint-vscode",
+    "licenses": [
+      "LGPL-3.0"
+    ],
+    "languages": [
+      "C",
+      "C++",
+      "CSS",
+      "Go",
+      "HTML",
+      "Java",
+      "JavaScript",
+      "TypeScript",
+      "Python",
+      "PHP",
+      "Terraform",
+      "Text"
+    ],
+    "categories": [
+      "Linter"
+    ],
+    "source": {
+      "id": "pkg:github/SonarSource/sonarlint-vscode@3.17.0%2b67752",
+      "asset": {
+        "file": "sonarlint-vscode-3.17.0.vsix"
+      }
+    },
+    "bin": {
+      "sonarlint-language-server": "java-jar:extension/server/sonarlint-ls.jar"
+    },
+    "share": {
+      "sonarlint-analyzers/": "extension/analyzers/"
+    }
+  },
+  {
     "name": "sorbet",
     "description": "Sorbet is a fast, powerful type checker designed for Ruby.",
     "homepage": "https://sorbet.org/",
@@ -7135,7 +7172,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:gem/sorbet@0.5.10789",
+      "id": "pkg:gem/sorbet@0.5.10792",
       "supported_platforms": [
         "darwin_x64",
         "darwin_arm64",
@@ -7227,7 +7264,7 @@
       "Linter"
     ],
     "source": {
-      "id": "pkg:pypi/sqlfluff@2.0.5"
+      "id": "pkg:pypi/sqlfluff@2.0.7"
     },
     "bin": {
       "sqlfluff": "pypi:sqlfluff"
@@ -7267,7 +7304,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:npm/sql-language-server@1.5.0"
+      "id": "pkg:npm/sql-language-server@1.5.1"
     },
     "bin": {
       "sql-language-server": "npm:sql-language-server"
@@ -7835,6 +7872,52 @@
     },
     "bin": {
       "tflint": "{{source.asset.bin}}"
+    }
+  },
+  {
+    "name": "tfsec",
+    "description": "Security scanner for your Terraform code",
+    "homepage": "https://github.com/aquasecurity/tfsec",
+    "licenses": [
+      "MIT"
+    ],
+    "languages": [
+      "Terraform"
+    ],
+    "categories": [
+      "Linter"
+    ],
+    "source": {
+      "id": "pkg:github/aquasecurity/tfsec@v1.28.1",
+      "asset": [
+        {
+          "target": "darwin_x64",
+          "file": "tfsec-darwin-amd64"
+        },
+        {
+          "target": "darwin_arm64",
+          "file": "tfsec-darwin-arm64"
+        },
+        {
+          "target": "linux_x64",
+          "file": "tfsec-linux-amd64"
+        },
+        {
+          "target": "linux_arm64",
+          "file": "tfsec-linux-arm64"
+        },
+        {
+          "target": "win_arm64",
+          "file": "tfsec-windows-arm64.exe"
+        },
+        {
+          "target": "win_x64",
+          "file": "tfsec-windows-amd64.exe"
+        }
+      ]
+    },
+    "bin": {
+      "tfsec": "{{source.asset.file}}"
     }
   },
   {
@@ -8459,7 +8542,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:npm/%40volar/vue-language-server@1.2.0",
+      "id": "pkg:npm/%40volar/vue-language-server@1.4.1",
       "extra_packages": [
         "typescript"
       ]
