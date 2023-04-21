@@ -513,18 +513,19 @@ end
 g.netrw_sel_list = {}
 g.netrw_sel_list_bak = {}
 
-local appendIfNotExists = function(t, s)
-  local index_of = function(arr, val)
-    if not arr then
-      return nil
-    end
-    for i, v in ipairs(arr) do
-      if v == val then
-        return i
-      end
-    end
+local index_of = function(arr, val)
+  if not arr then
     return nil
   end
+  for i, v in ipairs(arr) do
+    if v == val then
+      return i
+    end
+  end
+  return nil
+end
+
+local appendIfNotExists = function(t, s)
   local idx = index_of(t, s)
   local cwd = f['getcwd']()
   if not idx then
@@ -598,17 +599,6 @@ end
 
 local delete_sel_list = function()
   local res = f['input']("Confirm deletion " .. #g.netrw_sel_list .. " [N/y] ", "y")
-  local index_of = function(arr, val)
-    if not arr then
-      return nil
-    end
-    for i, v in ipairs(arr) do
-      if v == val then
-        return i
-      end
-    end
-    return nil
-  end
   if index_of({ 'y', 'Y', 'yes', 'Yes', 'YES' }, res) then
     for _, v in ipairs(g.netrw_sel_list) do
       -- if Path:new(v):is_dir() then
@@ -637,17 +627,6 @@ end
 local move_sel_list = function(payload)
   local target = get_dtarget(payload)
   local res = f['input'](target .. "\nConfirm movment " .. #g.netrw_sel_list .. " [N/y] ", "y")
-  local index_of = function(arr, val)
-    if not arr then
-      return nil
-    end
-    for i, v in ipairs(arr) do
-      if v == val then
-        return i
-      end
-    end
-    return nil
-  end
   if index_of({ 'y', 'Y', 'yes', 'Yes', 'YES' }, res) then
     for _, v in ipairs(g.netrw_sel_list) do
       if Path:new(v):is_dir() then
@@ -667,24 +646,38 @@ end
 local copy_sel_list = function(payload)
   local target = get_dtarget(payload)
   local res = f['input'](target .. "\nConfirm copy " .. #g.netrw_sel_list .. " [N/y] ", "y")
-  local index_of = function(arr, val)
-    if not arr then
-      return nil
-    end
-    for i, v in ipairs(arr) do
-      if v == val then
-        return i
-      end
-    end
-    return nil
-  end
   if index_of({ 'y', 'Y', 'yes', 'Yes', 'YES' }, res) then
     for _, v in ipairs(g.netrw_sel_list) do
       if Path:new(v):is_dir() then
         local tname = get_fname_tail(v)
-        f['system'](string.format('xcopy "%s" "%s%s\\" /s /e /f', string.sub(v, 1, #v - 1), target, tname))
+        tname = string.format('%s%s\\', target, tname)
+        if Path:new(tname):exists() then
+          c'redraw'
+          local tname_new = f['input']("Existed! Rename? ", tname)
+          if #tname_new and tname_new ~= tname then
+            f['system'](string.format('xcopy "%s" "%s" /s /e /f', string.sub(v, 1, #v - 1), tname_new))
+          else
+            c'redraw'
+            print('canceled!')
+            return
+          end
+        else
+          f['system'](string.format('xcopy "%s" "%s" /s /e /f', string.sub(v, 1, #v - 1), tname))
+        end
       else
-        f['system'](string.format('copy "%s" "%s"', v, target))
+        if Path:new(target):exists() then
+          c'redraw'
+          local target_new = f['input']("Existed! Rename? ", target)
+          if #target_new and target_new ~= target then
+            f['system'](string.format('copy "%s" "%s"', v, target_new))
+          else
+            c'redraw'
+            print('canceled!')
+            return
+          end
+        else
+          f['system'](string.format('copy "%s" "%s"', v, target))
+        end
       end
       f['netrw#Call']("NetrwRefresh", 1, f['netrw#Call']("NetrwBrowseChgDir", 1, './'))
     end
