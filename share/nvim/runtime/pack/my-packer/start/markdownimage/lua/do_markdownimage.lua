@@ -24,6 +24,7 @@ end
 
 local markdownimage_dir = Path:new(g.markdownimage_lua):parent():parent()['filename']
 g.get_clipboard_image_ps1 = Path:new(markdownimage_dir):joinpath('autoload', 'GetClipboardImage.ps1')['filename']
+g.update_markdown_image_src_py = Path:new(markdownimage_dir):joinpath('autoload', 'update_markdown_image_src.py')['filename']
 
 local pipe_txt_path = Path:new(f['expand']('$TEMP')):joinpath('image_pipe.txt')
 
@@ -61,7 +62,7 @@ end
 
 local replace = function(str)
   local arr = {}
-  for i in string.gmatch(str, "[^/]+") do
+  for _ in string.gmatch(str, "[^/]+") do
     table.insert(arr, "..")
   end
   return table.concat(arr, "/")
@@ -143,27 +144,32 @@ local get_saved_images_dir = function(fname)
   local dir = Path:new(fname):parent()
   local cnt = #dir.filename
   while 1 do
-    dir = dir:parent()
-    if cnt < #dir.filename then
-      break
-    end
     cnt = #dir.filename
     local path = dir:joinpath('saved_images')
     if path:exists() then
       return path.filename
     end
+    dir = dir:parent()
+    if cnt < #dir.filename then
+      break
+    end
   end
   return nil
 end
 
-function M.updatesrc(params)
+function M.updatesrc()
   local fname = a.nvim_buf_get_name(0)
+  if #fname == 0 then
+    print('no fname')
+    return
+  end
   local saved_images_dir = get_saved_images_dir(fname)
   if not saved_images_dir then
     print('no saved_images dir')
     return
   end
-  print(vim.inspect(params))
+  local cmd = string.format('python %s "%s" "%s"', rep_reverse(g.update_markdown_image_src_py), rep_reverse(saved_images_dir), rep_reverse(fname))
+  do_terminal.send_cmd('cmd', cmd, 0)
 end
 
 function M.run(params)
@@ -173,7 +179,7 @@ function M.run(params)
   if params[1] == 'getimage' then
     M.getimage(params)
   elseif params[1] == 'updatesrc' then
-    M.updatesrc(params)
+    M.updatesrc()
   end
 end
 
