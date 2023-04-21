@@ -6,14 +6,14 @@ if len(sys.argv) != 3:
     print('len(sys.argv) != 3')
     sys.exit(0)
 
-saved_images_dir = sys.argv[1]
+saved_images_dirname = sys.argv[1]
 fname = sys.argv[2]
 
 def replace(match):
     if match.lastindex != 3:
         return ''
 
-    projectroot = os.path.dirname(saved_images_dir).replace('\\', '/')
+    projectroot = saved_images_dirname.replace('\\', '/')
     file_dir = os.path.dirname(fname).replace('\\', '/')
     rel = file_dir.replace(projectroot, '')
     rel_path = re.sub(r'\s', '', match.group(3))

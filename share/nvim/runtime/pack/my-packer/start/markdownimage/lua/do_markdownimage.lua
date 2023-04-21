@@ -140,14 +140,14 @@ function M.getimage(params)
   end
 end
 
-local get_saved_images_dir = function(fname)
+local get_saved_images_dirname = function(fname)
   local dir = Path:new(fname):parent()
   local cnt = #dir.filename
   while 1 do
     cnt = #dir.filename
     local path = dir:joinpath('saved_images')
     if path:exists() then
-      return path.filename
+      return dir.filename
     end
     dir = dir:parent()
     if cnt < #dir.filename then
@@ -163,12 +163,12 @@ function M.updatesrc()
     print('no fname')
     return
   end
-  local saved_images_dir = get_saved_images_dir(fname)
-  if not saved_images_dir then
+  local saved_images_dirname = get_saved_images_dirname(fname)
+  if not saved_images_dirname then
     print('no saved_images dir')
     return
   end
-  local cmd = string.format('python %s "%s" "%s"', rep_reverse(g.update_markdown_image_src_py), rep_reverse(saved_images_dir), rep_reverse(fname))
+  local cmd = string.format('python %s "%s" "%s"', rep_reverse(g.update_markdown_image_src_py), rep_reverse(saved_images_dirname), rep_reverse(fname))
   do_terminal.send_cmd('cmd', cmd, 0)
 end
 
