@@ -50,5 +50,6 @@ s({ 'n', 'v' }, '<leader>g3', ':GitpusH just_push<cr>', opt)
 s({ 'n', 'v' }, '<leader>g4', ':GitpusH add_commit<cr>', opt)
 s({ 'n', 'v' }, '<leader>g5', ':GitpusH just_commit<cr>', opt)
 s({ 'n', 'v' }, '<leader>gI', ':GitpusH git_init<cr>', opt)
-s({ 'n', 'v' }, '<leader>g<f1>', [[:silent exe '!start cmd /c "git log --all --graph --decorate --oneline" && pause'<cr>]], opt)
+s({ 'n', 'v' }, '<leader>g<f1>',
+  [[:silent exe '!start cmd /c "git log --all --graph --decorate --oneline" && pause'<cr>]], opt)
 -- s({ 'n', 'v' }, '<leader>g<f1>', function() start_cmd('git log --all --graph --decorate --oneline') end, opt)
