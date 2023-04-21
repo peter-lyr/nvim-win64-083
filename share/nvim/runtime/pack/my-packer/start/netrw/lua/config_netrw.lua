@@ -649,34 +649,36 @@ local copy_sel_list = function(payload)
   if index_of({ 'y', 'Y', 'yes', 'Yes', 'YES' }, res) then
     for _, v in ipairs(g.netrw_sel_list) do
       if Path:new(v):is_dir() then
-        local tname = get_fname_tail(v)
-        tname = string.format('%s%s\\', target, tname)
-        if Path:new(tname):exists() then
+        local dname = get_fname_tail(v)
+        dname = string.format('%s%s\\', target, dname)
+        if Path:new(dname):exists() then
           c'redraw'
-          local tname_new = f['input']("Existed! Rename? ", tname)
-          if #tname_new and tname_new ~= tname then
-            f['system'](string.format('xcopy "%s" "%s" /s /e /f', string.sub(v, 1, #v - 1), tname_new))
+          local dname_new = f['input']("Existed! Rename? ", dname)
+          if #dname_new and dname_new ~= dname then
+            f['system'](string.format('xcopy "%s" "%s" /s /e /f', string.sub(v, 1, #v - 1), dname_new))
           else
             c'redraw'
             print('canceled!')
             return
           end
         else
-          f['system'](string.format('xcopy "%s" "%s" /s /e /f', string.sub(v, 1, #v - 1), tname))
+          f['system'](string.format('xcopy "%s" "%s" /s /e /f', string.sub(v, 1, #v - 1), dname))
         end
       else
-        if Path:new(target):exists() then
+        local fname = get_fname_tail(v)
+        fname = string.format('%s%s', target, fname)
+        if Path:new(fname):exists() then
           c'redraw'
-          local target_new = f['input']("Existed! Rename? ", target)
-          if #target_new and target_new ~= target then
-            f['system'](string.format('copy "%s" "%s"', v, target_new))
+          local fname_new = f['input']("Existed! Rename? ", fname)
+          if #fname_new and fname_new ~= fname then
+            f['system'](string.format('copy "%s" "%s"', v, fname_new))
           else
             c'redraw'
             print('canceled!')
             return
           end
         else
-          f['system'](string.format('copy "%s" "%s"', v, target))
+          f['system'](string.format('copy "%s" "%s"', v, fname))
         end
       end
       f['netrw#Call']("NetrwRefresh", 1, f['netrw#Call']("NetrwBrowseChgDir", 1, './'))
