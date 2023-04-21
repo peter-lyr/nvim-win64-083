@@ -89,7 +89,7 @@ local plugins = function(use)
 
   use({ 'kevinhwang91/nvim-bqf', opt = true })
 
-  use({ 'azabiong/vim-highlighter' })
+  use({ 'azabiong/vim-highlighter', opt = true })
 
   use({ 'google/vim-searchindex', opt = true })
 
