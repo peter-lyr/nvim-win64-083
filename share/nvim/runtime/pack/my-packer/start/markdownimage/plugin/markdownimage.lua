@@ -17,7 +17,7 @@ local markdownimage_exe = function(params)
       return
     end
   end
-  if not do_markdownimage then
+  if not do_markdownimage or do_markdownimage == false then
     return
   end
   do_markdownimage.getimage(params)
@@ -29,7 +29,5 @@ end, { nargs = "*", })
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '\\<f3>', ':MarkdownimagE sel_jpg append<cr>', opt)
-s({ 'n', 'v' }, '\\\\<f3>', ':MarkdownimagE sel_png append<cr>', opt)
-s({ 'n', 'v' }, '<leader><f3>', ':MarkdownimagE sel_jpg no_append<cr>', opt)
-s({ 'n', 'v' }, '<leader><leader><f3>', ':MarkdownimagE sel_png no_append<cr>', opt)
+s({ 'n', 'v' }, '<leader><f3>', ':MarkdownimagE sel_png append<cr>', opt)
+s({ 'n', 'v' }, '<leader><leader><f3>', ':MarkdownimagE sel_jpg append<cr>', opt)
