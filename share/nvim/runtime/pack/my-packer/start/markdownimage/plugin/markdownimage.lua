@@ -45,6 +45,7 @@ local gobackbufnr
 local lastbufnr
 local getimagealways
 local dragimagename
+local cancelopen
 
 local ft = {
   'jpg', 'png',
@@ -72,12 +73,15 @@ a.nvim_create_autocmd({ 'BufReadPre' }, {
         if getimagealways then
           gobackbufnr = lastbufnr
         else
-          local input = f.input('get image? [y(es)/a(lwayse)/N(o)]: ', 'y')
+          local input = f.input('get image? [y(es)/a(lwayse)/o(pen)]: ', 'y')
           if index_of({'y', 'Y' }, input) then
             gobackbufnr = lastbufnr
           elseif index_of({'a', 'A' }, input) then
             gobackbufnr = lastbufnr
             getimagealways = true
+          elseif input == '' then
+            gobackbufnr = lastbufnr
+            cancelopen = true
           end
         end
         dragimagename = cur_fname
@@ -91,8 +95,14 @@ a.nvim_create_autocmd({ 'BufReadPre' }, {
 a.nvim_create_autocmd({ 'BufReadPost' }, {
   callback = function()
     if gobackbufnr then
-      local cur_fname = a.nvim_buf_get_name(0)
+      local curbufnr = f.bufnr()
       c('b' .. gobackbufnr)
+      gobackbufnr = nil
+      if cancelopen then
+        cancelopen = nil
+        c('bw! ' .. curbufnr)
+        return
+      end
       local input = f.input('sel png or jpg? [y(es)/N(o)]: ', 'y')
       local sel_jpg
       if index_of({'y', 'Y' }, input) then
@@ -101,9 +111,9 @@ a.nvim_create_autocmd({ 'BufReadPost' }, {
         sel_jpg = 'sel_jpg'
       end
       markdownimage_exe({'dragimage', sel_jpg, dragimagename})
-      c('bw! ' .. cur_fname)
+      c'w!'
+      c('bw! ' .. curbufnr)
     end
-    gobackbufnr = nil
   end,
 })
 
