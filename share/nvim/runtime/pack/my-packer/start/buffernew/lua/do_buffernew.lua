@@ -26,10 +26,32 @@ function M.copy_fpath()
   print(M.stack_fpath)
 end
 
+local ft = {
+  'jpg', 'png',
+}
+
+local index_of = function(arr, val)
+  if not arr then
+    return nil
+  end
+  for i, v in ipairs(arr) do
+    if v == val then
+      return i
+    end
+  end
+  return nil
+end
+
 function M.copy_fpath_silent()
   local fname = a['nvim_buf_get_name'](0)
   if #fname > 0 then
     M.stack_fpath = fname
+  end
+  pcall(c, 'hide')
+  local cur_fname = a.nvim_buf_get_name(0)
+  local extension = string.match(cur_fname, '.+%.(%w+)$')
+  if index_of(ft, extension) then
+    c('bw! ' .. cur_fname)
   end
 end
 

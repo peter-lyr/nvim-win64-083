@@ -46,8 +46,7 @@ local lastbufnr
 local getimagealways
 
 local ft = {
-  'jpg',
-  'png',
+  'jpg', 'png',
 }
 
 local index_of = function(arr, val)
