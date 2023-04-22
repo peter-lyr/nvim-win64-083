@@ -198,7 +198,6 @@ function M.dragimage(sel_jpg, dragimagename)
   end
   f['system'](string.format('copy "%s" "%s"', dragimagename, rep(raw_image_path.filename)))
   local raw_image_data = raw_image_path:_read()
-  print('paste one image:', rep(raw_image_path.filename))
   local absolute_image_hash = sha256.sha256(raw_image_data)
   local _md_path = absolute_image_dir_path:joinpath('_.md')
   _md_path:write(string.format('![%s-(%d)%s{%s}](%s)\n', only_image_name, #raw_image_data,

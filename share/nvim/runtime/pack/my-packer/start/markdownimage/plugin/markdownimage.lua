@@ -74,9 +74,9 @@ a.nvim_create_autocmd({ 'BufReadPre' }, {
           gobackbufnr = lastbufnr
         else
           local input = f.input('get image? [y(es)/a(lwayse)/o(pen)]: ', 'y')
-          if index_of({'y', 'Y' }, input) then
+          if index_of({ 'y', 'Y' }, input) then
             gobackbufnr = lastbufnr
-          elseif index_of({'a', 'A' }, input) then
+          elseif index_of({ 'a', 'A' }, input) then
             gobackbufnr = lastbufnr
             getimagealways = true
           elseif input == '' then
@@ -103,16 +103,12 @@ a.nvim_create_autocmd({ 'BufReadPost' }, {
         c('bw! ' .. curbufnr)
         return
       end
-      local input = f.input('sel png or jpg? [y(es)/N(o)]: ', 'y')
-      local sel_jpg
-      if index_of({'y', 'Y' }, input) then
-        sel_jpg = 'sel_png'
-      else
-        sel_jpg = 'sel_jpg'
-      end
-      markdownimage_exe({'dragimage', sel_jpg, dragimagename})
-      c'w!'
-      c('bw! ' .. curbufnr)
+      vim.ui.select({ 'sel_png', 'sel_jpg' }, { prompt = 'sel png or jpg' }, function(choice, _)
+        local sel_jpg = choice
+        markdownimage_exe({ 'dragimage', sel_jpg, dragimagename })
+        c 'w!'
+        c('bw! ' .. curbufnr)
+      end)
     end
   end,
 })
