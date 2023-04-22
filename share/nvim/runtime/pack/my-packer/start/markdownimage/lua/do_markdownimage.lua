@@ -24,7 +24,8 @@ end
 
 local markdownimage_dir = Path:new(g.markdownimage_lua):parent():parent()['filename']
 g.get_clipboard_image_ps1 = Path:new(markdownimage_dir):joinpath('autoload', 'GetClipboardImage.ps1')['filename']
-g.update_markdown_image_src_py = Path:new(markdownimage_dir):joinpath('autoload', 'update_markdown_image_src.py')['filename']
+g.update_markdown_image_src_py = Path:new(markdownimage_dir):joinpath('autoload', 'update_markdown_image_src.py')
+    ['filename']
 
 local pipe_txt_path = Path:new(f['expand']('$TEMP')):joinpath('image_pipe.txt')
 
@@ -68,11 +69,7 @@ local replace = function(str)
   return table.concat(arr, "/")
 end
 
-function M.getimage(params)
-  if #params == 0 then
-    return false
-  end
-  local sel_jpg = params[1]
+function M.getimage(sel_jpg)
   if do_terminal then
     local fname = a['nvim_buf_get_name'](0)
     local projectroot_path = Path:new(f['projectroot#get'](fname))
@@ -126,7 +123,7 @@ function M.getimage(params)
           end
           local projectroot = rep_reverse(projectroot_path.filename)
           local file_dir = rep_reverse(Path:new(fname):parent().filename)
-          local rel = string.sub(file_dir, #projectroot+1, -1)
+          local rel = string.sub(file_dir, #projectroot + 1, -1)
           rel = replace(rel)
           local image_rel_path = rel .. '/saved_images/' .. only_image_name
           f['append'](linenr, string.format('![%s{%s}](%s)', only_image_name, absolute_image_hash, image_rel_path))
@@ -168,16 +165,60 @@ function M.updatesrc()
     print('no saved_images dir')
     return
   end
-  local cmd = string.format('python %s "%s" "%s"', rep_reverse(g.update_markdown_image_src_py), rep_reverse(saved_images_dirname), rep_reverse(fname))
+  local cmd = string.format('python %s "%s" "%s"', rep_reverse(g.update_markdown_image_src_py),
+    rep_reverse(saved_images_dirname), rep_reverse(fname))
   do_terminal.send_cmd('cmd', cmd, 0)
 end
 
+function M.dragimage(sel_jpg, dragimagename)
+  local fname = a['nvim_buf_get_name'](0)
+  local projectroot_path = Path:new(f['projectroot#get'](fname))
+  if projectroot_path.filename == '' then
+    print([[not projectroot:]], fname)
+    return false
+  end
+  local datetime = os.date("%Y%m%d-%H%M%S-")
+  local imagetype = sel_jpg == 'sel_jpg' and 'jpg' or 'png'
+  local image_name = f['input'](string.format('Input %s image name (no extension needed!): ', imagetype), datetime)
+  if #image_name == 0 then
+    print('get image canceled!')
+    return false
+  end
+  local linenr = f['line']('.')
+  local absolute_image_dir_path = projectroot_path:joinpath('saved_images')
+  if not absolute_image_dir_path:exists() then
+    f['system'](string.format('md "%s"', absolute_image_dir_path.filename))
+    print("created ->", rep(absolute_image_dir_path.filename))
+  end
+  local only_image_name = image_name .. '.' .. imagetype
+  local raw_image_path = absolute_image_dir_path:joinpath(only_image_name)
+  if raw_image_path:exists() then
+    print("existed:", rep(raw_image_path.filename))
+    return false
+  end
+  f['system'](string.format('copy "%s" "%s"', dragimagename, rep(raw_image_path.filename)))
+  local raw_image_data = raw_image_path:_read()
+  print('paste one image:', rep(raw_image_path.filename))
+  local absolute_image_hash = sha256.sha256(raw_image_data)
+  local _md_path = absolute_image_dir_path:joinpath('_.md')
+  _md_path:write(string.format('![%s-(%d)%s{%s}](%s)\n', only_image_name, #raw_image_data,
+    human_readable_fsize(#raw_image_data), absolute_image_hash, only_image_name), 'a')
+  local projectroot = rep_reverse(projectroot_path.filename)
+  local file_dir = rep_reverse(Path:new(fname):parent().filename)
+  local rel = string.sub(file_dir, #projectroot + 1, -1)
+  rel = replace(rel)
+  local image_rel_path = rel .. '/saved_images/' .. only_image_name
+  f['append'](linenr, string.format('![%s{%s}](%s)', only_image_name, absolute_image_hash, image_rel_path))
+end
+
 function M.run(params)
-  if #params ~= 2 then
+  if #params < 2 then
     return false
   end
   if params[1] == 'getimage' then
-    M.getimage(params)
+    M.getimage(params[2])
+  elseif params[1] == 'dragimage' then
+    M.dragimage(params[2], params[3])
   elseif params[1] == 'updatesrc' then
     M.updatesrc()
   end
