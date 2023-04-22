@@ -32,3 +32,76 @@ local opt = { silent = true }
 s({ 'n', 'v' }, '<leader><f3>', ':<c-u>MarkdownimagE getimage sel_png<cr>', opt)
 s({ 'n', 'v' }, '<leader><leader><f3>', ':<c-u>MarkdownimagE getimage sel_jpg<cr>', opt)
 s({ 'n', 'v' }, '<leader><leader><leader><f3>', ':<c-u>MarkdownimagE updatesrc cur<cr>', opt)
+
+
+-- ===========================================================================================
+
+
+local c = vim.cmd
+local b = vim.bo
+local f = vim.fn
+
+local gobackbufnr
+local lastbufnr
+local getimagealways
+
+local ft = {
+  'jpg',
+  'png',
+}
+
+local index_of = function(arr, val)
+  if not arr then
+    return nil
+  end
+  for i, v in ipairs(arr) do
+    if v == val then
+      return i
+    end
+  end
+  return nil
+end
+
+a.nvim_create_autocmd({ 'BufReadPre' }, {
+  callback = function()
+    local cur_fname = a.nvim_buf_get_name(0)
+    local extension = string.match(cur_fname, '.+%.(%w+)$')
+    if index_of(ft, extension) then
+      local last_extension = b[lastbufnr].ft
+      if last_extension == 'markdown' then
+        if getimagealways then
+          gobackbufnr = lastbufnr
+        else
+          local input = f.input('get image? [y(es)/a(lwayse)/N(o)]: ', 'y')
+          if index_of({'y', 'Y' }, input) then
+            gobackbufnr = lastbufnr
+          elseif index_of({'a', 'A' }, input) then
+            gobackbufnr = lastbufnr
+            getimagealways = true
+          else
+            getimagealways = nil
+          end
+        end
+      else
+        getimagealways = nil
+      end
+    end
+  end,
+})
+
+a.nvim_create_autocmd({ 'BufReadPost' }, {
+  callback = function()
+    if gobackbufnr then
+      local cur_fname = a.nvim_buf_get_name(0)
+      c('b' .. gobackbufnr)
+      c('bw! ' .. cur_fname)
+    end
+    gobackbufnr = nil
+  end,
+})
+
+a.nvim_create_autocmd({ 'BufEnter' }, {
+  callback = function()
+    lastbufnr = f.bufnr()
+  end,
+})
