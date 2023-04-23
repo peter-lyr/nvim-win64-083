@@ -70,6 +70,15 @@ a.nvim_create_autocmd({ 'BufReadPre' }, {
     if index_of(ft, extension) then
       local last_extension = b[lastbufnr].ft
       if last_extension == 'markdown' then
+        local lastbufname = a.nvim_buf_get_name(lastbufnr)
+        local projectroot_path = Path:new(f['projectroot#get'](lastbufname))
+        if projectroot_path.filename == '' then
+          gobackbufnr = lastbufnr
+          cancelopen = true
+          print('not projectroot:', lastbufname)
+          print('cancelopen')
+          return
+        end
         if getimagealways then
           gobackbufnr = lastbufnr
         else

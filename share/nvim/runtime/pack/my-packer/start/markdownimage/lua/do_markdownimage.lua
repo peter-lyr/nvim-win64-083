@@ -74,7 +74,7 @@ function M.getimage(sel_jpg)
     local fname = a['nvim_buf_get_name'](0)
     local projectroot_path = Path:new(f['projectroot#get'](fname))
     if projectroot_path.filename == '' then
-      print([[not projectroot:]], fname)
+      print('not projectroot:', fname)
       return false
     end
     local datetime = os.date("%Y%m%d-%H%M%S-")
