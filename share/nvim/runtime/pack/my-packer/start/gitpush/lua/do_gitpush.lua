@@ -80,15 +80,6 @@ function M.run(params)
       c 'ec "not file"'
       return
     end
-    if not g.loaded_config_telescope then
-      local exe_telescope
-      sta, exe_telescope = pcall(require, 'exe_telescope')
-      if not sta then
-        print("no exe_telescope")
-        return
-      end
-      exe_telescope.exe_telescope('')
-    end
     local d = {}
     for _ = 1, 24 do
       p1 = p1:parent()
