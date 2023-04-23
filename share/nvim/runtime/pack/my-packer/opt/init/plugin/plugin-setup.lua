@@ -89,7 +89,7 @@ local plugins = function(use)
   use({ 'google/vim-searchindex', opt = true })
   use({ 'skywind3000/asyncrun.vim', opt = true })
   use({ 'dstein64/nvim-scrollview', opt = true })
-  use({ 'stevearc/aerial.nvim', opt = true })
+  -- use({ 'stevearc/aerial.nvim', opt = true }) -- 不再更新官方修改
   use({ 'iamcco/markdown-preview.nvim', run = function() f['mkdp#util#install']() end, opt = true })
   use({ 'CRAG666/code_runner.nvim' })
 

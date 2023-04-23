@@ -38,7 +38,6 @@ NetrwTreeListing
 **/pack/packer/**/vim-searchindex
 **/pack/packer/**/asyncrun.vim
 **/pack/packer/**/nvim-scrollview
-**/pack/packer/**/aerial.nvim
 **/pack/packer/**/markdown-preview.nvim
 **/pack/packer/**/code_runner.nvim
 **/pack/packer/**/vim-snippets
