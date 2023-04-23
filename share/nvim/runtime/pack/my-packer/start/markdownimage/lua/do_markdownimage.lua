@@ -125,7 +125,12 @@ function M.getimage(sel_jpg)
           local file_dir = rep_reverse(Path:new(fname):parent().filename)
           local rel = string.sub(file_dir, #projectroot + 1, -1)
           rel = replace(rel)
-          local image_rel_path = rel .. '/saved_images/' .. only_image_name
+          local image_rel_path
+          if #rel > 0 then
+            image_rel_path = rel .. '/saved_images/' .. only_image_name
+          else
+            image_rel_path = 'saved_images/' .. only_image_name
+          end
           f['append'](linenr, string.format('![%s{%s}](%s)', only_image_name, absolute_image_hash, image_rel_path))
         end
         if timeout > 30 then
@@ -206,7 +211,12 @@ function M.dragimage(sel_jpg, dragimagename)
   local file_dir = rep_reverse(Path:new(fname):parent().filename)
   local rel = string.sub(file_dir, #projectroot + 1, -1)
   rel = replace(rel)
-  local image_rel_path = rel .. '/saved_images/' .. only_image_name
+  local image_rel_path
+  if #rel > 0 then
+    image_rel_path = rel .. '/saved_images/' .. only_image_name
+  else
+    image_rel_path = 'saved_images/' .. only_image_name
+  end
   f['append'](linenr, string.format('![%s{%s}](%s)', only_image_name, absolute_image_hash, image_rel_path))
 end
 
