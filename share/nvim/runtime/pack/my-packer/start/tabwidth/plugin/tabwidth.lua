@@ -14,6 +14,7 @@ local lang = {
   'c',
   'cpp',
   'python',
+  'ld',
 }
 
 local tab_width = function()
