@@ -33,8 +33,8 @@ M.fetch_symbols_sync = function(bufnr)
   local parsers = require("nvim-treesitter.parsers")
   local query = require("nvim-treesitter.query")
   local get_node_text
-  if vim.treesitter.query and vim.treesitter.query.get_node_text then
-    get_node_text = vim.treesitter.query.get_node_text
+  if vim.treesitter and vim.treesitter.get_node_text then
+    get_node_text = vim.treesitter.get_node_text
   else
     local ts_utils = require("nvim-treesitter.ts_utils")
     get_node_text = function(node, buf)
