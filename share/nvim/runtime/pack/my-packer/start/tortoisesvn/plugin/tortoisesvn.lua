@@ -5,7 +5,7 @@ local loaded_do_tortoisesvn = nil
 
 local sta
 
-local tortoisesvn_exe = function(cmd, root, yes)
+local tortoisesvn_exe = function(params)
   if not loaded_do_tortoisesvn then
     loaded_do_tortoisesvn = 1
     sta, Do_tortoisesvn = pcall(require, 'do_tortoisesvn')
@@ -17,11 +17,11 @@ local tortoisesvn_exe = function(cmd, root, yes)
   if not Do_tortoisesvn then
     return
   end
-  Do_tortoisesvn.run(cmd, root, yes)
+  Do_tortoisesvn.run(params)
 end
 
 a.nvim_create_user_command('TortoisesvN', function(params)
-  tortoisesvn_exe(unpack(params['fargs']))
+  tortoisesvn_exe(params['fargs'])
 end, { nargs = "*", })
 
 

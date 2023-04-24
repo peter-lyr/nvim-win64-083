@@ -32,7 +32,17 @@ local system_cd_string = function(absfolder)
   return string.sub(absfolder, 1, 1) .. ': && cd ' .. path:parent()['filename']
 end
 
-function M.run(cmd, root, yes)
+function M.run(params)
+  if #params < 3 then
+    return
+  end
+  local cmd, cmd1, cmd2, root, yes = unpack(params)
+  if #params == 3 then
+    cmd, root, yes = unpack(params)
+  elseif #params == 4 then
+    cmd1, cmd2, root, yes = unpack(params)
+    cmd = cmd1 .. ' ' .. cmd2
+  end
   if not cmd then
     return
   end
