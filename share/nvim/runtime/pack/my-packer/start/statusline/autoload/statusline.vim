@@ -144,6 +144,6 @@ fu! statusline#fileSize(fname)
   endif
 endfu
 
-fu! statusline#timerUpdate(timer)
+fu! statusline#ro()
   let &ro = &ro
 endfu
