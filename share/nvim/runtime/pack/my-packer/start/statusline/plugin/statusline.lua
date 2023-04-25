@@ -21,7 +21,6 @@ local statusline_init = function()
       f['statusline#color']()
     end,
   })
-  print('statusline init ok')
 end
 
 local del_autocmd = function()

@@ -10,8 +10,6 @@ local cmp_init = function()
   sta, do_cmp = pcall(require, 'do_cmp')
   if not sta then
     print(do_cmp)
-  else
-    print('cmp init ok')
   end
 end
 

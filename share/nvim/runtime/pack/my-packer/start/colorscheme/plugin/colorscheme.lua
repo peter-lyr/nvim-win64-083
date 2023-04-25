@@ -11,8 +11,6 @@ local colorscheme_init = function()
   sta, do_colorscheme = pcall(c, 'colorscheme sierra')
   if not sta then
     print(do_colorscheme)
-  else
-    print('colorscheme init ok')
   end
 end
 

@@ -10,8 +10,6 @@ local lsp_init = function()
   sta, do_lsp = pcall(require, 'do_lsp')
   if not sta then
     print(do_lsp)
-  else
-    print('lsp init ok')
   end
 end
 
