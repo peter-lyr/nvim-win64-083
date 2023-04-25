@@ -34,7 +34,7 @@ end
 
 function M.traverse_folder(project, abspath)
   local path = Path:new(abspath)
-  local entries = Scan.scan_dir(path.filename, { hidden = false, depth = 1, add_dirs = true })
+  local entries = Scan.scan_dir(path.filename, { hidden = false, depth = 100, add_dirs = true })
   for _, entry in ipairs(entries) do
     local entry_path = Path:new(entry)
     local entry_path_name = entry_path.filename
@@ -75,7 +75,7 @@ function M.find_cbp(dtargets)
       for _, dtarget in ipairs(dtargets) do
         local dpath = dname:joinpath(dtarget)
         if dpath:is_dir() then
-          M.traverse_folder(M.project, dname['filename'])
+          M.traverse_folder(M.project, dpath['filename'])
           break
         end
       end
