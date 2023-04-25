@@ -1,31 +1,40 @@
 local a = vim.api
-local c = vim.cmd
 local f = vim.fn
 
-local statusline_cursormoved = nil
-local statusline_loaded = nil
+local statusline_focuslost
+local statusline_bufreadpre
 
-local statusline = function()
-  if not statusline_loaded then
-    statusline_loaded = 1
-    f['statusline#watch']()
-    c [[
-        call timer_start(100, 'statusline#timerUpdate', {'repeat' : -1})
-        autocmd WinEnter,BufEnter,VimResized * call statusline#watch()
-        autocmd ColorScheme * call statusline#color()
-      ]]
-  end
-  f['statusline#color']()
+local statusline_init = function()
+  local timer = vim.loop.new_timer()
+  timer:start(100, 100, function()
+    vim.schedule(function()
+      f['statusline#ro']()
+    end)
+  end)
+  a.nvim_create_autocmd({ 'WinEnter', 'BufEnter', 'VimResized' }, {
+    callback = function()
+      f['statusline#watch']()
+    end,
+  })
+  a.nvim_create_autocmd({ 'ColorScheme', }, {
+    callback = function()
+      f['statusline#color']()
+    end,
+  })
+  print('statusline init ok')
 end
 
-local cnt = 0
+local del_autocmd = function()
+  pcall(a.nvim_del_autocmd, statusline_bufreadpre)
+  pcall(a.nvim_del_autocmd, statusline_focuslost)
+  statusline_init()
+end
 
-statusline_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'InsertEnter', 'FocusLost' }, {
-  callback = function()
-    cnt = cnt + 1
-    if cnt > 2 then
-      a.nvim_del_autocmd(statusline_cursormoved)
-    end
-    statusline()
-  end,
+statusline_bufreadpre = a.nvim_create_autocmd({ 'BufReadPre' }, {
+  pattern = { '*.c', '*.h', '*.lua', '*.py' },
+  callback = del_autocmd,
+})
+
+statusline_focuslost = a.nvim_create_autocmd({ 'FocusLost' }, {
+  callback = del_autocmd,
 })
