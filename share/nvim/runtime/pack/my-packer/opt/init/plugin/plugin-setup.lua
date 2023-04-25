@@ -1,7 +1,3 @@
-if 1 then
-  return
-end
-
 local f = vim.fn
 local c = vim.cmd
 
@@ -17,6 +13,14 @@ local ensure_packer = function()
   return false
 end
 local packer_bootstrap = ensure_packer()
+
+if packer_bootstrap then
+  print('packer sync...')
+  require('packer').sync()
+  print('sync done!')
+else
+  return
+end
 
 local sta, packer = pcall(require, 'packer')
 if not sta then
@@ -102,9 +106,4 @@ return packer.startup(function(use)
 
   plugins(use)
 
-  if packer_bootstrap then
-    print('packer sync...')
-    require('packer').sync()
-    print('sync done!')
-  end
 end)
