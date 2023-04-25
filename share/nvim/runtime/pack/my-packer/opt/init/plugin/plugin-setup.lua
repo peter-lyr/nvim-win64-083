@@ -53,19 +53,12 @@ local plugins = function(use)
   -- use('prichrd/netrw.nvim') -- 不再更新官方修改
 
   use({ '907th/vim-auto-save', opt = true })
-
   use({ 'preservim/nerdcommenter', opt = true })
-
   use({ 'jghauser/mkdir.nvim' })
-
   use({ 'windwp/nvim-autopairs' })
-
   use({ 'bitc/vim-bad-whitespace', opt = true })
-
   use({ 'nvim-tree/nvim-web-devicons' })
-
   use({ 'tpope/vim-surround', opt = true })
-
   use({ 'phaazon/hop.nvim', branch = 'v2', opt = true })
 
   -- use({ 'SirVer/ultisnips', opt = true })                  -- 不再更新官方修改
