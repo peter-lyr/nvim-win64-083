@@ -29,8 +29,8 @@ if sta then
   bqf.setup({
     auto_resize_height = true,
     preview = {
-      win_height = 28,
-      win_vheight = 28,
+      win_height = 36,
+      win_vheight = 36,
       wrap = true,
     },
   })
