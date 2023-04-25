@@ -11,7 +11,7 @@ local lsp_init = function()
   if not sta then
     print(do_lsp)
   else
-    print('lsp_init ok')
+    print('lsp init ok')
   end
 end
 
