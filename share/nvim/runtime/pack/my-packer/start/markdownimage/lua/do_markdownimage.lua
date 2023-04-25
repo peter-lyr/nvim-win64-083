@@ -84,6 +84,8 @@ function M.getimage(sel_jpg)
       print('get image canceled!')
       return false
     end
+    local ft = o.ft:get()
+    local cur_winid = f.win_getid()
     local linenr = f['line']('.')
     local absolute_image_dir_path = projectroot_path:joinpath('saved_images')
     if not absolute_image_dir_path:exists() then
@@ -117,7 +119,6 @@ function M.getimage(sel_jpg)
             string.format('![%s-(%d)%s{%s}](%s)\n', only_image_name, #raw_image_data,
               human_readable_fsize(#raw_image_data),
               absolute_image_hash, only_image_name), 'a')
-          local ft = o.ft:get()
           if ft ~= 'markdown' then
             return false
           end
@@ -130,6 +131,9 @@ function M.getimage(sel_jpg)
             image_rel_path = rel .. '/saved_images/' .. only_image_name
           else
             image_rel_path = 'saved_images/' .. only_image_name
+          end
+          if cur_winid ~= f.win_getid() then
+            f.win_gotoid(cur_winid)
           end
           f['append'](linenr, string.format('![%s{%s}](%s)', only_image_name, absolute_image_hash, image_rel_path))
         end
@@ -189,6 +193,7 @@ function M.dragimage(sel_jpg, dragimagename)
     print('get image canceled!')
     return false
   end
+  local cur_winid = f.win_getid()
   local linenr = f['line']('.')
   local absolute_image_dir_path = projectroot_path:joinpath('saved_images')
   if not absolute_image_dir_path:exists() then
@@ -217,7 +222,11 @@ function M.dragimage(sel_jpg, dragimagename)
   else
     image_rel_path = 'saved_images/' .. only_image_name
   end
+  if cur_winid ~= f.win_getid() then
+    f.win_gotoid(cur_winid)
+  end
   f['append'](linenr, string.format('![%s{%s}](%s)', only_image_name, absolute_image_hash, image_rel_path))
+  print(linenr, string.format('![%s{%s}](%s)', only_image_name, absolute_image_hash, image_rel_path))
 end
 
 function M.run(params)
