@@ -93,7 +93,10 @@ end
 
 ---Refresh sources on InsertEnter.
 M._on_insert_enter = function()
-  local cmp = require('cmp')
+  local sta, cmp = pcall(require, 'cmp')
+  if not sta then
+    return
+  end
 
   local allowed_clients = {}
 
