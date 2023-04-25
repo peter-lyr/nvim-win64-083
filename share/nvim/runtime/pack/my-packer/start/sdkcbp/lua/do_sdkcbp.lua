@@ -77,6 +77,12 @@ function M.find_cbp(dtargets)
         if dpath:is_dir() then
           M.traverse_folder(M.project, dpath['filename'])
           break
+        else
+          local fpath = dname:joinpath(dtarget .. '.cbp')
+          if fpath:exists() then
+            table.insert(M.cbp_files, fpath.filename)
+            break
+          end
         end
       end
       if M.project == rep(dname.filename) then
@@ -139,7 +145,7 @@ function M.run()
   M.searched_folders = {}
   M.find_cbp({ 'app' })
   if #M.cbp_files == 0 then
-    M.find_cbp({ 'boot', 'spiloader' })
+    M.find_cbp({ 'boot', 'masklib', 'spiloader' })
     if #M.cbp_files == 1 then
       M.cmake_others()
     end
