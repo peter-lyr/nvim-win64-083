@@ -148,6 +148,7 @@ s('n', ']d', d.goto_next)
 s('n', '<leader>fS', ':LspStart<cr>')
 s('n', '<leader>fR', ':LspRestart<cr>')
 s('n', '<leader>fW', function() vim.lsp.stop_client(vim.lsp.get_active_clients({ bufnr = vim.fn.bufnr() })) end)
+s('n', '<leader>fE', function() vim.lsp.stop_client(vim.lsp.get_active_clients()) end)
 s('n', '<leader>fD', [[:call feedkeys(":LspStop ")<cr>]])
 s('n', '<leader>fF', ':LspInfo<cr>')
 
