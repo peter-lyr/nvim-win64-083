@@ -139,6 +139,8 @@ lspconfig.lua_ls.setup({
       -- 'selene.yml',
       '.git',
       '.svn',
+      'start',
+      'opt',
     }
     return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname)
   end,
@@ -151,7 +153,7 @@ lspconfig.lua_ls.setup({
         version = 'LuaJIT',
       },
       workspace = {
-        library = a.nvim_get_runtime_file('', true),
+        library = {}, --a.nvim_get_runtime_file('', true),
         checkThirdParty = false,
       },
       telemetry = {
