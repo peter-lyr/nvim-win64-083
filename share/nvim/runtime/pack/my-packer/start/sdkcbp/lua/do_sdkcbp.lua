@@ -48,7 +48,9 @@ function M.traverse_folder(project, abspath)
     else
       if string.match(entry_path_name, '%.([^%.]+)$') == 'cbp' then
         entry_path_name = rep(entry_path_name)
-        table.insert(M.cbp_files, entry_path_name)
+        if not index_of(M.cbp_files, entry_path_name) then
+          table.insert(M.cbp_files, entry_path_name)
+        end
       end
     end
   end
@@ -108,22 +110,27 @@ function M.split_string(inputstr, sep)
   return t
 end
 
-function M.cmake_app()
-  local app_cbp
-  if #M.cbp_files == 1 then
-    app_cbp = M.cbp_files[1]
-  else
-    vim.ui.select(M.cbp_files, { prompt = 'select one of them' }, function(_, idx)
-      -- print(choice, idx)
-      app_cbp = M.cbp_files[idx]
-    end)
-  end
+function M.cmake_app_do(app_cbp)
   print(app_cbp)
   local ll = M.split_string(app_cbp, 'app/projects')
   local mm = table.concat(ll, 'app/projects')
   local nn = string.match(app_cbp, mm .. 'app/projects/(.-)/')
   if string.match(app_cbp, 'app/projects') then
     c(string.format([[AsyncRun chcp 65001 && python "%s" "%s" %s]], g.cmake_app_py, mm, nn))
+  end
+end
+
+function M.cmake_app()
+  local app_cbp
+  if #M.cbp_files == 1 then
+    app_cbp = M.cbp_files[1]
+    M.cmake_app_do(app_cbp)
+  else
+    vim.ui.select(M.cbp_files, { prompt = 'select one of them' }, function(_, idx)
+      -- print(choice, idx)
+      app_cbp = M.cbp_files[idx]
+      M.cmake_app_do(app_cbp)
+    end)
   end
 end
 
