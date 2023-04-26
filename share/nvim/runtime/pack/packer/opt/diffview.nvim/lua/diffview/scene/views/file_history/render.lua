@@ -107,7 +107,7 @@ local function render_entries(panel, parent, entries, updating)
       comp:add_text(("(%s) "):format(entry.commit.ref_names), "DiffviewReference")
     end
 
-    local subject = utils.str_shorten(entry.commit.subject, 72)
+    local subject = entry.commit.subject
 
     if subject == "" then
       subject = "[empty message]"
