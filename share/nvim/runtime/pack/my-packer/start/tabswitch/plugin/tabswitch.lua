@@ -19,7 +19,7 @@ s({ 'n', 'v', }, '<leader>0', '<cmd>:tablast<cr>', opt)
 
 local space_enter = function()
   if lasttab ~= 0 then
-    c("tabn " .. lasttab)
+    pcall(c, "tabn " .. lasttab)
   end
 end
 
