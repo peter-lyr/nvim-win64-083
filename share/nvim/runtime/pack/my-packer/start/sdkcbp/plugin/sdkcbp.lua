@@ -7,7 +7,7 @@ local do_sdkcbp
 
 g.sdkcbp_lua = f['expand']('<sfile>')
 
--- g.loaded_do_sdkcbp = 0
+-- g.loaded_do_sdkcbp = nil
 -- package.loaded['do_sdkcbp'] = nil
 
 local sdkcbp_exe = function()
