@@ -1981,7 +1981,7 @@
       "Linter"
     ],
     "source": {
-      "id": "pkg:pypi/djlint@1.24.0"
+      "id": "pkg:pypi/djlint@1.25.0"
     },
     "bin": {
       "djlint": "pypi:djlint"
@@ -2788,16 +2788,19 @@
     "languages": [],
     "categories": [],
     "source": {
-      "id": "pkg:github/cli/cli@v2.27.0",
+      "id": "pkg:github/cli/cli@v2.28.0",
       "asset": [
         {
-          "target": [
-            "darwin_x64",
-            "darwin_arm64"
-          ],
-          "file": "gh_{{ version | strip_prefix \"v\" }}_macOS_amd64.tar.gz",
+          "target": "darwin_x64",
+          "file": "gh_{{ version | strip_prefix \"v\" }}_macOS_amd64.zip",
           "bin": "gh_{{ version | strip_prefix \"v\" }}_macOS_amd64/bin/gh",
           "man": "gh_{{ version | strip_prefix \"v\" }}_macOS_amd64/share/man/"
+        },
+        {
+          "target": "darwin_arm64",
+          "file": "gh_{{ version | strip_prefix \"v\" }}_macOS_arm64.zip",
+          "bin": "gh_{{ version | strip_prefix \"v\" }}_macOS_arm64/bin/gh",
+          "man": "gh_{{ version | strip_prefix \"v\" }}_macOS_arm64/share/man/"
         },
         {
           "target": "linux_x64",
@@ -5622,7 +5625,7 @@
       "Formatter"
     ],
     "source": {
-      "id": "pkg:composer/laravel/pint@1.9.0"
+      "id": "pkg:composer/laravel/pint@1.10.0"
     },
     "bin": {
       "pint": "composer:pint"
@@ -5731,7 +5734,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:npm/%40prisma/language-server@31.0.2084"
+      "id": "pkg:npm/%40prisma/language-server@31.0.2091"
     },
     "bin": {
       "prisma-language-server": "npm:prisma-language-server"
@@ -6726,7 +6729,7 @@
       "Formatter"
     ],
     "source": {
-      "id": "pkg:npm/rustywind@0.15.3"
+      "id": "pkg:npm/rustywind@0.16.0"
     },
     "bin": {
       "rustywind": "npm:rustywind"
