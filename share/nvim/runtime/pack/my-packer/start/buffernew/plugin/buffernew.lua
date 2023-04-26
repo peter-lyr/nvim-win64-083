@@ -58,5 +58,6 @@ s({ 'n', 'v' }, '<leader>bh', ':<c-u>BufferneW left<cr>', opt)
 s({ 'n', 'v' }, '<leader>bl', ':<c-u>BufferneW right<cr>', opt)
 
 s({ 'n', 'v' }, '<leader>x', ':<c-u>BufferneW copy_fpath_silent<cr>', opt)
+s({ 'n', 'v' }, '<leader>X', ':<c-u>tabclose<cr>', opt)
 s({ 'n', 'v' }, '<a-bs>', ':<c-u>bw!<cr>', opt)
 s({ 'n', 'v' }, 'ZX', ':<c-u>qa!<cr>', opt)
