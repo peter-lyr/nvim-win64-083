@@ -34,7 +34,38 @@ with open(os.path.join(rootdir, 'CMakeLists.txt'), 'wb') as ff:
         directories = [os.path.normpath(os.path.join(i, directory)) for directory in directories]
         d[ss] = directories
 
+
+  new_d = {}
   for key, val in d.items():
+    new_key = key.split('/')[-1].split('\\')[-1]
+    if new_key not in new_d:
+      new_d[new_key] = [[key, val]]
+    else:
+      new_d[new_key].append([key, val])
+
+  for new_key, vals in new_d.items():
+    if len(vals) == 1:
+      key = vals[0][0]
+      val = vals[0][1]
+    else:
+      prompt = 'select which:\n'
+      l = len(vals)
+      for i in range(l):
+        prompt += '  ' + str(i+1) + ': ' + vals[i][0] + '\n'
+      print(prompt)
+      idx = 1
+      try:
+        idx = int(input('input number: '))
+      except:
+        pass
+      idx -= 1
+      if idx < 0:
+        idx = 0
+      if idx >= l:
+        idx = l - 1
+      key = vals[idx][0]
+      val = vals[idx][1]
+    print('make cbp:', key)
     if key.split('.')[0].split('\\')[-1] == 'app':
       xl = key.split('\\')[0]
       ff.write(("file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/%s/*.c)\n" % xl).encode('utf-8'))
