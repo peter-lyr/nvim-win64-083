@@ -58,69 +58,73 @@ c[[
 autocmd User TelescopePreviewerLoaded setlocal number | setlocal wrap
 ]]
 
-telescope.setup({
-  defaults = {
-    layout_strategy = 'horizontal',
-    layout_config = {
-      height = 0.99,
-      width = 0.99,
-    },
-    preview = {
-      hide_on_startup = true,
-    },
-    mappings = {
-      i = {
-        ['<a-m>'] = actions.close,
-        ['<a-j>'] = actions.move_selection_next,
-        ['<a-k>'] = actions.move_selection_previous,
-        ['<a-;>'] = actions.send_to_qflist + actions.open_qflist,
-        ['<c-j>'] = actions.select_horizontal,
-        ['<c-l>'] = actions.select_vertical,
-        ['<c-k>'] = actions.select_tab,
-        ['<c-o>'] = actions.select_default,
-				['<a-n>'] = actions_layout.toggle_preview,
+local get_setup_table = function(file_ignore_patterns)
+  return {
+    defaults = {
+      layout_strategy = 'horizontal',
+      layout_config = {
+        height = 0.99,
+        width = 0.99,
       },
-      n = {
-        ['ql'] = actions.close,
-        ['<a-m>'] = actions.close,
-        ['<a-j>'] = actions.move_selection_next,
-        ['<a-k>'] = actions.move_selection_previous,
-        ['<a-;>'] = actions.send_to_qflist + actions.open_qflist,
-        ['<c-j>'] = actions.select_horizontal,
-        ['<c-l>'] = actions.select_vertical,
-        ['<c-k>'] = actions.select_tab,
-        ['<c-o>'] = actions.select_default,
-				['w'] = actions_layout.toggle_preview,
-      }
+      preview = {
+        hide_on_startup = true,
+      },
+      mappings = {
+        i = {
+          ['<a-m>'] = actions.close,
+          ['<a-j>'] = actions.move_selection_next,
+          ['<a-k>'] = actions.move_selection_previous,
+          ['<a-;>'] = actions.send_to_qflist + actions.open_qflist,
+          ['<c-j>'] = actions.select_horizontal,
+          ['<c-l>'] = actions.select_vertical,
+          ['<c-k>'] = actions.select_tab,
+          ['<c-o>'] = actions.select_default,
+          ['<a-n>'] = actions_layout.toggle_preview,
+        },
+        n = {
+          ['ql'] = actions.close,
+          ['<a-m>'] = actions.close,
+          ['<a-j>'] = actions.move_selection_next,
+          ['<a-k>'] = actions.move_selection_previous,
+          ['<a-;>'] = actions.send_to_qflist + actions.open_qflist,
+          ['<c-j>'] = actions.select_horizontal,
+          ['<c-l>'] = actions.select_vertical,
+          ['<c-k>'] = actions.select_tab,
+          ['<c-o>'] = actions.select_default,
+          ['w'] = actions_layout.toggle_preview,
+        }
+      },
+      file_ignore_patterns = file_ignore_patterns,
+      vimgrep_arguments = {
+        'rg',
+        '--color=never',
+        '--no-heading',
+        '--with-filename',
+        '--line-number',
+        '--column',
+        '--smart-case',
+        '--fixed-strings',
+      },
+      wrap_results = true,
     },
-    file_ignore_patterns = {
-      '%.svn',
-      '%.vs',
-      '%.git',
-      '%.cache',
-      'obj',
-      'build',
-      'my%-neovim%-data',
-      '%.js',
-      '%.asc',
-      '%.hex',
-      'CMakeLists.txt',
-      -- 'map.txt',
-      -- '%.lst',
-    },
-    vimgrep_arguments = {
-      'rg',
-      '--color=never',
-      '--no-heading',
-      '--with-filename',
-      '--line-number',
-      '--column',
-      '--smart-case',
-      '--fixed-strings',
-    },
-    wrap_results = true,
-  },
-})
+  }
+end
+
+telescope.setup(get_setup_table({
+  '%.svn',
+  '%.vs',
+  '%.git',
+  '%.cache',
+  'obj',
+  'build',
+  'my%-neovim%-data',
+  '%.js',
+  '%.asc',
+  '%.hex',
+  'CMakeLists.txt',
+  -- 'map.txt',
+  -- '%.lst',
+}))
 
 
 if add_pack_help({ 'aerial.nvim' }) then
