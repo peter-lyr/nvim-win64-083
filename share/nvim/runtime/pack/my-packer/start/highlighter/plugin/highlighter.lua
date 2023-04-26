@@ -1,14 +1,14 @@
 local a = vim.api
-local c = vim.cmd
 
-local bufferclean_cursormoved
+local highlighter_cursormoved
 
-bufferclean_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'CursorHold' }, {
+highlighter_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'CursorHold' }, {
   callback = function()
-    a.nvim_del_autocmd(bufferclean_cursormoved)
-    local sta, packadd = pcall(c, 'packadd vim-highlighter')
+    a.nvim_del_autocmd(highlighter_cursormoved)
+    local sta, do_highlighter = pcall(require, 'do_highlighter')
     if not sta then
-      print(packadd)
+      print(do_highlighter)
+      return
     end
   end,
 })

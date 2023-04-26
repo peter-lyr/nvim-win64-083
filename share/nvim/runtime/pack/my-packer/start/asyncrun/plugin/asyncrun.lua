@@ -1,14 +1,13 @@
 local a = vim.api
-local c = vim.cmd
 
-local asyncrun_cursormoved = nil
+local asyncrun_cursormoved
 
 asyncrun_cursormoved = a.nvim_create_autocmd({ "CursorMoved" }, {
   callback = function()
     a.nvim_del_autocmd(asyncrun_cursormoved)
-    local sta, packadd = pcall(c, 'packadd asyncrun.vim')
+    local sta, do_asyncrun = pcall(require, 'do_asyncrun')
     if not sta then
-      print(packadd)
+      print(do_asyncrun)
       return
     end
   end,

@@ -1,14 +1,13 @@
 local a = vim.api
-local c = vim.cmd
 
-local searchindex_cursormoved = nil
+local searchindex_cursormoved
 
 searchindex_cursormoved = a.nvim_create_autocmd({ "CursorMoved" }, {
   callback = function()
     a.nvim_del_autocmd(searchindex_cursormoved)
-    local sta, packadd = pcall(c, 'packadd vim-searchindex')
+    local sta, do_searchindex = pcall(require, 'do_searchindex')
     if not sta then
-      print(packadd)
+      print(do_searchindex)
       return
     end
   end,

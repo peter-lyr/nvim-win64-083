@@ -9,9 +9,9 @@ local fugitive = function(cmd)
   if not fugitive_loaded then
     fugitive_loaded = 1
     a.nvim_del_autocmd(fugitive_cursormoved)
-    local sta, packadd = pcall(c, 'packadd vim-fugitive')
+    local sta, do_fugitive = pcall(require, 'do_fugitive')
     if not sta then
-      print(packadd)
+      print(do_fugitive)
       return
     end
   end
