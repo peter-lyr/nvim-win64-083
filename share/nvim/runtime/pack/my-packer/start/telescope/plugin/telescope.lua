@@ -72,3 +72,6 @@ s({ 'n', 'v' }, '<a-s-k>', ':<c-u>TelescopE projects<cr>', opt)
 
 s({ 'n', 'v' }, '<a-m>', ':<c-u>TelescopE vim_bookmarks current_file<cr>', opt)
 s({ 'n', 'v' }, '<a-M>', ':<c-u>TelescopE vim_bookmarks all<cr>', opt)
+
+
+s({ 'n', 'v' }, '<a-,>', ':<c-u>TelescopE aerial<cr>', opt)

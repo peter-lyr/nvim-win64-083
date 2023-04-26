@@ -123,6 +123,15 @@ telescope.setup({
 })
 
 
+if add_pack_help({ 'aerial.nvim' }) then
+  local aerial
+  sta, aerial = pcall(telescope.load_extension, "aerial")
+  if not sta then
+    print(aerial)
+  end
+end
+
+
 local projects
 sta, projects = pcall(telescope.load_extension, "projects")
 if not sta then
