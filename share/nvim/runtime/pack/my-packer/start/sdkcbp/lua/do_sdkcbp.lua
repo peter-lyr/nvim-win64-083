@@ -115,7 +115,7 @@ function M.cmake_app_do(app_cbp)
   local mm = table.concat(ll, 'app/projects')
   local nn = string.match(app_cbp, mm .. 'app/projects/(.-)/')
   if string.match(app_cbp, 'app/projects') then
-    c(string.format([[silent !start cmd /c "python chcp 65001 & python "%s" "%s" %s & pause"]], g.cmake_app_py, mm, nn))
+    c(string.format([[silent !start cmd /c "chcp 65001 & python "%s" "%s" %s & pause"]], g.cmake_app_py, mm, nn))
   end
 end
 
@@ -137,7 +137,7 @@ function M.cmake_others()
   local other_cbp = M.cbp_files[1]
   print(other_cbp)
   local path = Path:new(other_cbp)
-  c(string.format([[silent !start cmd /c "python chcp 65001 & python "%s" "%s" %s & pause"]], g.cmake_others_py, path:parent().filename))
+  c(string.format([[silent !start cmd /c "chcp 65001 & python "%s" "%s" %s & pause"]], g.cmake_others_py, path:parent().filename))
 end
 
 function M.run()
