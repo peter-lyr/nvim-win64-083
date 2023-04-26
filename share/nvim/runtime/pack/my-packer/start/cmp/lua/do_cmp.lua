@@ -3,37 +3,41 @@ local f = vim.fn
 local o = vim.opt
 
 local sta
-local packadd
 
-sta, packadd = pcall(c, 'packadd nvim-cmp')
-if not sta then
-  print(packadd)
+local add_pack_help = function(plugnames)
+  local _sta, _path
+  _sta, _path = pcall(require, "plenary.path")
+  if not _sta then
+    print(_path)
+    return nil
+  end
+  local doc_path
+  local packadd
+  _path = _path:new(f.expand("$VIMRUNTIME"))
+  local opt_path = _path:joinpath('pack', 'packer', 'opt')
+  for _, plugname in ipairs(plugnames) do
+    doc_path = opt_path:joinpath(plugname, 'doc')
+    _sta, packadd = pcall(c, 'packadd ' .. plugname)
+    if not _sta then
+      print(packadd)
+      return nil
+    end
+    if doc_path:is_dir() then
+      c('helptags ' .. doc_path.filename)
+    end
+  end
+  return true
 end
 
-sta, packadd = pcall(c, 'packadd cmp-cmdline')
-if not sta then
-  print(packadd)
-end
+add_pack_help({
+  'nvim-cmp',
+  'cmp-cmdline',
+  'cmp-buffer',
+  'cmp-nvim-lsp',
+  'cmp-nvim-ultisnips',
+  'cmp-path',
+})
 
-sta, packadd = pcall(c, 'packadd cmp-buffer')
-if not sta then
-  print(packadd)
-end
-
-sta, packadd = pcall(c, 'packadd cmp-nvim-lsp')
-if not sta then
-  print(packadd)
-end
-
-sta, packadd = pcall(c, 'packadd cmp-nvim-ultisnips')
-if not sta then
-  print(packadd)
-end
-
-sta, packadd = pcall(c, 'packadd cmp-path')
-if not sta then
-  print(packadd)
-end
 
 local cmp
 sta, cmp = pcall(require, "cmp")
@@ -71,7 +75,7 @@ cmp.setup({
   ),
 })
 
-cmp.setup.cmdline({'/', '?'}, {
+cmp.setup.cmdline({ '/', '?' }, {
   mapping = cmp.mapping.preset.cmdline(),
   sources = {
     { name = 'buffer' }

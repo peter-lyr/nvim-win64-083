@@ -1,6 +1,7 @@
 local c = vim.cmd
 local g = vim.g
 local s = vim.keymap.set
+local f = vim.fn
 
 
 g.bookmarks_do_loaded = 1
@@ -8,10 +9,32 @@ g.bookmark_save_per_working_dir = 1
 g.bookmark_auto_save = 1
 g.bookmark_no_default_key_mappings = 1
 
+local add_pack_help = function(plugnames)
+  local _sta, _path
+  _sta, _path = pcall(require, "plenary.path")
+  if not _sta then
+    print(_path)
+    return nil
+  end
+  local doc_path
+  local packadd
+  _path = _path:new(f.expand("$VIMRUNTIME"))
+  local opt_path = _path:joinpath('pack', 'packer', 'opt')
+  for _, plugname in ipairs(plugnames) do
+    doc_path = opt_path:joinpath(plugname, 'doc')
+    _sta, packadd = pcall(c, 'packadd ' .. plugname)
+    if not _sta then
+      print(packadd)
+      return nil
+    end
+    if doc_path:is_dir() then
+      c('helptags ' .. doc_path.filename)
+    end
+  end
+  return true
+end
 
-local sta, packadd = pcall(c, 'packadd vim-bookmarks')
-if not sta then
-  print(packadd)
+if not add_pack_help({ 'vim-bookmarks' }) then
   local opt = { silent = true }
   s('n', 'ma', ':ec "no bookmarks"<cr>', opt)
   s('n', 'mm', ':ec "no bookmarks"<cr>', opt)

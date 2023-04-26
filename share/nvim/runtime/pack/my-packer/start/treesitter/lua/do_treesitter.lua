@@ -8,13 +8,35 @@ local sta
 
 local M = {}
 
+local add_pack_help = function(plugnames)
+  local _sta, _path
+  _sta, _path = pcall(require, "plenary.path")
+  if not _sta then
+    print(_path)
+    return nil
+  end
+  local doc_path
+  local packadd
+  _path = _path:new(f.expand("$VIMRUNTIME"))
+  local opt_path = _path:joinpath('pack', 'packer', 'opt')
+  for _, plugname in ipairs(plugnames) do
+    doc_path = opt_path:joinpath(plugname, 'doc')
+    _sta, packadd = pcall(c, 'packadd ' .. plugname)
+    if not _sta then
+      print(packadd)
+      return nil
+    end
+    if doc_path:is_dir() then
+      c('helptags ' .. doc_path.filename)
+    end
+  end
+  return true
+end
+
 M.run = function()
   if not treesitter_do_loaded then
     treesitter_do_loaded = 1
-    local packadd
-    sta, packadd = pcall(c, 'packadd nvim-treesitter')
-    if not sta then
-      print(packadd)
+    if not add_pack_help({ 'nvim-treesitter' }) then
       return
     end
     local treesitter
@@ -23,14 +45,10 @@ M.run = function()
       print(treesitter)
       return
     end
-    sta, packadd = pcall(c, 'packadd nvim-treesitter-context')
-    if not sta then
-      print(packadd)
-    end
-    sta, packadd = pcall(c, 'packadd nvim-ts-rainbow')
-    if not sta then
-      print(packadd)
-    end
+    add_pack_help({
+      'nvim-treesitter-context',
+      'nvim-ts-rainbow',
+    })
     local parser_path = f.expand("$VIMRUNTIME") .. "\\my-neovim-data\\treesitter-parser"
     o.runtimepath:append(parser_path)
     treesitter.setup({
