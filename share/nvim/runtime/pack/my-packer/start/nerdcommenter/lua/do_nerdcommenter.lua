@@ -8,7 +8,7 @@ g.NERDCommentEmptyLines = 1
 g.NERDTrimTrailingWhitespace = 1
 g.NERDToggleCheckAllLines = 1
 
-g.NERDAltDelims_c = 0
+g.NERDAltDelims_c = 1
 
 local sta, packadd = pcall(c, 'packadd nerdcommenter')
 if not sta then
