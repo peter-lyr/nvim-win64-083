@@ -29,7 +29,6 @@ NetrwTreeListing
 **/pack/packer/**/mason-lspconfig.nvim
 **/pack/packer/**/gitsigns.nvim
 **/pack/packer/**/vim-fugitive
-**/pack/packer/**/diffview.nvim
 **/pack/packer/**/which-key.nvim
 **/pack/packer/**/vim-projectroot
 **/pack/packer/**/indent-blankline.nvim
