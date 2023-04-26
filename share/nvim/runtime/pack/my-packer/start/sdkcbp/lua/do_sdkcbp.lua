@@ -37,17 +37,16 @@ function M.traverse_folder(project, abspath)
   local entries = Scan.scan_dir(path.filename, { hidden = false, depth = 100, add_dirs = true })
   for _, entry in ipairs(entries) do
     local entry_path = Path:new(entry)
-    local entry_path_name = entry_path.filename
+    local entry_path_name = rep(entry)
     if entry_path:is_dir() then
       if not index_of(M.searched_folders, entry_path_name) then
         table.insert(M.searched_folders, entry_path_name)
-        if string.find(rep(entry_path_name), project) then
+        if string.find(entry_path_name, project) then
           M.traverse_folder(project, entry_path_name)
         end
       end
     else
       if string.match(entry_path_name, '%.([^%.]+)$') == 'cbp' then
-        entry_path_name = rep(entry_path_name)
         if not index_of(M.cbp_files, entry_path_name) then
           table.insert(M.cbp_files, entry_path_name)
         end
@@ -82,7 +81,7 @@ function M.find_cbp(dtargets)
         else
           local fpath = dname:joinpath(dtarget .. '.cbp')
           if fpath:exists() then
-            table.insert(M.cbp_files, fpath.filename)
+            table.insert(M.cbp_files, rep(fpath.filename))
             break
           end
         end
