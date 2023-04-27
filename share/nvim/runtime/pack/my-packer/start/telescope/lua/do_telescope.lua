@@ -1,7 +1,18 @@
 local c = vim.cmd
 local f = vim.fn
+local g = vim.g
 
 local sta
+
+sta, Path = pcall(require, "plenary.path")
+if not sta then
+  print(Path)
+  return
+end
+
+local telescope_path = Path:new(g.telescope_lua):parent():parent()
+
+local do_telescope_lua = telescope_path:joinpath('lua', 'do_telescope.lua')['filename']
 
 local add_pack_help = function(plugnames)
   local _sta, _path
@@ -162,8 +173,18 @@ local M = {}
 local do_projects
 local do_bookmarks
 
+M.open = function()
+  c 'split'
+  c('e ' .. do_telescope_lua)
+  f.search('telescope.setup')
+end
+
 M.run = function(params)
   if not params or #params == 0 then
+    return
+  end
+  if #params == 1 and params[1] == 'open' then
+    M.open()
     return
   end
   local cmd = table.concat(params, ' ')

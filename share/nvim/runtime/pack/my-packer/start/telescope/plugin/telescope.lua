@@ -1,8 +1,15 @@
 local a = vim.api
 local s = vim.keymap.set
+local g = vim.g
+local f = vim.fn
 
-local telescope_loaded = nil
+g.telescope_lua = f['expand']('<sfile>')
+
+local telescope_loaded
 local telescope_cursormoved = nil
+
+package.loaded['do_telescope'] = nil
+
 
 local telescope = function(params)
   if not telescope_loaded then
@@ -75,3 +82,6 @@ s({ 'n', 'v' }, '<a-M>', ':<c-u>TelescopE vim_bookmarks all<cr>', opt)
 
 
 s({ 'n', 'v' }, '<a-,>', ':<c-u>TelescopE aerial<cr>', opt)
+
+
+s({ 'n', 'v' }, '<a-\\>', ':<c-u>TelescopE open<cr>', opt)
