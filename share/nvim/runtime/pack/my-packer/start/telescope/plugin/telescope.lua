@@ -46,7 +46,7 @@ s({ 'n', 'v' }, '<a-C>', ':<c-u>TelescopE commands<cr>', opt)
 
 s({ 'n', 'v' }, '<a-o>', ':<c-u>TelescopE oldfiles<cr>', opt)
 s({ 'n', 'v' }, '<a-k>', ':<c-u>TelescopE find_files<cr>', opt)
-s({ 'n', 'v' }, '<a-j>', ':<c-u>TelescopE buffers<cr>', opt)
+s({ 'n', 'v' }, '<a-j>', ':<c-u>TelescopE buffers cwd_only=true sort_mru=true ignore_current_buffer=true<cr>', opt)
 
 s({ 'n', 'v' }, '<a-;>k', ':<c-u>TelescopE git_files<cr>', opt)
 s({ 'n', 'v' }, '<a-;>i', ':<c-u>TelescopE git_commits<cr>', opt)
