@@ -34,7 +34,7 @@ with open(os.path.join(rootdir, 'CMakeLists.txt'), 'wb') as ff:
       if f.split('.')[-1] == 'a':
         rel = i.replace(rootdir, '').replace('\\', '/')
         rel_list = rel.split('/')
-        if rel_list and rel_list[0] == 'app':
+        if rel_list and rel_list[0] == 'app' and rel not in libDirs:
           libDirs.append(rel)
 
 
