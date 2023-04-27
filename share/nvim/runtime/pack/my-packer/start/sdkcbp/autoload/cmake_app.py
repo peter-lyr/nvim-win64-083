@@ -9,6 +9,8 @@ projectName = sys.argv[2].replace('\\', '/')
 projFileNames = []
 projFileNames_last = []
 
+libDirs = []
+
 patt1 = re.compile('directory="(.+)"')
 patt2 = re.compile('<File name="(.+?)"')
 with open(os.path.join(rootdir, 'CMakeLists.txt'), 'wb') as ff:
@@ -29,6 +31,11 @@ with open(os.path.join(rootdir, 'CMakeLists.txt'), 'wb') as ff:
         directories = re.findall(patt1, content)
         directories = [os.path.normpath(os.path.join(i, directory)) for directory in directories]
         d[ss] = directories
+      if f.split('.')[-1] == 'a':
+        rel = i.replace(rootdir, '').replace('\\', '/')
+        rel_list = rel.split('/')
+        if rel_list and rel_list[0] == 'app':
+          libDirs.append(rel)
 
 
   new_d = {}
@@ -81,8 +88,9 @@ with open(os.path.join(rootdir, 'CMakeLists.txt'), 'wb') as ff:
       ff.write(('\n'.join(bb).encode('utf-8')) + b'\n')
       ff.write(("target_link_libraries(${PROJECT_NAME} %s)\n\n" % libname).encode('utf-8'))
 
-  #  ff.write(b'file(GLOB libraries ${CMAKE_CURRENT_SOURCE_DIR}/app/platform/libs/*.a)\n')
-  #  ff.write(b'target_link_libraries(${PROJECT_NAME} ${libraries})\n')
+  bb = ['file(GLOB libraries ${CMAKE_CURRENT_SOURCE_DIR}/%s/*.a)' % libDir for libDir in libDirs]
+  ff.write(('\n'.join(bb).encode('utf-8')) + b'\n')
+  ff.write(b'target_link_libraries(${PROJECT_NAME} ${libraries})\n')
 
 projFileNames = [fname.replace("/", "\\") for fname in projFileNames + projFileNames_last]
 projFileNames = [f'    <Project filename="{fname}" />' for fname in projFileNames]
