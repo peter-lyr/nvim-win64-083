@@ -2,7 +2,6 @@ local c = vim.cmd
 local f = vim.fn
 
 local sta
-local packadd
 local hop
 
 local add_pack_help = function(plugnames)

@@ -3,7 +3,6 @@ local f = vim.fn
 local g = vim.g
 
 local sta
-local packadd
 
 g.UltiSnipsJumpForwardTrigger = "<a-.>"
 g.UltiSnipsJumpBackwardTrigger = "<a-,>"

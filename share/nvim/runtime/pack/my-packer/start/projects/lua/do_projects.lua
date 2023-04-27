@@ -21,6 +21,6 @@ project_nvim.setup({
     "compile_commands.json",
     "CMakeLists.txt",
     ".git",
-    ".svn",
+    -- ".svn",
   }
 })

@@ -7,7 +7,6 @@ local f = vim.fn
 local s = vim.keymap.set
 
 local sta
-local packadd
 
 local add_pack_help = function(plugnames)
   local _sta, _path
