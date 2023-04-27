@@ -176,7 +176,7 @@ local do_bookmarks
 M.open = function()
   c 'split'
   c('e ' .. do_telescope_lua)
-  f.search('telescope.setup')
+  f.search('telescope.setup' .. '(get_setup_table')
 end
 
 M.run = function(params)
