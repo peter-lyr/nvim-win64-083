@@ -24,10 +24,6 @@ with open(os.path.join(rootdir, 'CMakeLists.txt'), 'wb') as ff:
             continue
 
         ss = os.path.join(i, f).replace(rootdir, '').strip('/').strip('\\')
-        if f == 'app.cbp':
-          projFileNames_last = [ss]
-        else:
-          projFileNames.append(ss)
         with open(os.path.join(i, f), 'rb') as fff:
           content = fff.read().decode('utf-8')
         directories = re.findall(patt1, content)
@@ -67,6 +63,7 @@ with open(os.path.join(rootdir, 'CMakeLists.txt'), 'wb') as ff:
       val = vals[idx][1]
     print('make cbp:', key)
     if key.split('.')[0].split('\\')[-1] == 'app':
+      projFileNames_last = [key]
       xl = key.split('\\')[0]
       ff.write(("file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/%s/*.c)\n" % xl).encode('utf-8'))
       ff.write(("file(GLOB_RECURSE ASM_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/%s/*.S)\n" % xl).encode('utf-8'))
@@ -74,6 +71,7 @@ with open(os.path.join(rootdir, 'CMakeLists.txt'), 'wb') as ff:
       bb = ['target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/%s)' % aa.replace('\\', '/').replace(rootdir, '').strip('\\').strip('/').replace('\\', '/') for aa in val]
       ff.write(('\n'.join(bb).encode('utf-8')) + b'\n\n')
     elif key.split('.')[0].split('\\')[0] == 'libs':
+      projFileNames.append(key)
       xl = '/'.join(key.split('\\')[0:2])
       libname = key.split('\\')[1]
       ff.write(("file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/%s/*.c)\n" % xl).encode('utf-8'))
