@@ -44,6 +44,7 @@ function M.run()
     c 'ccl'
   else
     c 'copen'
+    c 'wincmd J'
   end
 end
 

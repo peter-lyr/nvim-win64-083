@@ -7,12 +7,12 @@ local do_sdkcbp
 
 g.sdkcbp_lua = f['expand']('<sfile>')
 
--- g.loaded_do_sdkcbp = nil
+local loaded_do_sdkcbp
 -- package.loaded['do_sdkcbp'] = nil
 
 local sdkcbp_exe = function()
-  if not g.loaded_do_sdkcbp then
-    g.loaded_do_sdkcbp = 1
+  if not loaded_do_sdkcbp then
+    loaded_do_sdkcbp = 1
     sta, do_sdkcbp = pcall(require, 'do_sdkcbp')
     if not sta then
       print(do_sdkcbp)
