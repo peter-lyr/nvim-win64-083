@@ -90,6 +90,7 @@ local get_setup_table = function(file_ignore_patterns)
           ['<c-l>'] = actions.select_vertical,
           ['<c-k>'] = actions.select_tab,
           ['<c-o>'] = actions.select_default,
+          ['qo'] = actions.select_default,
           ['<a-,>'] = actions.select_default,
           ['<a-n>'] = actions_layout.toggle_preview,
         },
