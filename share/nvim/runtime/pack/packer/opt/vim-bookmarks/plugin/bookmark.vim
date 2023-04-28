@@ -210,6 +210,12 @@ function! BookmarkSave(target_file, silent)
   call s:refresh_line_numbers()
   if (bm#total_count() > 0 || (!g:bookmark_save_per_working_dir && !g:bookmark_manage_per_buffer))
     let serialized_bookmarks = bm#serialize()
+    let cwd = tolower(substitute(getcwd(), '\\', '/', 'g'))
+    for file in bm#all_files()
+      if match(tolower(substitute(file, '\\', '/', 'g')), cwd) == -1
+        return
+      endif
+    endfor
     call writefile(serialized_bookmarks, a:target_file)
     if (!a:silent)
       echo "All bookmarks saved"
