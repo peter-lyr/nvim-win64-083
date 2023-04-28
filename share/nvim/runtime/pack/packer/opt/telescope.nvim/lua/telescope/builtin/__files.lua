@@ -89,6 +89,29 @@ local opts_contain_invert = function(args)
   return invert, files_with_matches
 end
 
+
+local get_cwd_opened_bufnrs = function(cwd)
+  cwd = vim.fn.tolower(cwd)
+  local bufnrs = filter(function(b)
+    if 1 ~= vim.fn.buflisted(b) then
+      return false
+    end
+    if not vim.api.nvim_buf_is_loaded(b) then
+      return false
+    end
+    local name = string.gsub(vim.api.nvim_buf_get_name(b), '\\', '/')
+    if vim.fn['isdirectory'](name) == 1 then
+      return false
+    end
+    name = vim.fn.tolower(name)
+    if not string.find(name, cwd, 1, true) then
+      return false
+    end
+    return true
+  end, vim.api.nvim_list_bufs())
+  return bufnrs
+end
+
 -- Special keys:
 --  opts.search_dirs -- list of directory to search in
 --  opts.grep_open_files -- boolean to restrict search to open files
@@ -98,7 +121,13 @@ files.live_grep = function(opts)
   local grep_open_files = opts.grep_open_files
   opts.cwd = opts.cwd and vim.fn.expand(opts.cwd) or vim.loop.cwd()
 
-  local filelist = get_open_filelist(grep_open_files, opts.cwd)
+  local filelist = {}
+  local cwd = string.gsub(vim.loop.cwd(), '\\', '/')
+  local bufnrs = get_cwd_opened_bufnrs(cwd)
+  for _, bufnr in ipairs(bufnrs) do
+    local name = vim.api.nvim_buf_get_name(bufnr)
+    table.insert(filelist, string.sub(name, #cwd+2, -1))
+  end
   if search_dirs then
     for i, path in ipairs(search_dirs) do
       search_dirs[i] = vim.fn.expand(path)
@@ -192,8 +221,11 @@ files.grep_string = function(opts)
   opts.__inverted, opts.__matches = opts_contain_invert(args)
 
   if opts.grep_open_files then
-    for _, file in ipairs(get_open_filelist(opts.grep_open_files, opts.cwd)) do
-      table.insert(args, file)
+    local cwd = string.gsub(vim.loop.cwd(), '\\', '/')
+    local bufnrs = get_cwd_opened_bufnrs(cwd)
+    for _, bufnr in ipairs(bufnrs) do
+      local name = vim.api.nvim_buf_get_name(bufnr)
+      table.insert(args, string.sub(name, #cwd+2, -1))
     end
   elseif opts.search_dirs then
     for _, path in ipairs(opts.search_dirs) do
