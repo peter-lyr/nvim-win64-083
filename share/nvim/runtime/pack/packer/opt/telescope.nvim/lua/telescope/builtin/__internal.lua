@@ -885,6 +885,9 @@ internal.buffers = function(opts)
     end
     if opts.cwd_only then
       local name = string.gsub(vim.api.nvim_buf_get_name(b), '\\', '/')
+      if vim.fn['isdirectory'](name) then
+        return false
+      end
       name = vim.fn.tolower(name)
       local cwd = string.gsub(vim.loop.cwd(), '\\', '/')
       cwd = vim.fn.tolower(cwd)
