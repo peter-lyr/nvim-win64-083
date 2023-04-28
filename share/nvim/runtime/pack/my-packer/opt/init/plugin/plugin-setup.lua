@@ -39,7 +39,7 @@ local plugins = function(use)
   use({ 'nvim-treesitter/nvim-treesitter-context', opt = true })
 
   -- use({ 'nvim-telescope/telescope.nvim', branch = '0.1.x', opt = true }) -- 不再更新官方修改
-  use({ 'MattesGroeger/vim-bookmarks', opt = true })
+  -- use({ 'MattesGroeger/vim-bookmarks', opt = true }) -- 不再更新官方修改
   use({ 'tom-anders/telescope-vim-bookmarks.nvim' })
   use({ 'nvim-telescope/telescope-ui-select.nvim' })
   -- use({ 'ahmedkhalf/project.nvim' }) -- 不再更新官方修改

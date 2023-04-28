@@ -20,7 +20,6 @@ NetrwTreeListing
 **/pack/packer/**/tokyonight.nvim
 **/pack/packer/**/vim-auto-save
 **/pack/packer/**/vim-bad-whitespace
-**/pack/packer/**/vim-bookmarks
 **/pack/packer/**/vim-startuptime
 **/pack/packer/**/vim-surround
 **/pack/packer/**/nvim-cmp
