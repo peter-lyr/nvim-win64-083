@@ -77,9 +77,9 @@ local get_setup_table = function(file_ignore_patterns)
         height = 0.99,
         width = 0.99,
       },
-      preview = {
-        hide_on_startup = true,
-      },
+      -- preview = {
+      --   hide_on_startup = true,
+      -- },
       mappings = {
         i = {
           ['<a-m>'] = actions.close,
@@ -116,7 +116,7 @@ local get_setup_table = function(file_ignore_patterns)
         '--smart-case',
         '--fixed-strings',
       },
-      wrap_results = true,
+      wrap_results = false,
     },
   }
 end
