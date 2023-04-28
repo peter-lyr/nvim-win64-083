@@ -1,0 +1,43 @@
+snippet pjin "printf just int\n"
+my_printf("%d\n", $1);
+endsnippet
+
+snippet pjic "printf just int, "
+my_printf("%d, ", $1);
+endsnippet
+
+snippet pin "printf int\n"
+my_printf("$1: %d\n", $1);
+endsnippet
+
+snippet pic "printf int,"
+my_printf("$1: %d, ", $1);
+endsnippet
+
+snippet phn "printf hex\n"
+my_printf("$1: 0x%x\n", $1);
+endsnippet
+
+snippet phc "printf hex,"
+my_printf("$1: 0x%x, ", $1);
+endsnippet
+
+snippet phin "printf hex(int)\n"
+my_printf("$1: 0x%x(%d)\n", $1, $1);
+endsnippet
+
+snippet phic "printf hex(int),"
+my_printf("$1: 0x%x(%d), ", $1, $1);
+endsnippet
+
+snippet psn "printf string"
+my_printf("$1\n");
+endsnippet
+
+snippet ps "printf string"
+my_printf("$1");
+endsnippet
+
+snippet pl "printf line"
+my_printf("%25s# %d", __func__, __LINE__);
+endsnippet
