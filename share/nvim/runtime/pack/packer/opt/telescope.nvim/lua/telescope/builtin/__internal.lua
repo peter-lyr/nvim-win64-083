@@ -883,8 +883,14 @@ internal.buffers = function(opts)
     if opts.ignore_current_buffer and b == vim.api.nvim_get_current_buf() then
       return false
     end
-    if opts.cwd_only and not string.find(vim.api.nvim_buf_get_name(b), vim.loop.cwd(), 1, true) then
-      return false
+    if opts.cwd_only then
+      local name = string.gsub(vim.api.nvim_buf_get_name(b), '\\', '/')
+      name = vim.fn.tolower(name)
+      local cwd = string.gsub(vim.loop.cwd(), '\\', '/')
+      cwd = vim.fn.tolower(cwd)
+      if not string.find(name, cwd, 1, true) then
+        return false
+      end
     end
     return true
   end, vim.api.nvim_list_bufs())
