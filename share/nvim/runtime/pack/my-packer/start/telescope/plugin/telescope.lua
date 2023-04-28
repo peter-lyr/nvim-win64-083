@@ -56,7 +56,7 @@ s({ 'n', 'v' }, '<a-;>h', ':<c-u>TelescopE git_branches<cr>', opt)
 s({ 'n', 'v' }, '<a-;>j', ':<c-u>TelescopE git_status previewer=false<cr>', opt)
 
 -- s({ 'n', 'v' }, '<a-l>', ':<c-u>TelescopE live_grep previewer=false<cr>', opt)
-s({ 'n', 'v' }, '<a-l>', ':<c-u>TelescopE grep_string previewer=false shorten_path=true word_match=-w only_sort_text=true search=<cr>', opt)
+s({ 'n', 'v' }, '<a-l>', ':<c-u>TelescopE grep_string previewer=false shorten_path=true word_match=-w only_sort_text=true search= grep_open_files=true<cr>', opt)
 s({ 'n', 'v' }, '<a-i>', ':<c-u>TelescopE grep_string previewer=false<cr>', opt)
 
 s({ 'n', 'v' }, '<a-q>', ':<c-u>TelescopE quickfix<cr>', opt)
