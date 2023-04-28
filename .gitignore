@@ -39,6 +39,7 @@ NetrwTreeListing
 **/pack/packer/**/markdown-preview.nvim
 **/pack/packer/**/code_runner.nvim
 **/pack/packer/**/vim-snippets
+**/pack/packer/**/telescope-git-diffs.nvim
 # my-neovim-data
 **/my-neovim-data/project_nvim
 # 匹配

@@ -172,6 +172,13 @@ if not sta then
 end
 
 
+local git_diffs
+sta, git_diffs = pcall(telescope.load_extension, "git_diffs")
+if not sta then
+  print(git_diffs)
+end
+
+
 local M = {}
 
 local do_projects

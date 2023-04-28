@@ -77,6 +77,7 @@ local plugins = function(use)
   use({ 'lewis6991/gitsigns.nvim' })
   use({ 'tpope/vim-fugitive', opt = true })
   -- use({ 'sindrets/diffview.nvim', opt = true }) -- 不再更新官方修改
+  use({ 'paopaol/telescope-git-diffs.nvim' })
 
   use({ 'folke/which-key.nvim' })
   use({ 'dbakker/vim-projectroot' })
