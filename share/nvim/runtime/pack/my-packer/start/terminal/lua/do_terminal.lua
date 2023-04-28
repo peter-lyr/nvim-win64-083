@@ -143,6 +143,8 @@ function M.toggle_terminal(terminal, chdir)
         chdir = '..'
       elseif chdir == '-' then
         chdir = '-'
+      elseif chdir == 'cwd' then
+        chdir = f['getcwd']()
       end
       chdir = string.gsub(chdir, "\\", '/')
       a['nvim_chan_send'](b.terminal_job_id, string.format('cd %s', chdir))
@@ -314,6 +316,8 @@ function M.run(params)
     end
   end
 end
+
+local opt = { silent = true }
 
 s({ 'n', 'v' }, '\\<bs>q', ':TerminaL cmd cwd<cr>', opt)
 s({ 'n', 'v' }, '\\<bs>w', ':TerminaL ipython cwd<cr>', opt)

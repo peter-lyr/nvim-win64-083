@@ -7,5 +7,4 @@ EXIT /b
 SETLOCAL
 CALL :find_dp0
 
-endLocal & goto #_undefined_# 2>NUL || title %COMSPEC% & "D:\Desktop\nvim-win64-083\share\nvim\runtime\my-neovim-data\mason\packages\pyright\node_modules\.bin\pyright-langserver.cmd" %*
-REM  endLocal & goto #_undefined_# 2>NUL || title %COMSPEC% & "C:\Users\llydr\Desktop\nvim-win64-083\share\nvim\runtime\my-neovim-data\mason\packages\pyright\node_modules\.bin\pyright-langserver.cmd" %*
+endLocal & goto #_undefined_# 2>NUL || title %COMSPEC% & "%dp0%..\packages\pyright\node_modules\.bin\pyright-langserver.cmd" %*
