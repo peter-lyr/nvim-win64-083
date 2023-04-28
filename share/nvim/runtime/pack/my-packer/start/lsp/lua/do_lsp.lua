@@ -95,14 +95,18 @@ lspconfig.clangd.setup({
   capabilities = capabilities,
   root_dir = function(fname)
     local root_files = {
-      '.clangd',
-      '.clang-tidy',
-      '.clang-format',
+      'build',
+      '.cache',
       'compile_commands.json',
-      'compile_flags.txt',
-      'configure.ac',
+      'CMakeLists.txt',
+      -- '.clangd',
+      -- '.clang-tidy',
+      -- '.clang-format',
+      -- 'compile_commands.json',
+      -- 'compile_flags.txt',
+      -- 'configure.ac',
       '.git',
-      '.svn',
+      -- '.svn',
     }
     return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname)
   end,
@@ -112,14 +116,14 @@ lspconfig.pyright.setup({
   capabilities = capabilities,
   root_dir = function(fname)
     local root_files = {
-      'pyproject.toml',
-      'setup.py',
-      'setup.cfg',
-      'requirements.txt',
-      'Pipfile',
-      'pyrightconfig.json',
+      -- 'pyproject.toml',
+      -- 'setup.py',
+      -- 'setup.cfg',
+      -- 'requirements.txt',
+      -- 'Pipfile',
+      -- 'pyrightconfig.json',
       '.git',
-      '.svn',
+      -- '.svn',
     }
     return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname)
   end,
