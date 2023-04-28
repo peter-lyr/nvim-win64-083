@@ -38,7 +38,7 @@ function! s:init(file)
   if g:bookmark_auto_save ==# 1 || g:bookmark_manage_per_buffer ==# 1
     augroup bm_vim_enter
       autocmd!
-      autocmd BufEnter * call s:set_up_auto_save(expand('<afile>:p'))
+      autocmd BufEnter * call s:set_up_auto_save(bm#file(expand('<afile>:p')))
     augroup END
   endif
   if g:bookmark_display_annotation ==# 1
@@ -58,7 +58,7 @@ endfunction
 
 function! BookmarkToggle()
   call s:refresh_line_numbers()
-  let file = expand("%:p")
+  let file = bm#file(expand("%:p"))
   if file ==# ""
     return
   endif
@@ -82,7 +82,7 @@ command! ToggleBookmark call CallDeprecatedCommand('BookmarkToggle', [])
 command! BookmarkToggle call BookmarkToggle()
 function! BookmarkAnnotate(...)
   call s:refresh_line_numbers()
-  let file = expand("%:p")
+  let file = bm#file(expand("%:p"))
   if file ==# ""
     return
   endif
@@ -130,7 +130,7 @@ command! -nargs=* BookmarkAnnotate call BookmarkAnnotate(<q-args>, 0)
 
 function! BookmarkClear()
   call s:refresh_line_numbers()
-  let file = expand("%:p")
+  let file = bm#file(expand("%:p"))
   let lines = bm#all_lines(file)
   for line_nr in lines
     call s:bookmark_remove(file, line_nr)
@@ -210,9 +210,9 @@ function! BookmarkSave(target_file, silent)
   call s:refresh_line_numbers()
   if (bm#total_count() > 0 || (!g:bookmark_save_per_working_dir && !g:bookmark_manage_per_buffer))
     let serialized_bookmarks = bm#serialize()
-    let cwd = tolower(substitute(getcwd(), '\\', '/', 'g'))
+    let cwd = tolower(substitute(getcwd(), '/', '\', 'g'))
     for file in bm#all_files()
-      if match(tolower(substitute(file, '\\', '/', 'g')), cwd) == -1
+      if filereadable(cwd . '\' . substitute(file, '/', '\', 'g')) == 0
         return
       endif
     endfor
@@ -276,7 +276,7 @@ endfunction
 function! BookmarkMoveToLine(target)
   call s:refresh_line_numbers()
 
-  let file = expand("%:p")
+  let file = bm#file(expand("%:p"))
   if file ==# ""
     return
   endif
@@ -388,7 +388,7 @@ function! s:move_absolute(arg)
 endfunction
 
 function! s:has_bookmark_at_cursor()
-  let file = expand("%:p")
+  let file = bm#file(expand("%:p"))
   let current_line = line('.')
   if file ==# ""
     return
@@ -410,7 +410,7 @@ endfunction
 
 function! s:refresh_line_numbers()
   call s:lazy_init()
-  let file = expand("%:p")
+  let file = bm#file(expand("%:p"))
   if file ==# "" || !bm#has_bookmarks_in_file(file)
     return
   endif
@@ -437,7 +437,7 @@ function! s:bookmark_remove(file, line_nr)
 endfunction
 
 function! s:jump_to_bookmark(type)
-  let file = expand("%:p")
+  let file = bm#file(expand("%:p"))
   let line_nr = bm#{a:type}(file, line("."))
   if line_nr ==# 0
     echo "No bookmarks found"
@@ -537,14 +537,14 @@ function! s:set_up_auto_save(file)
     let g:bm_current_file = a:file
     augroup bm_auto_save
       autocmd!
-      autocmd BufWinEnter * call s:add_missing_signs(expand('<afile>:p'))
+      autocmd BufWinEnter * call s:add_missing_signs(bm#file(expand('<afile>:p')))
       autocmd BufLeave,VimLeave,BufReadPre * call s:auto_save()
     augroup END
   endif
 endfunction
 
 function! s:display_annotation()
-  let file = expand("%:p")
+  let file = bm#file(expand("%:p"))
   if file ==# ""
     return
   endif
@@ -594,7 +594,7 @@ call s:register_mapping('BookmarkMoveToLine', 'mg',  1)
 " Init {{{
 
 if has('vim_starting')
-  autocmd VimEnter * call s:init(expand('<afile>:p'))
+  autocmd VimEnter * call s:init(bm#file(expand('<afile>:p')))
 else
-  call s:init(expand('%:p'))
+  call s:init(bm#file(expand('%:p')))
 endif

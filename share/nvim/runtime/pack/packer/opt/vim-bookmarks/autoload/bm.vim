@@ -32,6 +32,15 @@ function! bm#get_bookmark_by_sign(file, sign_idx)
   return bm#get_bookmark_by_line(a:file, line_nr)
 endfunction
 
+function! bm#file(file)
+  let file = tolower(substitute(a:file, '\', '/', 'g'))
+  let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
+  if match(file, cwd) == -1
+    return ''
+  endif
+  return a:file[len(cwd)+1:-1]
+endfunction
+
 function! bm#add_bookmark(file, sign_idx, line_nr, content, ...)
   if !has_key(g:line_map, a:file)
     let g:line_map[a:file] = {}
