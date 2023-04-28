@@ -77,10 +77,7 @@ if not sta then
   return
 end
 
-sta, packadd = pcall(c, 'packadd cmp-nvim-lsp')
-if not sta then
-  print(packadd)
-end
+add_pack_help({ 'cmp-nvim-lsp' })
 
 local cmp_nvim_lsp
 sta, cmp_nvim_lsp = pcall(require, 'cmp_nvim_lsp')
