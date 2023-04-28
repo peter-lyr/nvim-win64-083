@@ -317,6 +317,8 @@ function M.run(params)
   end
 end
 
+local opt = { silent = true }
+
 s({ 'n', 'v' }, '\\<bs>q', ':TerminaL cmd cwd<cr>', opt)
 s({ 'n', 'v' }, '\\<bs>w', ':TerminaL ipython cwd<cr>', opt)
 s({ 'n', 'v' }, '\\<bs>e', ':TerminaL bash cwd<cr>', opt)
