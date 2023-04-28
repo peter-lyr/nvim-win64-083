@@ -183,12 +183,99 @@ M.open = function()
   f.search('telescope.setup' .. '(get_setup_table')
 end
 
+local Path = require("plenary.path")
+local Scan = require("plenary.scandir")
+
+local split_string = function(inputstr, sep)
+  if sep == nil then
+    sep = "%s"
+  end
+  local t = {}
+  for str in string.gmatch(inputstr, "(.-)" .. sep) do
+    table.insert(t, str)
+  end
+  return t
+end
+
+-- local show_array = function(arr)
+--   for i, v in ipairs(arr) do
+--     print(i, ':', v)
+--   end
+-- end
+
+local rep = function(path)
+  path, _ = string.gsub(path, '/', '\\')
+  return path
+end
+
+-- local index_of = function(arr, val)
+--   if not arr then
+--     return nil
+--   end
+--   for i, v in ipairs(arr) do
+--     if vim.fn['tolower'](v) == vim.fn['tolower'](val) then
+--       return i
+--     end
+--   end
+--   return nil
+-- end
+
+local get_sub_dirs = function(dir)
+  local path = Path:new(dir)
+  local entries = Scan.scan_dir(path.filename, { hidden = false, depth = 50, add_dirs = true })
+  local ignored = split_string(f['system']('cd ' .. dir .. ' && git config --local core.quotepath false & git ls-files --other --ignored --exclude-standard --directory'), '\n')
+  local cwd_path = Path:new(dir)
+  local ignore_dirs = {}
+  for _, v in ipairs(ignored) do
+    local item = cwd_path:joinpath(v)
+    if item:is_dir() then
+      local fname = rep(item.filename)
+      table.insert(ignore_dirs, string.sub(fname, 1, #fname-1))
+    end
+  end
+  local sub_dirs = {}
+  for _, entry in ipairs(entries) do
+    if Path:new(entry):is_dir() then
+      local ignore = nil
+      for _, ignore_dir in ipairs(ignore_dirs) do
+        if string.find(rep(entry), ignore_dir) then
+          ignore = true
+          break
+        end
+      end
+      if not ignore then
+        table.insert(sub_dirs, rep(entry))
+      end
+    end
+  end
+  return sub_dirs
+end
+
+M.grep_string = function()
+  local cwd = f['getcwd']()
+  local sub_dirs = get_sub_dirs(cwd)
+  -- show_array(sub_dirs)
+  vim.ui.select(sub_dirs, { prompt = 'select one of them' }, function(_, idx)
+    -- print(choice, idx)
+    local dir = sub_dirs[idx]
+    print(dir)
+    local cmd = 'Telescope grep_string shorten_path=true word_match=-w only_sort_text=true search= search_dirs=' .. dir
+    c(cmd)
+  end)
+end
+
 M.run = function(params)
   if not params or #params == 0 then
     return
   end
   if #params == 1 and params[1] == 'open' then
     M.open()
+    return
+  end
+  if params[1] == 'my' then
+    if params[2] == 'grep_string' then
+      M.grep_string()
+    end
     return
   end
   local cmd = table.concat(params, ' ')
