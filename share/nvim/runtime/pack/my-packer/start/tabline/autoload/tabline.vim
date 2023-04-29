@@ -53,6 +53,7 @@ fu tabline#tabline()
   if !filereadable(curname)
     let curcnt = -1
   endif
+  let length = len(L)
   for i in range(mincnt, maxcnt)
     let key = L[i]
     let bufnr = key[0]
@@ -72,12 +73,16 @@ fu tabline#tabline()
     let s ..= '%' . bufnr
     let s ..= '@tabline#gobuffer@'
     let s ..= cnt
+    if i == curcnt
+      let s ..= '/'
+      let s ..= length
+    endif
     let s ..= ' ' . name . ' '
   endfor
-  if len(L) == curcnt + 1
+  if length == curcnt + 1
     exe 'nnoremap <buffer><silent><nowait> <leader>= :b' . L[0][0] .'<cr>'
   elseif 0 == curcnt
-    exe 'nnoremap <buffer><silent><nowait> <leader>- :b' . L[len(L)-1][0] .'<cr>'
+    exe 'nnoremap <buffer><silent><nowait> <leader>- :b' . L[length-1][0] .'<cr>'
   endif
   if len(s) == 0
     let s ..= '%#TabLineSel#'
@@ -89,8 +94,9 @@ fu tabline#tabline()
   endif
   let s ..= '%#TabLineFill#%T'
   let s ..= "  %="
+  let curtabpgnr = tabpagenr()
   for i in range(tabpagenr('$'))
-    if i + 1 == tabpagenr()
+    if i + 1 == curtabpgnr
       let s ..= '%#TabLineSel#'
     else
       let s ..= '%#TabLine#'
