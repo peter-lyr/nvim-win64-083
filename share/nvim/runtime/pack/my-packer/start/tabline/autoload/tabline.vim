@@ -113,5 +113,5 @@ fu tabline#tabline()
     let s ..= string(i+1)
     let s ..= ' %{tabline#get_fname(' .. (i + 1) .. ')} '
   endfor
-  return s
+  return trim(s)
 endfu
