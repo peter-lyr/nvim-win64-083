@@ -55,3 +55,4 @@ output
 __pycache__
 **/my-neovim-data/mason/packages/lua-language-server/log
 saved_images
+**/my-packer/**/*.exe
