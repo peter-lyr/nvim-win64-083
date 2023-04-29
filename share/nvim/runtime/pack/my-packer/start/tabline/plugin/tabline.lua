@@ -1,10 +1,13 @@
 local c = vim.cmd
 local a = vim.api
 local f = vim.fn
+local o = vim.opt
+
+o.showtabline = 2
 
 local set_tabline = nil
 
-set_tabline = a.nvim_create_autocmd({ 'TabEnter' }, {
+set_tabline = a.nvim_create_autocmd({ 'CursorMoved' }, {
   callback = function()
     a.nvim_del_autocmd(set_tabline)
     c([[set tabline=%!tabline#tabline()]])
