@@ -6,16 +6,16 @@ local lasttab = 0
 
 local opt = { silent = true }
 
-s({ 'n', 'v', }, '<leader>1', '1gt', opt)
-s({ 'n', 'v', }, '<leader>2', '2gt', opt)
-s({ 'n', 'v', }, '<leader>3', '3gt', opt)
-s({ 'n', 'v', }, '<leader>4', '4gt', opt)
-s({ 'n', 'v', }, '<leader>5', '5gt', opt)
-s({ 'n', 'v', }, '<leader>6', '6gt', opt)
-s({ 'n', 'v', }, '<leader>7', '7gt', opt)
-s({ 'n', 'v', }, '<leader>8', '8gt', opt)
-s({ 'n', 'v', }, '<leader>9', '9gt', opt)
-s({ 'n', 'v', }, '<leader>0', '<cmd>:tablast<cr>', opt)
+s({ 'n', 'v', }, '<leader><leader>1', '1gt', opt)
+s({ 'n', 'v', }, '<leader><leader>2', '2gt', opt)
+s({ 'n', 'v', }, '<leader><leader>3', '3gt', opt)
+s({ 'n', 'v', }, '<leader><leader>4', '4gt', opt)
+s({ 'n', 'v', }, '<leader><leader>5', '5gt', opt)
+s({ 'n', 'v', }, '<leader><leader>6', '6gt', opt)
+s({ 'n', 'v', }, '<leader><leader>7', '7gt', opt)
+s({ 'n', 'v', }, '<leader><leader>8', '8gt', opt)
+s({ 'n', 'v', }, '<leader><leader>9', '9gt', opt)
+s({ 'n', 'v', }, '<leader><leader>0', '<cmd>:tablast<cr>', opt)
 
 local space_enter = function()
   if lasttab ~= 0 then
