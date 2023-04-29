@@ -5,6 +5,8 @@ local sta = nil
 local config_coderunner = nil
 local loaded_config_coderunner = nil
 
+-- package.loaded['code_runner'] = nil
+
 local coderunner_exe = function()
   if not loaded_config_coderunner then
     loaded_config_coderunner = 1
