@@ -76,6 +76,8 @@ fu tabline#tabline()
     let s ..= '%' . curbufnr
     let s ..= '@tabline#gobuffer@'
     let s ..= '1 empty name '
+  else
+    exe 'nnoremap <buffer><silent><nowait> <leader>0 :b' . bufnr .'<cr>'
   endif
   let s ..= '%#TabLineFill#%T'
   let s ..= "  %="
