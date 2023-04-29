@@ -35,7 +35,7 @@ fu tabline#tabline()
       continue
     endif
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
-    if isdirectory(name) || match(tolower(name), cwd) == -1
+    if !filereadable(name) || match(tolower(name), cwd) == -1
       continue
     endif
     let names = split(name, '/')
