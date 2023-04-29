@@ -104,6 +104,7 @@ fu tabline#tabline()
   endif
   let s ..= '%#TabLineFill#%T'
   let s ..= "  %="
+  let s ..= '%#TabLine#'
   let s ..= g:process_mem
   let s ..= "  "
   let curtabpgnr = tabpagenr()
