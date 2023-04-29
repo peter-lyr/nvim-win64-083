@@ -31,7 +31,7 @@ fu tabline#tabline()
   let curcnt = 0
   let L = {}
   for bufnr in nvim_list_bufs()
-    if !buflisted(bufnr) || !nvim_buf_is_loaded(bufnr)
+    if !buflisted(bufnr) && !nvim_buf_is_loaded(bufnr)
       continue
     endif
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
@@ -50,6 +50,9 @@ fu tabline#tabline()
   let mincnt = max([curcnt - 4, 0])
   let maxcnt = min([curcnt + 4, cnt - 1])
   let cnt = 0
+  if !filereadable(curname)
+    let curcnt = -1
+  endif
   for i in range(mincnt, maxcnt)
     let key = L[i]
     let bufnr = key[0]
