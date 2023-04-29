@@ -11,11 +11,6 @@ set_tabline = a.nvim_create_autocmd({ 'CursorMoved' }, {
   callback = function()
     a.nvim_del_autocmd(set_tabline)
     c([[set tabline=%!tabline#tabline()]])
-  end,
-})
-
-a.nvim_create_autocmd({ 'WinLeave' }, {
-  callback = function()
     local sta, do_tabline = pcall(require, 'do_tabline')
     if not sta then
       print('no do_tabline')
