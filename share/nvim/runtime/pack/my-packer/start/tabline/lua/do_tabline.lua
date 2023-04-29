@@ -16,6 +16,22 @@ a.nvim_create_autocmd({ 'BufLeave' }, {
   end,
 })
 
+local timer = vim.loop.new_timer()
+timer:start(1000, 1000, function()
+  vim.schedule(function()
+    local handle = io.popen(string.format("%s \"%s\"", vim.g.process_exe, vim.opt.titlestring:get()))
+    if handle then
+      local result = handle:read("*a")
+      handle:close()
+      local a1, b1 = string.match(result, '%S+%s+(%S+)%s+(%S+)%s*$')
+      g.process_mem = a1 .. b1
+    end
+  end)
+end)
+
+local tabline_dir = Path:new(g.tabline_lua):parent():parent()['filename']
+g.process_exe = Path:new(tabline_dir):joinpath('autoload', 'process.exe')['filename']
+
 local opt = { silent = true }
 
 s({ 'n', 'v' }, '<leader><bs>', ':<c-u>try|exe "b" . g:lastbufnr|catch|endtry<cr>', opt)

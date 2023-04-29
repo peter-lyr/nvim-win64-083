@@ -2,8 +2,11 @@ local c = vim.cmd
 local a = vim.api
 local f = vim.fn
 local o = vim.opt
+local g = vim.g
 
 o.showtabline = 2
+
+g.tabline_lua = vim.fn['expand']('<sfile>')
 
 local set_tabline = nil
 

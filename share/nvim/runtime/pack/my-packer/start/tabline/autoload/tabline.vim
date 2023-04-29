@@ -22,6 +22,8 @@ fu tabline#gobuffer(minwid, _clicks, _btn, _modifiers)
   exe 'b' . a:minwid
 endfu
 
+let g:process_mem = ''
+
 fu tabline#tabline()
   let s = ''
   let curname = substitute(nvim_buf_get_name(0), '\', '/', 'g')
@@ -102,6 +104,8 @@ fu tabline#tabline()
   endif
   let s ..= '%#TabLineFill#%T'
   let s ..= "  %="
+  let s ..= g:process_mem
+  let s ..= "  "
   let curtabpgnr = tabpagenr()
   for i in range(tabpagenr('$'))
     if i + 1 == curtabpgnr
