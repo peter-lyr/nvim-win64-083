@@ -2,11 +2,7 @@ local c = vim.cmd
 local f = vim.fn
 local o = vim.opt
 
-local treesitter_do_loaded = nil
-
 local sta
-
-local M = {}
 
 local add_pack_help = function(plugnames)
   local _sta, _path
@@ -33,63 +29,67 @@ local add_pack_help = function(plugnames)
   return true
 end
 
-M.run = function()
-  if not treesitter_do_loaded then
-    treesitter_do_loaded = 1
-    if not add_pack_help({ 'nvim-treesitter' }) then
-      return
-    end
-    local treesitter
-    sta, treesitter = pcall(require, "nvim-treesitter.configs")
-    if not sta then
-      print(treesitter)
-      return
-    end
-    add_pack_help({
-      'nvim-treesitter-context',
-      'nvim-ts-rainbow',
-    })
-    local parser_path = f.expand("$VIMRUNTIME") .. "\\my-neovim-data\\treesitter-parser"
-    o.runtimepath:append(parser_path)
-    treesitter.setup({
-      ensure_installed = {}, -- 'all',
-      sync_install = false,
-      auto_install = false,
-      parser_install_dir = parser_path,
-      highlight = {
-        enable = true,
-        additional_vim_regex_highlighting = false,
-        -- disable = {
-        --   "markdown",
-        --   "markdown_inline"
-        -- },
-      },
-      indent = {
-        enable = true,
-      },
-      incremental_selection = {
-        enable = true,
-        keymaps = {
-          init_selection = "qi",
-          node_incremental = "qi",
-          scope_incremental = "qu",
-          node_decremental = "qo",
-        },
-      },
-      rainbow = {
-        enable = true,
-        extended_mode = true,
-        max_file_lines = nil,
-      }
-    })
-    local treesitter_context
-    sta, treesitter_context = pcall(require, "treesitter-context")
-    if not sta then
-      print(treesitter_context)
-      return
-    end
-    treesitter_context.setup({})
-  end
+if not add_pack_help({ 'nvim-treesitter' }) then
+  return
 end
 
-return M
+local treesitter
+sta, treesitter = pcall(require, "nvim-treesitter.configs")
+if not sta then
+  print(treesitter)
+  return
+end
+
+add_pack_help({
+  'nvim-treesitter-context',
+})
+
+if add_pack_help({
+  'nvim-ts-rainbow',
+}) then
+  f['timer_start'](2000, require"rainbow.internal".defhl)
+end
+
+local parser_path = f.expand("$VIMRUNTIME") .. "\\my-neovim-data\\treesitter-parser"
+
+o.runtimepath:append(parser_path)
+
+treesitter.setup({
+  ensure_installed = {}, -- 'all',
+  sync_install = false,
+  auto_install = false,
+  parser_install_dir = parser_path,
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+    -- disable = {
+    --   "markdown",
+    --   "markdown_inline"
+    -- },
+  },
+  indent = {
+    enable = true,
+  },
+  incremental_selection = {
+    enable = true,
+    keymaps = {
+      init_selection = "qi",
+      node_incremental = "qi",
+      scope_incremental = "qu",
+      node_decremental = "qo",
+    },
+  },
+  rainbow = {
+    enable = true,
+    extended_mode = true,
+    max_file_lines = nil,
+  }
+})
+
+local treesitter_context
+sta, treesitter_context = pcall(require, "treesitter-context")
+if not sta then
+  print(treesitter_context)
+  return
+end
+treesitter_context.setup({})
