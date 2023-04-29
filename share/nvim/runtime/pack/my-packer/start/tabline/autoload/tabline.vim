@@ -75,7 +75,7 @@ fu tabline#tabline()
     let s ..= '%' . bufnr
     let s ..= '@tabline#gobuffer@'
     let s ..= cnt
-    if i == curcnt
+    if i == curcnt && length >= 7
       let s ..= '/'
       let s ..= length
     endif
