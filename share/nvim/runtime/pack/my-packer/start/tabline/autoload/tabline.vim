@@ -74,6 +74,11 @@ fu tabline#tabline()
     let s ..= cnt
     let s ..= ' ' . name . ' '
   endfor
+  if len(L) == curcnt + 1
+    exe 'nnoremap <buffer><silent><nowait> <leader>= :b' . L[0][0] .'<cr>'
+  elseif 0 == curcnt
+    exe 'nnoremap <buffer><silent><nowait> <leader>- :b' . L[len(L)-1][0] .'<cr>'
+  endif
   if len(s) == 0
     let s ..= '%#TabLineSel#'
     let s ..= '%' . curbufnr
