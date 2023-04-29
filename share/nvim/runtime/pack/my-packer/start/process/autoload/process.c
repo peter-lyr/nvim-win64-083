@@ -1,11 +1,25 @@
 #include <windows.h>
 #include <stdio.h>
 #include <tlhelp32.h>
+#include <stdarg.h>
 #include <stdlib.h>
 
 void get_process_pid_by_title(char *title, DWORD *pid) {
   HWND hwnd = FindWindow(NULL, title);
   GetWindowThreadProcessId(hwnd, pid);
+}
+
+char *my_printf(const char *format, ...) {
+  char *str = (char *)malloc(sizeof(char) * 100);
+  if (str == NULL) {
+    printf("Memory allocation failed.\n");
+    exit(1);
+  }
+  va_list args;
+  va_start(args, format);
+  vsprintf(str, format, args);
+  va_end(args);
+  return str;
 }
 
 int get_sub_process_pids(DWORD **p, int *len, DWORD pid) {
@@ -43,16 +57,18 @@ int get_sub_process_pids(DWORD **p, int *len, DWORD pid) {
 
 int main(int argc, char *argv[]) {
   if (argc != 2) {
+    printf("err: argc != 2\n");
     return 0;
   }
   DWORD pid;
   DWORD *sub_pids = NULL;
   int sub_pid_len = 0;
   get_process_pid_by_title(argv[1], &pid);
-  printf("%ld\n", pid);
   get_sub_process_pids(&sub_pids, &sub_pid_len, pid);
+  char *str;
   for (int i = 0; i < sub_pid_len; i++) {
-    printf("%ld ", sub_pids[i]);
+    str = my_printf("tasklist /fi \"pid eq %d\" | grep nvim", sub_pids[i]);
+    system(str);
   }
   free(sub_pids);
   return 0;
