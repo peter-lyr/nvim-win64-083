@@ -2,6 +2,23 @@ local M = {}
 
 local o = vim.opt
 local f = vim.fn
+local a = vim.api
+local g = vim.g
+local s = vim.keymap.set
+
+g.lastbufnr = nil
+
+a.nvim_create_autocmd({ 'BufLeave' }, {
+  callback = function()
+    if f['filereadable'](a.nvim_buf_get_name(0)) then
+      g.lastbufnr = f['bufnr']()
+    end
+  end,
+})
+
+local opt = { silent = true }
+
+s({ 'n', 'v' }, '<leader><bs>', ':<c-u>try|exe "b" . g:lastbufnr|catch|endtry<cr>', opt)
 
 local get_fname_tail = function(fname)
   fname = string.gsub(fname, "\\", '/')
