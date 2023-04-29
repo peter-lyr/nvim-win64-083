@@ -68,9 +68,9 @@ fu tabline#tabline()
       exe 'nnoremap <buffer><silent><nowait> <bs> :b' . L[i][0] .'<cr>'
     endif
     if i == curcnt
-      let s ..= '%#TabLineSel#'
+      let s ..= ' %#TabLineSel#'
     else
-      let s ..= '%#TabLine#'
+      let s ..= ' %#TabLine#'
     endif
     let s ..= '%' . bufnr
     let s ..= '@tabline#gobuffer@'
