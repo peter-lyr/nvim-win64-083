@@ -42,10 +42,12 @@ local get_fname_tail = function(fname)
   return ''
 end
 
+local datetime = os.date("%Y/%m/%d %H:%M:%S")
+
 M.update_title_string = function()
   local title = get_fname_tail(f['getcwd']())
   if #title > 0 then
-    o.titlestring = title
+    o.titlestring = title .. ' - ' .. datetime
   end
 end
 
