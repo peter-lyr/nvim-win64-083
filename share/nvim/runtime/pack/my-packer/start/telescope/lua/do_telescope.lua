@@ -241,6 +241,7 @@ local get_sub_dirs = function(dir)
     end
   end
   local sub_dirs = {}
+  table.insert(sub_dirs, rep(dir))
   for _, entry in ipairs(entries) do
     if Path:new(entry):is_dir() then
       local ignore = nil
