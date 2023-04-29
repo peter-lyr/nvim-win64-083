@@ -62,8 +62,10 @@ fu tabline#tabline()
     exe 'nnoremap <buffer><silent><nowait> <leader>' . cnt ' :b' . bufnr .'<cr>'
     if i + 1 == curcnt
       exe 'nnoremap <buffer><silent><nowait> <leader>- :b' . L[i][0] .'<cr>'
+      exe 'nnoremap <buffer><silent><nowait> <c-bs> :b' . L[i][0] .'<cr>'
     elseif i - 1 == curcnt
       exe 'nnoremap <buffer><silent><nowait> <leader>= :b' . L[i][0] .'<cr>'
+      exe 'nnoremap <buffer><silent><nowait> <bs> :b' . L[i][0] .'<cr>'
     endif
     if i == curcnt
       let s ..= '%#TabLineSel#'
@@ -80,12 +82,14 @@ fu tabline#tabline()
     let s ..= ' ' . name . ' '
   endfor
   if length == curcnt + 1
-    if index(keys(L), 0) != -1
+    if index(keys(L), '0') != -1
       exe 'nnoremap <buffer><silent><nowait> <leader>= :b' . L[0][0] .'<cr>'
+      exe 'nnoremap <buffer><silent><nowait> <bs> :b' . L[0][0] .'<cr>'
     endif
   elseif 0 == curcnt
-    if index(keys(L), length-1) != -1
+    if index(keys(L), string(length-1)) != -1
       exe 'nnoremap <buffer><silent><nowait> <leader>- :b' . L[length-1][0] .'<cr>'
+      exe 'nnoremap <buffer><silent><nowait> <c-bs> :b' . L[length-1][0] .'<cr>'
     endif
   endif
   if len(s) == 0
