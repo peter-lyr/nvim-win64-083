@@ -112,11 +112,12 @@ fu tabline#tabline()
       let s ..= '%#TabLine#▎'
     endif
     let s ..= printf('%%#MyTabline%s#', ext)
-    let s ..= cnt .. ' '
+    let s ..= cnt
     if i == curcnt && length >= 7
       let s ..= '/'
       let s ..= length
     endif
+    let s ..= ' '
     if i == curcnt
       let s ..= '%#TabLineSel#'
     else
