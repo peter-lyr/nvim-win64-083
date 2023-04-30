@@ -86,11 +86,11 @@ fu tabline#tabline()
     else
       let s ..= '%#TabLine#'
     endif
-    let s ..= name .. ' '
+    let s ..= name
     try
       let ic = g:tabline_exts[ext][0]
       let s ..= printf('%%#MyTabline%s#', ext)
-      let s ..= ic
+      let s ..= ' ' .. ic
     catch
     endtry
     let s ..= ' '
