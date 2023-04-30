@@ -51,6 +51,22 @@ endfu
 let g:process_mem = ''
 let g:tabline_exts = {}
 
+fu tabline#bwall()
+  let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
+  let cnt = 0
+  for bufnr in nvim_list_bufs()
+    let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
+    if match(tolower(name), cwd) == -1
+      continue
+    endif
+    exe 'bw' . bufnr
+    let cnt += 1
+  endfor
+  echomsg 'bw ' . cnt .' buffers'
+endfu
+
+nnoremap <silent><nowait> <leader>b<a-bs> :call tabline#bwall()<cr>
+
 fu tabline#tabline()
   let s = ''
   let curname = substitute(nvim_buf_get_name(0), '\', '/', 'g')
