@@ -16,6 +16,44 @@ a.nvim_create_autocmd({ 'BufLeave' }, {
   end,
 })
 
+local sta, Path = pcall(require, "plenary.path")
+if not sta then
+  print(Path)
+  return ''
+end
+
+local devicons
+sta, devicons = pcall(require, "nvim-web-devicons")
+if not sta then
+  print(devicons)
+end
+
+g.tabline_exts = {}
+
+TablineHi = {}
+
+a.nvim_create_autocmd({ 'BufEnter' }, {
+  callback = function()
+    local path = Path:new(a.nvim_buf_get_name(0))
+    if not path:exists() then
+      return
+    end
+    local ext = string.match(path.filename, "%.([^.]+)$")
+    if not ext then
+      return
+    end
+    if not vim.api.nvim_get_hl(0, { name = 'MyTabline' .. ext })['fg'] then
+      local ic, color = devicons.get_icon_color(path.filename, ext)
+      if ic then
+        TablineHi[ext] = ic
+        local hl_group = "MyTabline" .. ext
+        vim.api.nvim_set_hl(0, hl_group, { fg = color })
+        vim.g.tabline_exts = TablineHi
+      end
+    end
+  end,
+})
+
 local timer = vim.loop.new_timer()
 timer:start(1000, 1000, function()
   vim.schedule(function()
@@ -24,7 +62,9 @@ timer:start(1000, 1000, function()
       local result = handle:read("*a")
       handle:close()
       local a1, b1 = string.match(result, '%S+%s+(%S+)%s+(%S+)%s*$')
-      g.process_mem = a1 .. b1
+      if a1 and b1 then
+        g.process_mem = a1 .. b1
+      end
     end
   end)
 end)
@@ -38,12 +78,7 @@ s({ 'n', 'v' }, '<leader><bs>', ':<c-u>try|exe "b" . g:lastbufnr|catch|endtry<cr
 
 local get_fname_tail = function(fname)
   fname = string.gsub(fname, "\\", '/')
-  local sta, path = pcall(require, "plenary.path")
-  if not sta then
-    print('tabline_show no plenary.path')
-    return ''
-  end
-  path = path:new(fname)
+  local path = Path:new(fname)
   if path:is_file() then
     fname = path:_split()
     return fname[#fname]

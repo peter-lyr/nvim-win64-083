@@ -23,6 +23,7 @@ fu tabline#gobuffer(minwid, _clicks, _btn, _modifiers)
 endfu
 
 let g:process_mem = ''
+let g:tabline_exts = {}
 
 fu tabline#tabline()
   let s = ''
@@ -81,7 +82,15 @@ fu tabline#tabline()
       let s ..= '/'
       let s ..= length
     endif
-    let s ..= ' ' . name . ' '
+    let s ..= ' ' . name
+    let ext = split(name, '\.')[-1]
+    try
+      let temp = g:tabline_exts[ext]
+      let s ..= printf('%%#MyTabline%s#', ext)
+      let s ..= ' ' . temp
+    catch
+    endtry
+    let s ..= ' '
   endfor
   if length == curcnt + 1
     if index(keys(L), '0') != -1
