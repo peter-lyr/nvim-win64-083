@@ -1,4 +1,4 @@
-fu tabline#get_fname(bufname)
+fu! tabline#get_fname(bufname)
   if len(trim(a:bufname)) == 0
     return '+'
   endif
@@ -15,7 +15,7 @@ fu tabline#get_fname(bufname)
   return '-'
 endfu
 
-fu tabline#bwwatcher(bufnr)
+fu! tabline#bwwatcher(bufnr)
   if bufnr() != a:bufnr
     try
       call timer_stop(g:tabline_bw_timer)
@@ -28,7 +28,7 @@ fu tabline#bwwatcher(bufnr)
   endif
 endfu
 
-fu tabline#bw(bufnr)
+fu! tabline#bw(bufnr)
     if bufnr() == a:bufnr
       try
         exe 'b' . g:nextbufnr
@@ -40,7 +40,7 @@ fu tabline#bw(bufnr)
     endif
 endfu
 
-fu tabline#gobuffer(minwid, _clicks, _btn, _modifiers)
+fu! tabline#gobuffer(minwid, _clicks, _btn, _modifiers)
   if a:_clicks == 1 && a:_btn == 'l'
     exe 'b' . a:minwid
   elseif a:_clicks == 2 && a:_btn == 'm'
@@ -50,14 +50,44 @@ endfu
 
 let g:process_mem = ''
 let g:tabline_exts = {}
+let g:bwall_dict = {}
 
-fu tabline#bwall()
+fu! tabline#pushdict(name)
+  let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
+  if !has_key(g:bwall_dict, cwd)
+    let g:bwall_dict[cwd] = [a:name]
+  else
+    let g:bwall_dict[cwd] += [a:name]
+  endif
+endfu
+
+fu! tabline#getdict()
+  let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
+  if has_key(g:bwall_dict, cwd)
+    lua << EOF
+      local t1 = {}
+      local cwd = string.gsub(vim.fn['getcwd'](), '\\', '/')
+      cwd = vim.fn['tolower'](cwd)
+      for _, v in pairs(vim.g.bwall_dict[cwd]) do
+        table.insert(t1, v)
+      end
+      vim.ui.select(t1, { prompt = 'open' }, function(choice, _)
+        vim.cmd(string.format('e %s', choice))
+      end)
+EOF
+  endif
+endfu
+
+fu! tabline#bwall()
   let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
   let cnt = 0
   for bufnr in nvim_list_bufs()
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
     if match(tolower(name), cwd) == -1
       continue
+    endif
+    if buflisted(bufnr) && nvim_buf_is_loaded(bufnr) && filereadable(name)
+      call tabline#pushdict(name)
     endif
     exe 'bw' . bufnr
     let cnt += 1
@@ -66,8 +96,9 @@ fu tabline#bwall()
 endfu
 
 nnoremap <silent><nowait> <leader>b<a-bs> :call tabline#bwall()<cr>
+nnoremap <silent><nowait> <leader>bO :echomsg tabline#getdict()<cr>
 
-fu tabline#tabline()
+fu! tabline#tabline()
   let s = ''
   let curname = substitute(nvim_buf_get_name(0), '\', '/', 'g')
   let curbufnr = bufnr()
