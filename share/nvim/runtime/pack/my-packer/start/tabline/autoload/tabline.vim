@@ -17,7 +17,10 @@ endfu
 
 fu tabline#bwwatcher(bufnr)
   if bufnr() != a:bufnr
-    call timer_stop(g:tabline_bw_timer)
+    try
+      call timer_stop(g:tabline_bw_timer)
+    catch
+    endtry
     try
       exe 'bw' . a:bufnr
     catch
@@ -86,14 +89,17 @@ fu tabline#tabline()
     let name = key[1]
     let cnt += 1
     exe 'nnoremap <buffer><silent><nowait> <leader>' . cnt ' :b' . bufnr .'<cr>'
+    exe 'nnoremap <buffer><silent><nowait> <leader>b' . cnt ' :call tabline#bw(' . bufnr .')<cr>'
     if i + 1 == curcnt
       exe 'nnoremap <buffer><silent><nowait> <leader>- :b' . L[i][0] .'<cr>'
+      exe 'nnoremap <buffer><silent><nowait> <leader>b- :call tabline#bw(' . L[i][0] .')<cr>'
       exe 'nnoremap <buffer><silent><nowait> <c-bs> :b' . L[i][0] .'<cr>'
       if i + 1 == length - 1
         let g:nextbufnr = L[i][0]
       endif
     elseif i - 1 == curcnt
       exe 'nnoremap <buffer><silent><nowait> <leader>= :b' . L[i][0] .'<cr>'
+      exe 'nnoremap <buffer><silent><nowait> <leader>b= :call tabline#bw(' . L[i][0] .')<cr>'
       exe 'nnoremap <buffer><silent><nowait> <bs> :b' . L[i][0] .'<cr>'
       let g:nextbufnr = L[i][0]
     endif
@@ -130,11 +136,13 @@ fu tabline#tabline()
   if length == curcnt + 1
     if index(keys(L), '0') != -1
       exe 'nnoremap <buffer><silent><nowait> <leader>= :b' . L[0][0] .'<cr>'
+      exe 'nnoremap <buffer><silent><nowait> <leader>b= :call tabline#bw(' . L[0][0] .')<cr>'
       exe 'nnoremap <buffer><silent><nowait> <bs> :b' . L[0][0] .'<cr>'
     endif
   elseif 0 == curcnt
     if index(keys(L), string(length-1)) != -1
       exe 'nnoremap <buffer><silent><nowait> <leader>- :b' . L[length-1][0] .'<cr>'
+      exe 'nnoremap <buffer><silent><nowait> <leader>b- :call tabline#bw(' . L[length-1][0] .')<cr>'
       exe 'nnoremap <buffer><silent><nowait> <c-bs> :b' . L[length-1][0] .'<cr>'
     endif
   endif
