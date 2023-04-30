@@ -144,7 +144,11 @@ end
 M.update_title_string = function()
   local title = get_fname_tail(f['getcwd']())
   if #title > 0 then
-    o.titlestring = title .. ' | ' .. datetime .. ' ' .. g.colors_name
+    local t1 = title .. ' | ' .. datetime
+    if g.colors_name then
+      t1 = t1 .. ' ' .. g.colors_name
+    end
+    o.titlestring = t1
   end
 end
 

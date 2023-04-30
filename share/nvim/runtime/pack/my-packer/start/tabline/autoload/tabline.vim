@@ -133,12 +133,12 @@ fu tabline#tabline()
     catch
     endtry
     let s ..= '▎'
-    let s ..= string(i+1)
     if i + 1 == curtabpgnr
       let s ..= '%#TabLineSel#'
     else
       let s ..= '%#TabLine#'
     endif
+    let s ..= string(i+1)
     let s ..= " %{tabline#get_fname('" .. bufname .. "')} "
   endfor
   return trim(s)
