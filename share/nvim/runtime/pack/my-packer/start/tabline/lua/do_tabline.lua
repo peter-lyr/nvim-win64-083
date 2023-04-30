@@ -66,7 +66,7 @@ a.nvim_create_autocmd({ 'BufEnter' }, {
 })
 
 local time = os.time()
-local datetime = os.date("%Y/%m/%d %H:%M:%S", time)
+local datetime = os.date("%H:%M:%S", time)
 
 local function format_time(seconds)
   local minutes = math.floor(seconds / 60)
@@ -144,7 +144,7 @@ end
 M.update_title_string = function()
   local title = get_fname_tail(f['getcwd']())
   if #title > 0 then
-    o.titlestring = title .. ' - ' .. datetime
+    o.titlestring = title .. ' | ' .. datetime .. ' ' .. g.colors_name
   end
 end
 
