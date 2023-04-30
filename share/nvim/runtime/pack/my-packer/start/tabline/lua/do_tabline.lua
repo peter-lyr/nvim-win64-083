@@ -96,7 +96,7 @@ local function format_time(seconds)
     seconds = seconds % 60
   end
   if seconds > 0 then
-      result = result .. seconds
+      result = result .. string.format("%02d", seconds)
   end
   return result
 end
