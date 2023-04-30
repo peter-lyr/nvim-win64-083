@@ -71,7 +71,7 @@ fu tabline#tabline()
     let s ..= '%' . bufnr
     let s ..= '@tabline#gobuffer@'
     if i == curcnt
-      let s ..= '%#TabLineSel#▎'
+      let s ..= printf('%%#MyTabline%s#▎', ext)
     else
       let s ..= '%#TabLine#▎'
     endif
