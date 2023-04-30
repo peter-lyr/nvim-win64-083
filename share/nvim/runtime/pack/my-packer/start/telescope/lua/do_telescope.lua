@@ -83,6 +83,7 @@ local get_setup_table = function(file_ignore_patterns)
       mappings = {
         i = {
           ['<a-m>'] = actions.close,
+          ['qm'] = actions.close,
           ['<a-j>'] = actions.move_selection_next,
           ['<a-k>'] = actions.move_selection_previous,
           ['<a-;>'] = actions.send_to_qflist + actions.open_qflist,
@@ -96,6 +97,7 @@ local get_setup_table = function(file_ignore_patterns)
         },
         n = {
           ['ql'] = actions.close,
+          ['qm'] = actions.close,
           ['<a-m>'] = actions.close,
           ['<a-j>'] = actions.move_selection_next,
           ['<a-k>'] = actions.move_selection_previous,
