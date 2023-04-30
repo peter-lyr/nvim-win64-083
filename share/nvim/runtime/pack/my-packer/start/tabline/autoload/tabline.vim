@@ -85,7 +85,7 @@ fu tabline#tabline()
     let s ..= ' ' . name
     let ext = split(name, '\.')[-1]
     try
-      let temp = g:tabline_exts[ext]
+      let temp = g:tabline_exts[ext][0]
       let s ..= printf('%%#MyTabline%s#', ext)
       let s ..= ' ' . temp
     catch

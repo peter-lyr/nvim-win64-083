@@ -8,6 +8,19 @@ local s = vim.keymap.set
 
 g.lastbufnr = nil
 
+TablineHi = {}
+
+a.nvim_create_autocmd({ 'ColorScheme' }, {
+  callback = function()
+    for k, v in pairs(TablineHi) do
+      local ext = k
+      local color = v[2]
+      local hl_group = "MyTabline" .. ext
+      vim.api.nvim_set_hl(0, hl_group, { fg = color })
+    end
+  end,
+})
+
 a.nvim_create_autocmd({ 'BufLeave' }, {
   callback = function()
     if f['filereadable'](a.nvim_buf_get_name(0)) then
@@ -30,8 +43,6 @@ end
 
 g.tabline_exts = {}
 
-TablineHi = {}
-
 a.nvim_create_autocmd({ 'BufEnter' }, {
   callback = function()
     local path = Path:new(a.nvim_buf_get_name(0))
@@ -45,7 +56,7 @@ a.nvim_create_autocmd({ 'BufEnter' }, {
     if not vim.api.nvim_get_hl(0, { name = 'MyTabline' .. ext })['fg'] then
       local ic, color = devicons.get_icon_color(path.filename, ext)
       if ic then
-        TablineHi[ext] = ic
+        TablineHi[ext] = {ic, color}
         local hl_group = "MyTabline" .. ext
         vim.api.nvim_set_hl(0, hl_group, { fg = color })
         vim.g.tabline_exts = TablineHi
