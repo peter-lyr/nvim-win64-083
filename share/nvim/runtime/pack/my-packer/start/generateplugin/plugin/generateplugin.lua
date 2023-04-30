@@ -39,11 +39,11 @@ local generateplugin = function(params)
 end
 
 
-generateplugin_autocmd = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'CursorHold' }, {
-  callback = function()
-    generateplugin()
-  end,
-})
+-- generateplugin_autocmd = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'CursorHold' }, {
+--   callback = function()
+--     generateplugin()
+--   end,
+-- })
 
 
 a.nvim_create_user_command('GeneratePlugiN', function(params)

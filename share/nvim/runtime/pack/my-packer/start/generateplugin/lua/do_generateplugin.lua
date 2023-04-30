@@ -11,6 +11,7 @@ local do_generateplugin_lua_path = generateplugin_path:joinpath('lua', 'do_gener
 local do_generateplugin_plugin_path = generateplugin_path:joinpath('plugin', 'generateplugin.lua')
 
 M.run = function(params)
+
   -- if not params or #params == 0 then
   --   return
   -- end
