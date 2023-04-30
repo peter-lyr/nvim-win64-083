@@ -61,6 +61,24 @@ fu! tabline#pushdict(name)
   endif
 endfu
 
+fu! tabline#getalldict()
+  lua << EOF
+    local t1 = {}
+    for k, _ in pairs(vim.g.bwall_dict) do
+      table.insert(t1, k)
+    end
+    vim.ui.select(t1, { prompt = 'bwipeout cwd' }, function(choice, _)
+    local t2 = {}
+      for _, v in pairs(vim.g.bwall_dict[choice]) do
+        table.insert(t2, v)
+      end
+      vim.ui.select(t2, { prompt = 'open' }, function(choice, _)
+        vim.cmd(string.format('e %s', choice))
+      end)
+    end)
+EOF
+endfu
+
 fu! tabline#getdict()
   let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
   if has_key(g:bwall_dict, cwd)
@@ -95,7 +113,8 @@ fu! tabline#bwall()
 endfu
 
 nnoremap <silent><nowait> <leader>b<a-bs> :call tabline#bwall()<cr>
-nnoremap <silent><nowait> <leader>bO :call tabline#getdict()<cr>
+nnoremap <silent><nowait> <leader>bq :call tabline#getdict()<cr>
+nnoremap <silent><nowait> <leader>br :call tabline#getalldict()<cr>
 
 fu! tabline#tabline()
   let s = ''
