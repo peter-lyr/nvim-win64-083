@@ -1,49 +1,54 @@
 local a = vim.api
-local f = vim.fn
-local g = vim.g
 
 -- local c = vim.cmd
 -- local o = vim.opt
 
-local sta
-
-local do_generateplugin = nil
-local generateplugin_autocmd = nil
-local generateplugin_autocnt = 0
-local generateplugin_autoload_max_cnt = 1
-local generateplugin_loaded = nil
-
+local g = vim.g
+local f = vim.fn
 g.generateplugin_lua = f['expand']('<sfile>')
 
-local generateplugin = function(params)
+local sta
+
+local do_generateplugin
+local generateplugin_autocmd
+local generateplugin_loaded
+
+-- package.loaded['do_generateplugin'] = nil
+
+local init = function()
   if not generateplugin_loaded then
     generateplugin_loaded = true
     sta, do_generateplugin = pcall(require, 'do_generateplugin')
     if not sta then
       print(do_generateplugin)
-      return
+      return nil
     end
   end
-  if generateplugin_autocnt >= generateplugin_autoload_max_cnt and generateplugin_autocmd then
+  if generateplugin_autocmd then
     a.nvim_del_autocmd(generateplugin_autocmd)
+    generateplugin_autocmd = nil
   end
-  if not do_generateplugin then
+  return true
+end
+
+local generateplugin = function(params)
+  if not init() then
     return
   end
-  do_generateplugin.run(params)
+  pcall(do_generateplugin.run, params)
 end
+
 
 generateplugin_autocmd = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'CursorHold' }, {
   callback = function()
-    generateplugin_autocnt = generateplugin_autocnt + 1
     generateplugin()
   end,
 })
 
+
 a.nvim_create_user_command('GeneratePlugiN', function(params)
   generateplugin(params['fargs'])
 end, { nargs = '*', })
-
 
 local s = vim.keymap.set
 local opt = { silent = true }
