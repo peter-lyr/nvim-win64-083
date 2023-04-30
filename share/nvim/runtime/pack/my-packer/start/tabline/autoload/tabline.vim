@@ -86,12 +86,13 @@ fu tabline#tabline()
     else
       let s ..= '%#TabLine#'
     endif
-    let s ..= name
     try
       let ic = g:tabline_exts[ext][0]
+      let s ..= join(split(name, '\.')[0:-2], '\.')
       let s ..= printf('%%#MyTabline%s#', ext)
       let s ..= ' ' .. ic
     catch
+      let s ..= name
     endtry
     let s ..= ' '
   endfor
