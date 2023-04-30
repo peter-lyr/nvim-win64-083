@@ -154,6 +154,7 @@ fu tabline#tabline()
     let s ..= ' 1 empty name '
   else
     exe 'nnoremap <buffer><silent><nowait> <leader>0 :b' . bufnr .'<cr>'
+    exe 'nnoremap <buffer><silent><nowait> <leader>b0 :call tabline#bw(' . bufnr .')<cr>'
   endif
   let s ..= '%#TabLineFill#%T'
   let s ..= "%="
