@@ -47,7 +47,11 @@ add_pack_help({
 if add_pack_help({
   'nvim-ts-rainbow',
 }) then
+  f['timer_start'](200, require"rainbow.internal".defhl)
   f['timer_start'](2000, require"rainbow.internal".defhl)
+  f['timer_start'](8000, require"rainbow.internal".defhl)
+  f['timer_start'](16000, require"rainbow.internal".defhl)
+  f['timer_start'](64000, require"rainbow.internal".defhl)
 end
 
 local parser_path = f.expand("$VIMRUNTIME") .. "\\my-neovim-data\\treesitter-parser"
