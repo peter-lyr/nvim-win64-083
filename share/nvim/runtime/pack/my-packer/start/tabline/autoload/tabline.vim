@@ -92,11 +92,10 @@ fu! tabline#bwall()
     exe 'bw' . bufnr
     let cnt += 1
   endfor
-  echomsg 'bw ' . cnt .' buffers'
 endfu
 
 nnoremap <silent><nowait> <leader>b<a-bs> :call tabline#bwall()<cr>
-nnoremap <silent><nowait> <leader>bO :echomsg tabline#getdict()<cr>
+nnoremap <silent><nowait> <leader>bO :call tabline#getdict()<cr>
 
 fu! tabline#tabline()
   let s = ''
