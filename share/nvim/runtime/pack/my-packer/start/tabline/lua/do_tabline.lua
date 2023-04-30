@@ -56,7 +56,7 @@ a.nvim_create_autocmd({ 'BufEnter' }, {
     if not vim.api.nvim_get_hl(0, { name = 'MyTabline' .. ext })['fg'] then
       local ic, color = devicons.get_icon_color(path.filename, ext)
       if ic then
-        TablineHi[ext] = {ic, color}
+        TablineHi[ext] = { ic, color }
         local hl_group = "MyTabline" .. ext
         vim.api.nvim_set_hl(0, hl_group, { fg = color })
         vim.g.tabline_exts = TablineHi
@@ -64,6 +64,42 @@ a.nvim_create_autocmd({ 'BufEnter' }, {
     end
   end,
 })
+
+local time = os.time()
+local datetime = os.date("%Y/%m/%d %H:%M:%S", time)
+
+local function format_time(seconds)
+  local minutes = math.floor(seconds / 60)
+  local hours = math.floor(minutes / 60)
+  local days = math.floor(hours / 24)
+  local years = math.floor(days / 365)
+  local months = math.floor((days % 365) / 30)
+  local result = ""
+  if years > 0 then
+    result = result .. years .. "/"
+    days = days % 365
+  end
+  if months > 0 then
+    result = result .. months .. "/"
+    days = days % 30
+  end
+  if days > 0 then
+    result = result .. days .. " "
+    hours = hours % 24
+  end
+  if hours > 0 then
+    result = result .. hours .. ":"
+    minutes = minutes % 60
+  end
+  if minutes > 0 then
+    result = result .. minutes .. ":"
+    seconds = seconds % 60
+  end
+  if seconds > 0 then
+      result = result .. seconds
+  end
+  return result
+end
 
 local timer = vim.loop.new_timer()
 timer:start(1000, 1000, function()
@@ -73,9 +109,12 @@ timer:start(1000, 1000, function()
       local result = handle:read("*a")
       handle:close()
       local a1, b1 = string.match(result, '%S+%s+(%S+)%s+(%S+)%s*$')
+      local t = format_time(os.difftime(os.time(), time))
       if a1 and b1 then
-        g.process_mem = a1 .. b1
+        local a2 = string.format("%.1fM", tonumber(string.gsub(a1, ',', ''), 10) / 1024)
+        t = t .. ' ' .. a2
       end
+      g.process_mem = t
     end
   end)
 end)
@@ -103,8 +142,6 @@ local get_fname_tail = function(fname)
   end
   return ''
 end
-
-local datetime = os.date("%Y/%m/%d %H:%M:%S")
 
 M.update_title_string = function()
   local title = get_fname_tail(f['getcwd']())
