@@ -95,9 +95,7 @@ local function format_time(seconds)
     result = result .. minutes .. ":"
     seconds = seconds % 60
   end
-  if seconds > 0 then
-      result = result .. string.format("%02d", seconds)
-  end
+  result = result .. string.format("%02d", seconds)
   return result
 end
 
