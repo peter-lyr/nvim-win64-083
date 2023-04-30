@@ -15,8 +15,34 @@ fu tabline#get_fname(bufname)
   return '-'
 endfu
 
+fu tabline#bwwatcher(bufnr)
+  if bufnr() != a:bufnr
+    call timer_stop(g:tabline_bw_timer)
+    try
+      exe 'bw' . a:bufnr
+    catch
+    endtry
+  endif
+endfu
+
+fu tabline#bw(bufnr)
+    if bufnr() == a:bufnr
+      try
+        exe 'b' . g:nextbufnr
+        let g:tabline_bw_timer = timer_start(10, { -> tabline#bwwatcher(a:bufnr) }, { 'repeat': -1})
+      catch
+      endtry
+    else
+      call tabline#bwwatcher(a:bufnr)
+    endif
+endfu
+
 fu tabline#gobuffer(minwid, _clicks, _btn, _modifiers)
-  exe 'b' . a:minwid
+  if a:_clicks == 1 && a:_btn == 'l'
+    exe 'b' . a:minwid
+  elseif a:_clicks == 2 && a:_btn == 'm'
+    call tabline#bw(a:minwid)
+  endif
 endfu
 
 let g:process_mem = ''
@@ -63,9 +89,13 @@ fu tabline#tabline()
     if i + 1 == curcnt
       exe 'nnoremap <buffer><silent><nowait> <leader>- :b' . L[i][0] .'<cr>'
       exe 'nnoremap <buffer><silent><nowait> <c-bs> :b' . L[i][0] .'<cr>'
+      if i + 1 == length - 1
+        let g:nextbufnr = L[i][0]
+      endif
     elseif i - 1 == curcnt
       exe 'nnoremap <buffer><silent><nowait> <leader>= :b' . L[i][0] .'<cr>'
       exe 'nnoremap <buffer><silent><nowait> <bs> :b' . L[i][0] .'<cr>'
+      let g:nextbufnr = L[i][0]
     endif
     let ext = split(name, '\.')[-1]
     let s ..= '%' . bufnr
