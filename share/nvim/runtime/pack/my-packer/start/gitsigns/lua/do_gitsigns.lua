@@ -7,10 +7,10 @@ if not sta then
 end
 
 gitsigns.setup({
-  current_line_blame = true,
-  current_line_blame_opts = {
-    delay = 120,
-  },
+  -- current_line_blame = true,
+  -- current_line_blame_opts = {
+  --   delay = 120,
+  -- },
 })
 
 local M = {}
