@@ -118,9 +118,9 @@ fu tabline#tabline()
   let s ..= '%#TabLineFill#%T'
   let s ..= "%="
   let s ..= '%#Comment#'
-  let s ..= "  "
+  let s ..= "  ("
   let s ..= g:process_mem
-  let s ..= "  "
+  let s ..= ")  "
   let curtabpgnr = tabpagenr()
   for i in range(tabpagenr('$'))
     let buflist = tabpagebuflist(i + 1)
