@@ -94,10 +94,16 @@ a.nvim_create_autocmd({ 'BufReadPre' }, {
     if not ext then
       return
     end
+    Tabline_projectroots = {}
+    for _, bufnr in ipairs(a.nvim_list_bufs()) do
+      if f['buflisted'](bufnr) ~= 0 and a.nvim_buf_is_loaded(bufnr) ~= false and curbufnr ~= bufnr then
+        local projectroot = string.gsub(f['projectroot#get'](a.nvim_buf_get_name(bufnr)), '\\', '/')
+        table.insert(Tabline_projectroots, projectroot)
+      end
+    end
+    g.tabline_projectroots = Tabline_projectroots
     local projectroot = string.gsub(f['projectroot#get'](), '\\', '/')
     if not index_of(Tabline_projectroots, projectroot) then
-      table.insert(Tabline_projectroots, projectroot)
-      g.tabline_projectroots = Tabline_projectroots
       changebuf = true
     end
   end,
