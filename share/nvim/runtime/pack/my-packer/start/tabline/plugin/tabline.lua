@@ -6,6 +6,7 @@ local g = vim.g
 
 o.showtabline = 2
 
+g.startuptime = os.time()
 g.tabline_lua = vim.fn['expand']('<sfile>')
 
 local set_tabline = nil

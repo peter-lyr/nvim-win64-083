@@ -121,8 +121,7 @@ a.nvim_create_autocmd({ 'BufReadPost' }, {
   end,
 })
 
-local time = os.time()
-local datetime = os.date("%H:%M:%S", time)
+local datetime = os.date("%H:%M:%S", g.startuptime)
 
 local function format_time(seconds)
   local minutes = math.floor(seconds / 60)
@@ -163,7 +162,7 @@ timer:start(1000, 1000, function()
       local result = handle:read("*a")
       handle:close()
       local a1, b1 = string.match(result, '%S+%s+(%S+)%s+(%S+)%s*$')
-      local t = format_time(os.difftime(os.time(), time))
+      local t = format_time(os.difftime(os.time(), g.startuptime))
       if a1 and b1 then
         local a2 = string.format("%.1f", tonumber(string.gsub(a1, ',', ''), 10) / 1024)
         t = t .. ' ' .. a2
