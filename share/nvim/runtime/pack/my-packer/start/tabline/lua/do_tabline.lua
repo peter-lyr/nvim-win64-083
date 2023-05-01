@@ -3,6 +3,7 @@ local M = {}
 local o = vim.opt
 local f = vim.fn
 local a = vim.api
+local c = vim.cmd
 local g = vim.g
 local s = vim.keymap.set
 
@@ -42,6 +43,24 @@ if not sta then
 end
 
 g.tabline_exts = {}
+g.tabline_projectroots = {}
+Tabline_projectroots = {}
+
+local index_of = function(arr, val)
+  if not arr then
+    return nil
+  end
+  for i, v in ipairs(arr) do
+    if vim.fn['tolower'](v) == vim.fn['tolower'](val) then
+      return i
+    end
+  end
+  return nil
+end
+
+local lastbufnr
+local curbufnr
+local changebuf
 
 a.nvim_create_autocmd({ 'BufEnter' }, {
   callback = function()
@@ -59,6 +78,39 @@ a.nvim_create_autocmd({ 'BufEnter' }, {
       TablineHi[ext] = { ic, color }
       vim.api.nvim_set_hl(0, "MyTabline" .. ext, { fg = color })
       vim.g.tabline_exts = TablineHi
+    end
+    lastbufnr = f.bufnr()
+  end,
+})
+
+a.nvim_create_autocmd({ 'BufReadPre' }, {
+  callback = function()
+    local path = Path:new(a.nvim_buf_get_name(0))
+    curbufnr = f['bufnr']()
+    if not path:exists() then
+      return
+    end
+    local ext = string.match(path.filename, "%.([^.]+)$")
+    if not ext then
+      return
+    end
+    local projectroot = string.gsub(f['projectroot#get'](), '\\', '/')
+    if not index_of(Tabline_projectroots, projectroot) then
+      table.insert(Tabline_projectroots, projectroot)
+      g.tabline_projectroots = Tabline_projectroots
+      changebuf = true
+    end
+  end,
+})
+
+a.nvim_create_autocmd({ 'BufReadPost' }, {
+  callback = function()
+    if changebuf then
+      changebuf = nil
+      c('b' .. lastbufnr)
+      c('wincmd v')
+      c('wincmd T')
+      c('b' .. curbufnr)
     end
   end,
 })
