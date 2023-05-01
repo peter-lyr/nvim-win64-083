@@ -240,15 +240,16 @@ fu! tabline#tabline()
     let winnr = tabpagewinnr(i + 1)
     let bufname = nvim_buf_get_name(buflist[winnr-1])
     let s ..= '%' .. (i + 1) .. 'T'
-    try
-      let ext = split(bufname, '\.')[-1]
-      let s ..= printf('%%#MyTabline%s#', ext)
-    catch
-    endtry
-    let s ..= '▎'
-    if i + 1 != curtabpgnr
+    if i + 1 == curtabpgnr
+      try
+        let ext = split(bufname, '\.')[-1]
+        let s ..= printf('%%#MyTabline%s#', ext)
+      catch
+      endtry
+    else
       let s ..= '%#TablineDim#'
     endif
+    let s ..= '▎'
     let s ..= string(i+1) . ' '
     if len(trim(bufname)) == 0
       let s ..= '+ '
