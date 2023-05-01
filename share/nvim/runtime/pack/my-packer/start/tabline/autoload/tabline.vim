@@ -277,6 +277,10 @@ fu! tabline#tabline()
     let bufname = nvim_buf_get_name(buflist[winnr-1])
     if i + 1 == curtabpgnr
       let curtabpageidx = i
+      try
+        let curext = split(bufname, '\.')[-1]
+      catch
+      endtry
     endif
     if len(trim(bufname)) == 0
       let projectroots += ['+']
@@ -300,10 +304,9 @@ fu! tabline#tabline()
   for i in range(len(projectroots))
     let projectroot = projectroots[i]
     let s ..= '%' .. (i + 1) .. 'T'
-    if i + 1 == curtabpgnr
+    if i == curtabpageidx
       try
-        let ext = split(bufname, '\.')[-1]
-        let s ..= printf('%%#MyTabline%s#', ext)
+        let s ..= printf('%%#MyTabline%s#', curext)
       catch
       endtry
     else
