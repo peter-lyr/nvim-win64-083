@@ -1,20 +1,3 @@
-fu! tabline#get_fname(bufname)
-  if len(trim(a:bufname)) == 0
-    return '+'
-  endif
-  try
-    let project = projectroot#get(a:bufname)
-  catch
-    let project = a:bufname
-  endtry
-  let project = substitute(project, '\', '/', 'g')
-  let project = split(project, '/')
-  if len(project) > 0
-    return project[-1]
-  endif
-  return '-'
-endfu
-
 fu! tabline#bwwatcher(bufnr)
   if bufnr() != a:bufnr
     try
@@ -29,15 +12,15 @@ fu! tabline#bwwatcher(bufnr)
 endfu
 
 fu! tabline#bw(bufnr)
-    if bufnr() == a:bufnr
-      try
-        exe 'b' . g:nextbufnr
-        let g:tabline_bw_timer = timer_start(10, { -> tabline#bwwatcher(a:bufnr) }, { 'repeat': -1})
-      catch
-      endtry
-    else
-      call tabline#bwwatcher(a:bufnr)
-    endif
+  if bufnr() == a:bufnr
+    try
+      exe 'b' . g:nextbufnr
+      let g:tabline_bw_timer = timer_start(10, { -> tabline#bwwatcher(a:bufnr) }, { 'repeat': -1})
+    catch
+    endtry
+  else
+    call tabline#bwwatcher(a:bufnr)
+  endif
 endfu
 
 fu! tabline#gobuffer(minwid, _clicks, _btn, _modifiers)
@@ -116,10 +99,18 @@ nnoremap <silent><nowait> <leader>b<a-bs> :call tabline#bwall()<cr>
 nnoremap <silent><nowait> <leader>bq :call tabline#getdict()<cr>
 nnoremap <silent><nowait> <leader>br :call tabline#getalldict()<cr>
 
+let g:tabline_string = ''
+let g:curbufnr = 0
+let g:tabline_onesecond = 1
+
 fu! tabline#tabline()
+  if g:curbufnr == bufnr() && g:tabline_onesecond == 0
+    return g:tabline_string
+  endif
+  let g:tabline_onesecond = 0
+  let g:curbufnr = bufnr()
   let s = ''
   let curname = substitute(nvim_buf_get_name(0), '\', '/', 'g')
-  let curbufnr = bufnr()
   let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
   let cnt = 0
   let curcnt = 0
@@ -134,7 +125,7 @@ fu! tabline#tabline()
     endif
     let names = split(name, '/')
     let name = names[-1]
-    if bufnr == curbufnr
+    if bufnr == g:curbufnr
       let curcnt = cnt
     else
     endif
@@ -214,7 +205,7 @@ fu! tabline#tabline()
   endif
   if len(s) == 0
     let s ..= '%#TabLineSel#'
-    let s ..= '%' . curbufnr
+    let s ..= '%' . g:curbufnr
     let s ..= '@tabline#gobuffer@'
     let s ..= ' 1 empty name '
   else
@@ -244,8 +235,25 @@ fu! tabline#tabline()
     else
       let s ..= '%#TabLine#'
     endif
-    let s ..= string(i+1)
-    let s ..= " %{tabline#get_fname('" .. bufname .. "')} "
+    let s ..= string(i+1) . ' '
+    if len(trim(bufname)) == 0
+      let s ..= '+ '
+    else
+      try
+        let project = projectroot#get(bufname)
+      catch
+        let project = bufname
+      endtry
+      let project = substitute(project, '\', '/', 'g')
+      let project = split(project, '/')
+      if len(project) > 0
+        let s ..= project[-1]
+      else
+        let s ..= '-'
+      endif
+      let s ..= ' '
+    endif
   endfor
-  return trim(s)
+  let g:tabline_string = trim(s)
+  return g:tabline_string
 endfu

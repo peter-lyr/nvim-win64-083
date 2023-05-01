@@ -113,6 +113,7 @@ timer:start(1000, 1000, function()
         t = t .. ' ' .. a2
       end
       g.process_mem = t
+      g.tabline_onesecond = 1
     end
   end)
 end)
