@@ -312,7 +312,7 @@ function M.run(params)
     if send == 'send' then
       local to_send = params[3]
       local show = params[4]
-      Do_terminal.send_cmd(terminal, to_send, show)
+      M.send_cmd(terminal, to_send, show)
     end
   end
 end
