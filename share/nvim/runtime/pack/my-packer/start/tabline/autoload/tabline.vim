@@ -177,7 +177,7 @@ fu! tabline#tabline()
     if i == curcnt
       let s ..= printf('%%#MyTabline%s#▎', ext)
     else
-      let s ..= '%#TabLine#▎'
+      let s ..= '%#TablineDim#▎'
     endif
     let s ..= printf('%%#MyTabline%s#', ext)
     let s ..= cnt
@@ -186,10 +186,8 @@ fu! tabline#tabline()
       let s ..= length
     endif
     let s ..= ' '
-    if i == curcnt
-      let s ..= '%#TabLineSel#'
-    else
-      let s ..= '%#TabLine#'
+    if i != curcnt
+      let s ..= '%#TablineDim#'
     endif
     try
       let ic = g:tabline_exts[ext][0]
@@ -216,7 +214,7 @@ fu! tabline#tabline()
     endif
   endif
   if len(s) == 0
-    let s ..= '%#TabLineSel#'
+    let s ..= '%#TablineDim#'
     let s ..= '%' . g:curbufnr
     let s ..= '@tabline#gobuffer@'
     let s ..= ' 1 empty name '
@@ -224,9 +222,9 @@ fu! tabline#tabline()
     exe 'nnoremap <buffer><silent><nowait> <leader>0 :b' . bufnr .'<cr>'
     exe 'nnoremap <buffer><silent><nowait> <leader>b0 :call tabline#bw(' . bufnr .')<cr>'
   endif
-  let s ..= '%#TabLineFill#%T'
+  let s ..= '%#TablineDim#%T'
   let s ..= "%="
-  let s ..= '%#Comment#'
+  let s ..= '%#TablineDim#'
   let s ..= "  ("
   let s ..= g:process_mem
   let s ..= "M)  "
@@ -242,10 +240,8 @@ fu! tabline#tabline()
     catch
     endtry
     let s ..= '▎'
-    if i + 1 == curtabpgnr
-      let s ..= '%#TabLineSel#'
-    else
-      let s ..= '%#TabLine#'
+    if i + 1 != curtabpgnr
+      let s ..= '%#TablineDim#'
     endif
     let s ..= string(i+1) . ' '
     if len(trim(bufname)) == 0

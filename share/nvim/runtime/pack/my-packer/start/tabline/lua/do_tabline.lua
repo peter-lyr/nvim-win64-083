@@ -17,7 +17,7 @@ a.nvim_create_autocmd({ 'ColorScheme' }, {
       local ext = k
       local color = v[2]
       local hl_group = "MyTabline" .. ext
-      vim.api.nvim_set_hl(0, hl_group, { fg = color })
+      vim.api.nvim_set_hl(0, hl_group, { fg = color, bold = true })
     end
   end,
 })
@@ -75,7 +75,8 @@ a.nvim_create_autocmd({ 'BufEnter' }, {
     if ic then
       vim.api.nvim_get_hl(0, { name = 'MyTabline' .. ext })
       TablineHi[ext] = { ic, color }
-      vim.api.nvim_set_hl(0, "MyTabline" .. ext, { fg = color })
+      vim.api.nvim_set_hl(0, "MyTabline" .. ext, { fg = color, bold = true })
+      vim.api.nvim_set_hl(0, "TablineDim", { fg = '#626262' })
       vim.g.tabline_exts = TablineHi
     end
   end,
