@@ -21,6 +21,7 @@ fu! tabline#bw(bufnr)
   else
     call tabline#bwwatcher(a:bufnr)
   endif
+  let g:tabline_done = 0
 endfu
 
 fu! tabline#gobuffer(minwid, _clicks, _btn, _modifiers)
@@ -97,6 +98,7 @@ fu! tabline#bwall()
     exe 'bw' . bufnr
     let cnt += 1
   endfor
+  let g:tabline_done = 0
 endfu
 
 nnoremap <silent><nowait> <leader>b<a-bs> :call tabline#bwall()<cr>
@@ -106,10 +108,10 @@ nnoremap <silent><nowait> <leader>br :call tabline#getalldict()<cr>
 let g:tabline_string = ''
 let g:curbufnr = 0
 let g:tabline_onesecond = 1
-let g:tabline_done = 0
+let g:tabline_done = 1
 
 fu! tabline#tabline()
-  if g:curbufnr == bufnr() && g:tabpagecnt == tabpagenr('$')
+  if g:curbufnr == bufnr() && g:tabpagecnt == tabpagenr('$') && g:tabline_done
     if g:tabline_onesecond == 0
       return g:tabline_string
     endif

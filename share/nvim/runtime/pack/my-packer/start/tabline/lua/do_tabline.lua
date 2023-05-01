@@ -58,7 +58,6 @@ local index_of = function(arr, val)
   return nil
 end
 
-local lastbufnr
 local curbufnr
 local changebuf
 
@@ -79,7 +78,6 @@ a.nvim_create_autocmd({ 'BufEnter' }, {
       vim.api.nvim_set_hl(0, "MyTabline" .. ext, { fg = color })
       vim.g.tabline_exts = TablineHi
     end
-    lastbufnr = f.bufnr()
   end,
 })
 
@@ -103,7 +101,7 @@ a.nvim_create_autocmd({ 'BufReadPre' }, {
     end
     g.tabline_projectroots = Tabline_projectroots
     local projectroot = string.gsub(f['projectroot#get'](), '\\', '/')
-    if not index_of(Tabline_projectroots, projectroot) then
+    if #Tabline_projectroots > 0 and not index_of(Tabline_projectroots, projectroot) then
       changebuf = true
     end
   end,
@@ -113,10 +111,11 @@ a.nvim_create_autocmd({ 'BufReadPost' }, {
   callback = function()
     if changebuf then
       changebuf = nil
-      c('b' .. lastbufnr)
+      c('b' .. g.lastbufnr)
       c('wincmd v')
       c('wincmd T')
       c('b' .. curbufnr)
+      g.tabline_done = 0
     end
   end,
 })
