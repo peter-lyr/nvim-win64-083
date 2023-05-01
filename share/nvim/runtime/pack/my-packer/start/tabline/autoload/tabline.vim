@@ -145,7 +145,7 @@ fu! tabline#tabline()
     let L[cnt] = [bufnr, name]
     let cnt += 1
   endfor
-  let mincnt = max([curcnt - 4, 0])
+  let mincnt = max([curcnt - 14, 0])
   let maxcnt = min([curcnt + 4, cnt - 1])
   let cnt = 0
   if !filereadable(curname)
@@ -157,8 +157,13 @@ fu! tabline#tabline()
     let bufnr = key[0]
     let name = key[1]
     let cnt += 1
-    exe 'nnoremap <buffer><silent><nowait> <leader>' . cnt ' :b' . bufnr .'<cr>'
-    exe 'nnoremap <buffer><silent><nowait> <leader>b' . cnt ' :call tabline#bw(' . bufnr .')<cr>'
+    if cnt < 10
+      let b1 = cnt
+    else
+      let b1 = '`' . string(cnt-10)
+    endif
+    exe 'nnoremap <buffer><silent><nowait> <leader>' . b1 ' :b' . bufnr .'<cr>'
+    exe 'nnoremap <buffer><silent><nowait> <leader>b' . b1 ' :call tabline#bw(' . bufnr .')<cr>'
     if i + 1 == curcnt
       exe 'nnoremap <buffer><silent><nowait> <leader>- :b' . L[i][0] .'<cr>'
       exe 'nnoremap <buffer><silent><nowait> <leader>b- :call tabline#bw(' . L[i][0] .')<cr>'
