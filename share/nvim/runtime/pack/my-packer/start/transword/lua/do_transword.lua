@@ -9,7 +9,7 @@ local transword_path = Path:new(g.transword_lua):parent():parent()
 local transword_py_path = transword_path:joinpath('autoload', 'transword.py')
 
 M.run = function()
-  if transword_py_path:exists() then
+  if not transword_py_path:exists() then
     print('no transword_py')
     return
   end
