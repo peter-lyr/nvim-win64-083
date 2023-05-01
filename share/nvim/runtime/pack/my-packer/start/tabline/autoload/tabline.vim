@@ -182,11 +182,11 @@ fu! tabline#tabline()
     let s ..= '@tabline#gobuffer@'
     if i == curcnt
       let s ..= printf('%%#MyTabline%s#▎', ext)
+      let s ..= cnt
     else
       let s ..= '%#TablineDim#▎'
+      let s ..= cnt
     endif
-    let s ..= printf('%%#MyTabline%s#', ext)
-    let s ..= cnt
     if i == curcnt && length >= 7
       let s ..= '/'
       let s ..= length
