@@ -6,6 +6,7 @@ fu! tabline#bwwatcher(bufnr)
     endtry
     try
       exe 'bw' . a:bufnr
+      let g:tabline_done = 0
     catch
     endtry
   endif
