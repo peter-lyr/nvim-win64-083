@@ -53,14 +53,12 @@ a.nvim_create_autocmd({ 'BufEnter' }, {
     if not ext then
       return
     end
-    if not vim.api.nvim_get_hl(0, { name = 'MyTabline' .. ext })['fg'] then
-      local ic, color = devicons.get_icon_color(path.filename, ext)
-      if ic then
-        TablineHi[ext] = { ic, color }
-        local hl_group = "MyTabline" .. ext
-        vim.api.nvim_set_hl(0, hl_group, { fg = color })
-        vim.g.tabline_exts = TablineHi
-      end
+    local ic, color = devicons.get_icon_color(path.filename, ext)
+    if ic then
+      vim.api.nvim_get_hl(0, { name = 'MyTabline' .. ext })
+      TablineHi[ext] = { ic, color }
+      vim.api.nvim_set_hl(0, "MyTabline" .. ext, { fg = color })
+      vim.g.tabline_exts = TablineHi
     end
   end,
 })

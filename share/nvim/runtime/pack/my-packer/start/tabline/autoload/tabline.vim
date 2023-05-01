@@ -50,15 +50,17 @@ fu! tabline#getalldict()
     for k, _ in pairs(vim.g.bwall_dict) do
       table.insert(t1, k)
     end
-    vim.ui.select(t1, { prompt = 'bwipeout cwd' }, function(choice, _)
-    local t2 = {}
-      for _, v in pairs(vim.g.bwall_dict[choice]) do
-        table.insert(t2, v)
-      end
-      vim.ui.select(t2, { prompt = 'open' }, function(choice, _)
-        vim.cmd(string.format('e %s', choice))
+    if #t1 > 0 then
+      vim.ui.select(t1, { prompt = 'bwipeout cwd' }, function(choice, _)
+      local t2 = {}
+        for _, v in pairs(vim.g.bwall_dict[choice]) do
+          table.insert(t2, v)
+        end
+        vim.ui.select(t2, { prompt = 'open' }, function(choice, _)
+          vim.cmd(string.format('e %s', choice))
+        end)
       end)
-    end)
+    end
 EOF
 endfu
 
@@ -72,9 +74,11 @@ fu! tabline#getdict()
       for _, v in pairs(vim.g.bwall_dict[cwd]) do
         table.insert(t1, v)
       end
-      vim.ui.select(t1, { prompt = 'open' }, function(choice, _)
-        vim.cmd(string.format('e %s', choice))
-      end)
+      if #t1 > 0 then
+        vim.ui.select(t1, { prompt = 'open' }, function(choice, _)
+          vim.cmd(string.format('e %s', choice))
+        end)
+      end
 EOF
   endif
 endfu
