@@ -109,12 +109,13 @@ let g:tabline_onesecond = 1
 let g:tabline_done = 0
 
 fu! tabline#tabline()
-  if g:curbufnr == bufnr() && g:tabline_onesecond == 0
-    return g:tabline_string
-  endif
-  if g:curbufnr == bufnr()
+  if g:curbufnr == bufnr() && g:tabpagecnt == tabpagenr('$')
+    if g:tabline_onesecond == 0
+      return g:tabline_string
+    endif
     return substitute(g:tabline_string, '\(#  ([0-9:. ]\+M)  %\)', '#  (' . g:process_mem . 'M)  %', 'g')
   endif
+  let g:tabpagecnt = tabpagenr('$')
   let g:tabline_done = 1
   let g:tabline_onesecond = 0
   let g:curbufnr = bufnr()
