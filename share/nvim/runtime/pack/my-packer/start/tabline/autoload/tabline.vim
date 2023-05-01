@@ -130,7 +130,7 @@ fu! tabline#tabline()
       continue
     endif
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
-    if !filereadable(name) || match(tolower(name), cwd) == -1
+    if !filereadable(name) || match(tolower(name), cwd) == -1 || cwd != tolower(substitute(projectroot#get(name), '\', '/', 'g'))
       continue
     endif
     let names = split(name, '/')
