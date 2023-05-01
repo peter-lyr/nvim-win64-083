@@ -109,7 +109,7 @@ timer:start(1000, 1000, function()
       local a1, b1 = string.match(result, '%S+%s+(%S+)%s+(%S+)%s*$')
       local t = format_time(os.difftime(os.time(), time))
       if a1 and b1 then
-        local a2 = string.format("%.1fM", tonumber(string.gsub(a1, ',', ''), 10) / 1024)
+        local a2 = string.format("%.1f", tonumber(string.gsub(a1, ',', ''), 10) / 1024)
         t = t .. ' ' .. a2
       end
       g.process_mem = t

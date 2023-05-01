@@ -102,11 +102,16 @@ nnoremap <silent><nowait> <leader>br :call tabline#getalldict()<cr>
 let g:tabline_string = ''
 let g:curbufnr = 0
 let g:tabline_onesecond = 1
+let g:tabline_done = 0
 
 fu! tabline#tabline()
   if g:curbufnr == bufnr() && g:tabline_onesecond == 0
     return g:tabline_string
   endif
+  if g:curbufnr == bufnr()
+    return substitute(g:tabline_string, '\(#  ([0-9:. ]\+M)  %\)', '#  (' . g:process_mem . 'M)  %', 'g')
+  endif
+  let g:tabline_done = 1
   let g:tabline_onesecond = 0
   let g:curbufnr = bufnr()
   let s = ''
@@ -217,7 +222,7 @@ fu! tabline#tabline()
   let s ..= '%#Comment#'
   let s ..= "  ("
   let s ..= g:process_mem
-  let s ..= ")  "
+  let s ..= "M)  "
   let curtabpgnr = tabpagenr()
   for i in range(tabpagenr('$'))
     let buflist = tabpagebuflist(i + 1)
