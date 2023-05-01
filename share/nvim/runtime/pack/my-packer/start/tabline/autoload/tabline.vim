@@ -102,6 +102,41 @@ fu! tabline#bwall()
   let g:tabline_done = 0
 endfu
 
+function! UniquePrefix(strings)
+  let strings = a:strings
+  if len(strings) == 1
+    return [strings[0][0] . '…']
+  endif
+  let new_strings = []
+  for string in strings
+    for i in range(len(string))
+      let substring = string[0:i]
+      let ok = 0
+      for fullstring in strings
+        if fullstring == string
+          continue
+        endif
+        if match(fullstring, substring) == 0
+          break
+        endif
+        let ok = 1
+      endfor
+      if ok
+        if substring == string
+          let new_strings += [substring]
+        else
+          let new_strings += [substring . '…']
+        endif
+        break
+      endif
+    endfor
+    if !ok
+      let new_strings += [string]
+    endif
+  endfor
+  return new_strings
+endfunction
+
 nnoremap <silent><nowait> <leader>b<a-bs> :call tabline#bwall()<cr>
 nnoremap <silent><nowait> <leader>bq :call tabline#getdict()<cr>
 nnoremap <silent><nowait> <leader>br :call tabline#getalldict()<cr>
@@ -234,11 +269,36 @@ fu! tabline#tabline()
   let s ..= "  ("
   let s ..= g:process_mem
   let s ..= "M)  "
+  let projectroots = []
   let curtabpgnr = tabpagenr()
   for i in range(tabpagenr('$'))
     let buflist = tabpagebuflist(i + 1)
     let winnr = tabpagewinnr(i + 1)
     let bufname = nvim_buf_get_name(buflist[winnr-1])
+    if i + 1 == curtabpgnr
+      let curtabpageidx = i
+    endif
+    if len(trim(bufname)) == 0
+      let projectroots += ['+']
+    else
+      try
+        let project = projectroot#get(bufname)
+      catch
+        let project = bufname
+      endtry
+      let project = substitute(project, '\', '/', 'g')
+      let project = split(project, '/')
+      if len(project) > 0
+        let projectroots += [project[-1]]
+      else
+        let projectroots += ['-']
+      endif
+    endif
+  endfor
+  let curprojectroot = projectroots[curtabpageidx]
+  let projectroots = UniquePrefix(projectroots)
+  for i in range(len(projectroots))
+    let projectroot = projectroots[i]
     let s ..= '%' .. (i + 1) .. 'T'
     if i + 1 == curtabpgnr
       try
@@ -251,23 +311,12 @@ fu! tabline#tabline()
     endif
     let s ..= '▎'
     let s ..= string(i+1) . ' '
-    if len(trim(bufname)) == 0
-      let s ..= '+ '
+    if i == curtabpageidx
+      let s ..= curprojectroot
     else
-      try
-        let project = projectroot#get(bufname)
-      catch
-        let project = bufname
-      endtry
-      let project = substitute(project, '\', '/', 'g')
-      let project = split(project, '/')
-      if len(project) > 0
-        let s ..= project[-1]
-      else
-        let s ..= '-'
-      endif
-      let s ..= ' '
+      let s ..= projectroot
     endif
+    let s ..= ' '
   endfor
   let g:tabline_string = trim(s)
   return g:tabline_string
