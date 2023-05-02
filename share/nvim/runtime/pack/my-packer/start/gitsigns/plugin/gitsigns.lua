@@ -17,7 +17,7 @@ local gitsigns = function(cmd, refresh)
       return
     end
   end
-  if not do_gitsigns or type(do_gitsigns) ~= table then
+  if not do_gitsigns then
     return
   end
   do_gitsigns.run(cmd, refresh)

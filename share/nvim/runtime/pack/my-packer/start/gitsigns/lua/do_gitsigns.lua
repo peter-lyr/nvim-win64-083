@@ -3,7 +3,7 @@ local c = vim.cmd
 local sta, gitsigns = pcall(require, "gitsigns")
 if not sta then
   print(gitsigns)
-  return
+  return {}
 end
 
 gitsigns.setup({
