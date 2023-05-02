@@ -775,8 +775,9 @@ local rename_sel_list = function()
   local timer = vim.loop.new_timer()
   timer:start(100, 100, function()
     vim.schedule(function()
-      if f['bufwinnr'](diff1) == -1 or not f['bufwinnr'](diff2) == -1 then
+      if (f['bufwinnr'](diff1) == -1 or f['bufwinnr'](diff2) == -1) then
         timer:stop()
+        print(vim.inspect(f['getbufline'](diff2, 1, '$')))
         pcall(c, diff1 .. 'bw!')
         pcall(c, diff2 .. 'bw!')
       end
