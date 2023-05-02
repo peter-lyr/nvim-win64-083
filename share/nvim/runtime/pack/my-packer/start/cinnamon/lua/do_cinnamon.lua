@@ -33,13 +33,13 @@ vim.keymap.set({ 'n', 'x' }, '$', "<Cmd>lua Scroll('$', 0, 1)<CR>")
 vim.keymap.set({ 'n', 'x' }, '{', "<Cmd>lua Scroll('{')<CR>")
 vim.keymap.set({ 'n', 'x' }, '}', "<Cmd>lua Scroll('}')<CR>")
 
--- Previous/next search result:
-vim.keymap.set('n', 'n', "<Cmd>lua Scroll('n', 1)<CR>")
-vim.keymap.set('n', 'N', "<Cmd>lua Scroll('N', 1)<CR>")
-vim.keymap.set('n', '*', "<Cmd>lua Scroll('*', 1)<CR>")
-vim.keymap.set('n', '#', "<Cmd>lua Scroll('#', 1)<CR>")
-vim.keymap.set('n', 'g*', "<Cmd>lua Scroll('g*', 1)<CR>")
-vim.keymap.set('n', 'g#', "<Cmd>lua Scroll('g#', 1)<CR>")
+-- -- Previous/next search result:
+-- vim.keymap.set('n', 'n', "<Cmd>lua Scroll('n', 1)<CR>")
+-- vim.keymap.set('n', 'N', "<Cmd>lua Scroll('N', 1)<CR>")
+-- vim.keymap.set('n', '*', "<Cmd>lua Scroll('*', 1)<CR>")
+-- vim.keymap.set('n', '#', "<Cmd>lua Scroll('#', 1)<CR>")
+-- vim.keymap.set('n', 'g*', "<Cmd>lua Scroll('g*', 1)<CR>")
+-- vim.keymap.set('n', 'g#', "<Cmd>lua Scroll('g#', 1)<CR>")
 
 -- Previous/next cursor location:
 vim.keymap.set('n', '<C-o>', "<Cmd>lua Scroll('<C-o>', 1)<CR>")
