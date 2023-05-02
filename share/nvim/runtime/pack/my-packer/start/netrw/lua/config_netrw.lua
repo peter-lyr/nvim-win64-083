@@ -753,6 +753,25 @@ local create = function(payload)
   c(string.format([[call feedkeys(":wincmd p|wincmd s|e %s")]], string.gsub(name, "\\", "/")))
 end
 
+local createmulti = function(payload)
+  local dtarget = get_dtarget(payload)
+  local res = f['input']("Create multiple files: ", "aaa bbb ccc ddd")
+  local t1 = f['split'](res, ' ')
+  local a1 = nil
+  for _, fname in ipairs(t1) do
+    if string.match(fname, "^[%w%s%-%._%(%)%[%]一-龥]+$") ~= nil then
+      c(string.format([[call writefile([], '%s')]], dtarget .. fname))
+    else
+      a1 = true
+      print('failed: ' .. fname)
+    end
+  end
+  f['netrw#Call']("NetrwRefresh", 1, f['netrw#Call']("NetrwBrowseChgDir", 1, './'))
+  if a1 then
+    print('只允许字母、数字、空格、连字符、下划线、点号、括号、方括号和中文字符出现')
+  end
+end
+
 local create_dir = function(payload)
   local dtarget = get_dtarget(payload)
   c(string.format([[call feedkeys(':silent !cd "%s" && md ')]], string.gsub(dtarget, "/", "\\")))
@@ -848,6 +867,7 @@ netrw.setup {
     ['dC'] = function(payload) copy_sel_list(payload) end,
     ['dY'] = function() copy_2_clip() end,
     ['da'] = function(payload) create(payload) end,
+    ['dA'] = function(payload) createmulti(payload) end,
     ['ds'] = function(payload) create_dir(payload) end,
     ['D'] = function(payload) delete(payload) end,
     ['R'] = function(payload) rename(payload) end,
