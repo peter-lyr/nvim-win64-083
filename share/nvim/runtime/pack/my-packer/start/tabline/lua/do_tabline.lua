@@ -82,6 +82,22 @@ a.nvim_create_autocmd({ 'BufEnter' }, {
   end,
 })
 
+local update_projectroots = function()
+  local tabline_projectroots = {}
+  for _, bufnr in ipairs(a.nvim_list_bufs()) do
+    if f['buflisted'](bufnr) ~= 0 and a.nvim_buf_is_loaded(bufnr) ~= false and curbufnr ~= bufnr then
+      local projectroot = string.gsub(f['projectroot#get'](a.nvim_buf_get_name(bufnr)), '\\', '/')
+      table.insert(tabline_projectroots, projectroot)
+    end
+  end
+  g.tabline_projectroots = tabline_projectroots
+  local projectroot = string.gsub(f['projectroot#get'](), '\\', '/')
+  if #tabline_projectroots > 0 and not index_of(tabline_projectroots, projectroot) then
+    return true
+  end
+  return nil
+end
+
 a.nvim_create_autocmd({ 'BufReadPre' }, {
   callback = function()
     local path = Path:new(a.nvim_buf_get_name(0))
@@ -93,16 +109,7 @@ a.nvim_create_autocmd({ 'BufReadPre' }, {
     if not ext then
       return
     end
-    Tabline_projectroots = {}
-    for _, bufnr in ipairs(a.nvim_list_bufs()) do
-      if f['buflisted'](bufnr) ~= 0 and a.nvim_buf_is_loaded(bufnr) ~= false and curbufnr ~= bufnr then
-        local projectroot = string.gsub(f['projectroot#get'](a.nvim_buf_get_name(bufnr)), '\\', '/')
-        table.insert(Tabline_projectroots, projectroot)
-      end
-    end
-    g.tabline_projectroots = Tabline_projectroots
-    local projectroot = string.gsub(f['projectroot#get'](), '\\', '/')
-    if #Tabline_projectroots > 0 and not index_of(Tabline_projectroots, projectroot) then
+    if update_projectroots() then
       changebuf = true
     end
   end,
