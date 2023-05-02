@@ -111,15 +111,19 @@ function! UniquePrefix(strings)
   for string in strings
     for i in range(len(string))
       let substring = string[0:i]
-      let ok = 0
+      if substring == string
+        let new_strings += [substring]
+        break
+      endif
+      let ok = 1
       for fullstring in strings
         if fullstring == string
           continue
         endif
         if match(fullstring, substring) == 0
+          let ok = 0
           break
         endif
-        let ok = 1
       endfor
       if ok
         if substring == string
