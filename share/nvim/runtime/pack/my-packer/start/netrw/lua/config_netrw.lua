@@ -777,6 +777,25 @@ local create_dir = function(payload)
   c(string.format([[call feedkeys(':silent !cd "%s" && md ')]], string.gsub(dtarget, "/", "\\")))
 end
 
+local create_dirmulti = function(payload)
+  local dtarget = get_dtarget(payload)
+  local res = f['input']("Create multiple dirs: ", "aaa bbb ccc ddd")
+  local t1 = f['split'](res, ' ')
+  local a1 = nil
+  for _, fname in ipairs(t1) do
+    if string.match(fname, "^[%w%s%-%._%(%)%[%]一-龥]+$") ~= nil then
+      c(string.format([[call mkdir('%s')]], dtarget .. fname))
+    else
+      a1 = true
+      print('failed: ' .. fname)
+    end
+  end
+  f['netrw#Call']("NetrwRefresh", 1, f['netrw#Call']("NetrwBrowseChgDir", 1, './'))
+  if a1 then
+    print('只允许字母、数字、空格、连字符、下划线、点号、括号、方括号和中文字符出现')
+  end
+end
+
 local delete = function(payload)
   if not payload then
     return
@@ -869,6 +888,7 @@ netrw.setup {
     ['da'] = function(payload) create(payload) end,
     ['dA'] = function(payload) createmulti(payload) end,
     ['ds'] = function(payload) create_dir(payload) end,
+    ['dS'] = function(payload) create_dirmulti(payload) end,
     ['D'] = function(payload) delete(payload) end,
     ['R'] = function(payload) rename(payload) end,
   },
