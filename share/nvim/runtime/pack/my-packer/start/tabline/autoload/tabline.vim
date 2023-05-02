@@ -211,6 +211,8 @@ fu! tabline#tabline()
       exe 'nnoremap <buffer><silent><nowait> <leader>b= :call tabline#bw(' . L[i][0] .')<cr>'
       exe 'nnoremap <buffer><silent><nowait> <bs> :b' . L[i][0] .'<cr>'
       let g:nextbufnr = L[i][0]
+    elseif i == curcnt
+      exe 'nnoremap <buffer><silent><nowait> <leader>b<bs> :call tabline#bw(' . bufnr .')<cr>'
     endif
     let ext = split(name, '\.')[-1]
     let s ..= '%' . bufnr
