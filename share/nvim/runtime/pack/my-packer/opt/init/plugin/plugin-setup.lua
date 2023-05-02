@@ -89,6 +89,9 @@ local plugins = function(use)
   use({ 'CRAG666/code_runner.nvim' })
 
   use({ 'honza/vim-snippets' })
+
+  use({ 'declancm/cinnamon.nvim' })
+
 end
 
 return packer.startup(function(use)
