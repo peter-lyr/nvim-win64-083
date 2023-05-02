@@ -100,4 +100,7 @@ return packer.startup(function(use)
 
   plugins(use)
 
+  if packer_bootstrap then
+    c('PackerInstall')
+  end
 end)
