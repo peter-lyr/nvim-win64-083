@@ -737,6 +737,40 @@ local copy_sel_list = function(payload)
   end
 end
 
+local s = vim.keymap.set
+local opt = { buffer = true }
+
+local rename_sel_list = function()
+  local lines = {}
+  for _, v in ipairs(g.netrw_sel_list) do
+    if not Path:new(v):is_dir() then
+      table.insert(lines, v)
+    end
+  end
+  for _, v in ipairs(g.netrw_sel_list) do
+    if Path:new(v):is_dir() then
+      table.insert(lines, v)
+    end
+  end
+  c('hide')
+  c('new')
+  c('set noro')
+  c('set ma')
+  f['setline'](1, lines)
+  c('diffthis')
+  c('set ro')
+  c('set noma')
+  c('vnew')
+  c('set noro')
+  c('set ma')
+  f['setline'](1, lines)
+  c('diffthis')
+  s({ 'n', 'v' }, 'o', '<nop>', opt)
+  s({ 'n', 'v' }, 'O', '<nop>', opt)
+  s({ 'n', 'v' }, 'dd', '<nop>', opt)
+  s({ 'n', 'v' }, 'cc', '<nop>', opt)
+end
+
 local copy_2_clip = function()
   local files = ""
   for _, v in ipairs(g.netrw_sel_list) do
@@ -883,6 +917,7 @@ netrw.setup {
     ['dE'] = function() empty_sel_list() end,
     ['dD'] = function() delete_sel_list() end,
     ['dM'] = function(payload) move_sel_list(payload) end,
+    ['dR'] = function() rename_sel_list() end,
     ['dC'] = function(payload) copy_sel_list(payload) end,
     ['dY'] = function() copy_2_clip() end,
     ['da'] = function(payload) create(payload) end,
