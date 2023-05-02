@@ -616,8 +616,8 @@ local delete_sel_list = function()
         pcall(c, "bw! " .. rep(v))
       end
       f['system'](string.format('%s "%s"', g.netrw_recyclebin, v:match('^(.-)\\*$')))
-      f['netrw#Call']("NetrwRefresh", 1, f['netrw#Call']("NetrwBrowseChgDir", 1, './'))
     end
+    f['netrw#Call']("NetrwRefresh", 1, f['netrw#Call']("NetrwBrowseChgDir", 1, './'))
     empty_sel_list()
   else
     print('canceled!')
