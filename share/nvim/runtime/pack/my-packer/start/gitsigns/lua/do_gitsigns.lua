@@ -19,7 +19,12 @@ M.run = function(cmd, refresh)
   if not cmd or #cmd == 0 then
     return
   end
-  c('Gitsigns ' .. cmd)
+  local d1
+  sta, d1 = pcall(c, 'Gitsigns ' .. cmd)
+  if not sta then
+    print(d1)
+    return
+  end
   if refresh == "1" then
     c[[call feedkeys(":e!\<cr>")]]
   end
