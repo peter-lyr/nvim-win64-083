@@ -5,21 +5,22 @@ local gitsigns_cursormoved = nil
 local gitsigns_loaded = nil
 
 local sta
+local do_gitsigns
 
 local gitsigns = function(cmd, refresh)
   if not gitsigns_loaded then
     gitsigns_loaded = 1
     a.nvim_del_autocmd(gitsigns_cursormoved)
-    sta, Do_gitsigns = pcall(require, 'do_gitsigns')
+    sta, do_gitsigns = pcall(require, 'do_gitsigns')
     if not sta then
-      print(Do_gitsigns)
+      print(do_gitsigns)
       return
     end
   end
-  if not Do_gitsigns then
+  if not do_gitsigns then
     return
   end
-  Do_gitsigns.run(cmd, refresh)
+  do_gitsigns.run(cmd, refresh)
 end
 
 a.nvim_create_user_command('GitsignS', function(params)
