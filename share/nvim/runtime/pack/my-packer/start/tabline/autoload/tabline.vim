@@ -109,6 +109,7 @@ function! UniquePrefix(strings)
   endif
   let new_strings = []
   for string in strings
+    let ok = 1
     for i in range(len(string))
       let substring = string[0:i]
       if substring == string
