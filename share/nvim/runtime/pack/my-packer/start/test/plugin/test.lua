@@ -1,0 +1,9 @@
+-- local systemcd = function(path)
+--   if type(path) ~= 'string' then
+--     return ''
+--   end
+--   if string.sub(path, 2, 2) == ':' then
+--     return string.format('%s && cd %s', string.sub(path, 0, 2), path)
+--   end
+--   return 'cd ' .. path
+-- end
