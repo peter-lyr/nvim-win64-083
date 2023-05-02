@@ -55,6 +55,27 @@ function M.copy_fpath_silent()
   end
 end
 
+function M.bwunlisted()
+  local sta, Path = pcall(require, 'plenary.path')
+  if not sta then
+    print(Path)
+    return
+  end
+  local bufnrs = vim.tbl_filter(function(b)
+    if 1 ~= vim.fn.buflisted(b) then
+      local path = Path:new(a.nvim_buf_get_name(b))
+      if path:exists() and not path:is_dir() then
+        return true
+      end
+      return false
+    end
+    return false
+  end, vim.api.nvim_list_bufs())
+  for _, v in ipairs(bufnrs) do
+    c('bw' .. v)
+  end
+end
+
 M.run = function(params)
   if not params or #params == 0 then
     return
@@ -64,6 +85,8 @@ M.run = function(params)
     M.copy_fpath()
   elseif cmd == 'copy_fpath_silent' then
     M.copy_fpath_silent()
+  elseif cmd == 'bwunlisted' then
+    M.bwunlisted()
   else
     M.open(cmd)
   end
