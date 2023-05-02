@@ -26,7 +26,8 @@ end
 
 packer.init({
   package_root = f.expand('$VIMRUNTIME') .. '\\pack',
-  compile_path = f.expand('$VIMRUNTIME') .. '\\plugin'
+  compile_path = f.expand('$VIMRUNTIME') .. '\\plugin',
+  auto_clean = false,
 })
 
 local plugins = function(use)
