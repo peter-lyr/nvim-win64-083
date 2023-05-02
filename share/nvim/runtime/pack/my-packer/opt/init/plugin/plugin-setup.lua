@@ -14,11 +14,7 @@ local ensure_packer = function()
 end
 local packer_bootstrap = ensure_packer()
 
-if packer_bootstrap then
-  print('packer sync...')
-  require('packer').sync()
-  print('sync done!')
-else
+if not packer_bootstrap then
   return
 end
 
