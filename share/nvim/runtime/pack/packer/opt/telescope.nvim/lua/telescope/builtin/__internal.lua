@@ -490,7 +490,7 @@ internal.loclist = function(opts)
     :find()
 end
 
-function index_of(arr, val)
+local index_of = function(arr, val)
   if not arr then
     return nil
   end
@@ -892,6 +892,12 @@ internal.buffers = function(opts)
       local cwd = string.gsub(vim.loop.cwd(), '\\', '/')
       cwd = vim.fn.tolower(cwd)
       if not string.find(name, cwd, 1, true) then
+        return false
+      end
+    end
+    if opts.search_dirs then
+      local curprojectroot = string.gsub(vim.fn['projectroot#get'](vim.api.nvim_buf_get_name(b)), '\\', '/')
+      if not index_of(opts.search_dirs, curprojectroot) then
         return false
       end
     end

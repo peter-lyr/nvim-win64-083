@@ -1,6 +1,7 @@
 local c = vim.cmd
 local f = vim.fn
 local g = vim.g
+local a = vim.api
 
 local sta
 
@@ -217,17 +218,17 @@ local rep = function(path)
   return path
 end
 
--- local index_of = function(arr, val)
---   if not arr then
---     return nil
---   end
---   for i, v in ipairs(arr) do
---     if vim.fn['tolower'](v) == vim.fn['tolower'](val) then
---       return i
---     end
---   end
---   return nil
--- end
+local index_of = function(arr, val)
+  if not arr then
+    return nil
+  end
+  for i, v in ipairs(arr) do
+    if vim.fn['tolower'](v) == vim.fn['tolower'](val) then
+      return i
+    end
+  end
+  return nil
+end
 
 local get_sub_dirs = function(dir)
   local path = Path:new(dir)
@@ -287,6 +288,30 @@ M.live_grep = function()
   end)
 end
 
+local projectroots = {}
+
+local update_projectroots = function()
+  projectroots = {}
+  for _, bufnr in ipairs(a.nvim_list_bufs()) do
+    if f['buflisted'](bufnr) ~= 0 and a.nvim_buf_is_loaded(bufnr) ~= false then
+      local projectroot = string.gsub(f['projectroot#get'](a.nvim_buf_get_name(bufnr)), '\\', '/')
+      if not index_of(projectroots, projectroot) then
+        table.insert(projectroots, projectroot)
+      end
+    end
+  end
+end
+
+M.projects = function()
+  update_projectroots()
+  vim.ui.select(projectroots, { prompt = 'select one of them' }, function(_, idx)
+    local dir = projectroots[idx]
+    c('cd ' .. dir)
+    local cmd = 'Telescope buffers search_dirs=' .. dir
+    c(cmd)
+  end)
+end
+
 M.run = function(params)
   if not params or #params == 0 then
     return
@@ -300,6 +325,8 @@ M.run = function(params)
       M.grep_string()
     elseif params[2] == 'live_grep' then
       M.live_grep()
+    elseif params[2] == 'projectsbuffers' then
+      M.projects()
     end
     return
   end
