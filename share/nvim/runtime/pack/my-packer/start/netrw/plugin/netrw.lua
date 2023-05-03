@@ -5,6 +5,7 @@ local s = vim.keymap.set
 
 local netrw_cursormoved = nil
 local netrw_loaded = nil
+-- package.loaded['do_netrw'] = nil
 
 local sta
 
