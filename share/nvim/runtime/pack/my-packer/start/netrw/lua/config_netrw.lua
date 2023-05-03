@@ -767,6 +767,8 @@ local rename_sel_list = function()
   c('call feedkeys("zR$")')
   local timer = vim.loop.new_timer()
   local tmp1 = 0
+  local pattern = "^[:\\/%w%s%-%._%(%)%[%]一-龥]+$"
+  -- if string.match(fname, pattern) ~= nil then
   timer:start(100, 100, function()
     vim.schedule(function()
       if (f['bufwinnr'](diff1) == -1 or f['bufwinnr'](diff2) == -1) then
@@ -786,12 +788,12 @@ local rename_sel_list = function()
         local cnt1 = 0
         local cnt2 = 0
         for _, v in ipairs(lines1) do
-          if #f['trim'](v) > 0 then
+          if #f['trim'](v) > 0 and string.match(v, pattern) then
             cnt1 = cnt1 + 1
           end
         end
         for _, v in ipairs(lines2) do
-          if #f['trim'](v) > 0 then
+          if #f['trim'](v) > 0 and string.match(v, pattern) then
             cnt2 = cnt2 + 1
           end
         end
@@ -805,7 +807,7 @@ local rename_sel_list = function()
         local cmds = {}
         for _, v in ipairs(lines1) do
           local v1 = f['trim'](v)
-          if #v1 > 0 then
+          if #v1 > 0 and string.match(v1, pattern) then
             cmds[cnt] = {v1}
             cnt = cnt + 1
           end
@@ -813,7 +815,7 @@ local rename_sel_list = function()
         cnt = 1
         for _, v in ipairs(lines2) do
           local v1 = f['trim'](v)
-          if #v1 > 0 then
+          if #v1 > 0 and string.match(v1, pattern) then
             table.insert(cmds[cnt], v1)
             cnt = cnt + 1
           end
