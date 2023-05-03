@@ -9803,9 +9803,9 @@ fun! s:PerformListing(islocal)
     "   call Decho("--handle hiding/showing in banner (g:netrw_hide=".g:netrw_hide." g:netrw_list_hide<".g:netrw_list_hide.">)",'~'.expand("<slnum>"))
     if g:netrw_list_hide != "" && g:netrw_hide
       if g:netrw_hide == 1
-        NetrwKeepj put ='\"   Hiding:        '.g:netrw_list_hide
+        NetrwKeepj put ='\" Hiding:        '.g:netrw_list_hide
       else
-        NetrwKeepj put ='\"   Showing:       '.g:netrw_list_hide
+        NetrwKeepj put ='\" Showing:       '.g:netrw_list_hide
       endif
       let w:netrw_bannercnt= w:netrw_bannercnt + 1
     endif
