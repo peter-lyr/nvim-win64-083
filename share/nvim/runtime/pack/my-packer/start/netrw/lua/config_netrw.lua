@@ -768,10 +768,6 @@ local rename_sel_list = function()
   f['setline'](1, lines)
   c('diffthis')
   c('call feedkeys("zR$")')
-  s({ 'n', 'v' }, 'o', '<nop>', opt)
-  s({ 'n', 'v' }, 'O', '<nop>', opt)
-  s({ 'n', 'v' }, 'dd', '<nop>', opt)
-  s({ 'n', 'v' }, 'cc', '<nop>', opt)
   local timer = vim.loop.new_timer()
   timer:start(100, 100, function()
     vim.schedule(function()
@@ -779,18 +775,47 @@ local rename_sel_list = function()
         timer:stop()
         local lines1 = f['getbufline'](diff1, 1, '$')
         local lines2 = f['getbufline'](diff2, 1, '$')
-        local cmds = {}
-        for i, v in ipairs(lines1) do
-          cmds[i] = {v}
+        local cnt1 = 0
+        local cnt2 = 0
+        for _, v in ipairs(lines1) do
+          if #f['trim'](v) > 0 then
+            cnt1 = cnt1 + 1
+          end
         end
-        for i, v in ipairs(lines2) do
-          table.insert(cmds[i], v)
+        for _, v in ipairs(lines2) do
+          if #f['trim'](v) > 0 then
+            cnt2 = cnt2 + 1
+          end
+        end
+        if cnt1 ~= cnt2 then
+          pcall(c, diff1 .. 'bw!')
+          pcall(c, diff2 .. 'bw!')
+          print(cnt1, '~=', cnt2)
+          return
+        end
+        local cnt = 1
+        local cmds = {}
+        for _, v in ipairs(lines1) do
+          local v1 = f['trim'](v)
+          if #v1 > 0 then
+            cmds[cnt] = {v1}
+            cnt = cnt + 1
+          end
+        end
+        cnt = 1
+        for _, v in ipairs(lines2) do
+          local v1 = f['trim'](v)
+          if #v1 > 0 then
+            table.insert(cmds[cnt], v1)
+            cnt = cnt + 1
+          end
         end
         for k, v in pairs(cmds) do
           print(k, v[1], v[2])
         end
         pcall(c, diff1 .. 'bw!')
         pcall(c, diff2 .. 'bw!')
+        empty_sel_list()
       end
     end)
   end)
