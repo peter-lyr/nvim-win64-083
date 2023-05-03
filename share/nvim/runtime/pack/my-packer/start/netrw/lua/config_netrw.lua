@@ -894,6 +894,7 @@ end
 
 local createmulti = function(payload)
   local dtarget = get_dtarget(payload)
+  c(string.format("echo '%s'", dtarget))
   local res = f['input']("Create multiple files: ", "aaa bbb ccc ddd")
   local t1 = f['split'](res, ' ')
   local a1 = nil
@@ -918,6 +919,7 @@ end
 
 local create_dirmulti = function(payload)
   local dtarget = get_dtarget(payload)
+  c(string.format("echo '%s'", dtarget))
   local res = f['input']("Create multiple dirs: ", "aaa bbb ccc ddd")
   local t1 = f['split'](res, ' ')
   local a1 = nil
