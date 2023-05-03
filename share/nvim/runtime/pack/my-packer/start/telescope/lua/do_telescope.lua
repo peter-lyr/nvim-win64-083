@@ -290,20 +290,37 @@ end
 
 local projectroots = {}
 
-local update_projectroots = function()
+local update_projectroots = function(excludecur)
   projectroots = {}
+  local curprojectroot = string.gsub(f['projectroot#get'](a.nvim_buf_get_name(0)), '\\', '/')
   for _, bufnr in ipairs(a.nvim_list_bufs()) do
     if f['buflisted'](bufnr) ~= 0 and a.nvim_buf_is_loaded(bufnr) ~= false then
       local projectroot = string.gsub(f['projectroot#get'](a.nvim_buf_get_name(bufnr)), '\\', '/')
       if not index_of(projectroots, projectroot) then
-        table.insert(projectroots, projectroot)
+        if excludecur then
+          if projectroot ~= curprojectroot then
+            table.insert(projectroots, projectroot)
+          end
+        else
+          table.insert(projectroots, projectroot)
+        end
       end
     end
   end
 end
 
-M.projects = function()
-  update_projectroots()
+M.projectsbuffers = function()
+  update_projectroots(1)
+  vim.ui.select(projectroots, { prompt = 'select one of them' }, function(_, idx)
+    local dir = projectroots[idx]
+    c('cd ' .. dir)
+    local cmd = 'Telescope buffers search_dirs=' .. dir
+    c(cmd)
+  end)
+end
+
+M.projectsbuffersall = function()
+  update_projectroots(nil)
   vim.ui.select(projectroots, { prompt = 'select one of them' }, function(_, idx)
     local dir = projectroots[idx]
     c('cd ' .. dir)
@@ -326,7 +343,9 @@ M.run = function(params)
     elseif params[2] == 'live_grep' then
       M.live_grep()
     elseif params[2] == 'projectsbuffers' then
-      M.projects()
+      M.projectsbuffers()
+    elseif params[2] == 'projectsbuffersall' then
+      M.projectsbuffersall()
     end
     return
   end
