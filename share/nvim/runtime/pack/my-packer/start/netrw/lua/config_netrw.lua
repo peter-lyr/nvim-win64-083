@@ -690,7 +690,7 @@ local copy_sel_list = function(payload)
           c'redraw'
           local dname_new = f['input'](v .. " ->\nExisted! Rename? ", dname)
           if #dname_new > 0 and dname_new ~= dname then
-            if dname_new[#dname_new] ~= '\\' then
+            if string.sub(dname_new, #dname_new, #dname_new) ~= '\\' then
               dname_new = dname_new .. '\\'
             end
             f['system'](string.format('xcopy "%s" "%s" /s /e /f', v, dname_new))
@@ -703,7 +703,7 @@ local copy_sel_list = function(payload)
             goto continue
           end
         else
-          if dname[#dname] ~= '\\' then
+          if string.sub(dname, #dname, #dname) ~= '\\' then
             dname = dname .. '\\'
           end
           f['system'](string.format('xcopy "%s" "%s" /s /e /f', v, dname))
@@ -736,6 +736,8 @@ local copy_sel_list = function(payload)
     print('canceled!')
   end
 end
+
+local temppath = Path:new(f['expand']('$temp'))
 
 local rename_sel_list = function()
   local lines = {}
@@ -808,20 +810,49 @@ local rename_sel_list = function()
         for _, v in ipairs(lines1) do
           local v1 = f['trim'](v)
           if #v1 > 0 and string.match(v1, pattern) then
-            cmds[cnt] = {v1}
+            local v1path = Path:new(v1)
+            if v1path:is_dir() then
+              if string.sub(v1, #v1, #v1) ~= '\\' then
+                cmds[cnt] = {v1 .. '\\'}
+              else
+                cmds[cnt] = {v1}
+              end
+            else
+              cmds[cnt] = {v1}
+            end
             cnt = cnt + 1
+          end
+        end
+        for k, v in pairs(cmds) do
+          local src = v[1]
+          local srcpath = Path:new(src)
+          src = string.gsub(src, '[/\\:]', '_')
+          src = temppath:joinpath(src).filename
+          if srcpath:is_dir() then
+            table.insert(cmds[k], src .. '\\')
+          else
+            table.insert(cmds[k], src)
           end
         end
         cnt = 1
         for _, v in ipairs(lines2) do
           local v1 = f['trim'](v)
           if #v1 > 0 and string.match(v1, pattern) then
-            table.insert(cmds[cnt], v1)
+            local srcpath = Path:new(cmds[cnt][1])
+            if srcpath:is_dir() then
+              if string.sub(v1, #v1, #v1) ~= '\\' then
+                table.insert(cmds[cnt], v1 .. '\\')
+              else
+                table.insert(cmds[cnt], v1)
+              end
+            else
+              table.insert(cmds[cnt], v1)
+            end
             cnt = cnt + 1
           end
         end
         for k, v in pairs(cmds) do
-          print(k, v[1], v[2])
+          print(k, v[1], v[2], v[3])
         end
         pcall(c, diff1 .. 'bw!')
         pcall(c, diff2 .. 'bw!')
