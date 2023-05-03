@@ -275,18 +275,18 @@ M.grep_string = function()
   end)
 end
 
-M.live_grep = function()
-  local cwd = f['getcwd']()
-  local sub_dirs = get_sub_dirs(cwd)
-  -- show_array(sub_dirs)
-  vim.ui.select(sub_dirs, { prompt = 'select one of them' }, function(_, idx)
-    -- print(choice, idx)
-    local dir = sub_dirs[idx]
-    print(dir)
-    local cmd = 'Telescope live_grep shorten_path=true word_match=-w only_sort_text=true search= search_dirs=' .. dir
-    c(cmd)
-  end)
-end
+-- M.live_grep = function()
+--   local cwd = f['getcwd']()
+--   local sub_dirs = get_sub_dirs(cwd)
+--   -- show_array(sub_dirs)
+--   vim.ui.select(sub_dirs, { prompt = 'select one of them' }, function(_, idx)
+--     -- print(choice, idx)
+--     local dir = sub_dirs[idx]
+--     print(dir)
+--     local cmd = 'Telescope live_grep shorten_path=true word_match=-w only_sort_text=true search= search_dirs=' .. dir
+--     c(cmd)
+--   end)
+-- end
 
 local projectroots = {}
 
@@ -340,8 +340,8 @@ M.run = function(params)
   if params[1] == 'my' then
     if params[2] == 'grep_string' then
       M.grep_string()
-    elseif params[2] == 'live_grep' then
-      M.live_grep()
+    -- elseif params[2] == 'live_grep' then
+    --   M.live_grep()
     elseif params[2] == 'projectsbuffers' then
       M.projectsbuffers()
     elseif params[2] == 'projectsbuffersall' then
