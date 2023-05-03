@@ -176,6 +176,7 @@ s('n', '<leader>fW', function() vim.lsp.stop_client(vim.lsp.get_active_clients({
 s('n', '<leader>fE', function() vim.lsp.stop_client(vim.lsp.get_active_clients()) end)
 s('n', '<leader>fD', [[:call feedkeys(":LspStop ")<cr>]])
 s('n', '<leader>fF', ':LspInfo<cr>')
+s('n', '<leader>fw', ':ClangdSwitchSourceHeader<cr>')
 
 
 a.nvim_create_autocmd('LspAttach', {
