@@ -10,21 +10,22 @@ local terminal_cursormoved = nil
 local loaded_do_terminal = nil
 
 local sta
+local do_terminal
 
 local terminal = function(params)
   if not loaded_do_terminal then
     loaded_do_terminal = 1
     a.nvim_del_autocmd(terminal_cursormoved)
-    sta, Do_terminal = pcall(require, 'do_terminal')
+    sta, do_terminal = pcall(require, 'do_terminal')
     if not sta then
-      print(Do_terminal)
+      print(do_terminal)
       return
     end
   end
-  if not Do_terminal then
+  if not do_terminal then
     return
   end
-  Do_terminal.run(params)
+  do_terminal.run(params)
 end
 
 terminal_cursormoved = a.nvim_create_autocmd({ 'CursorMoved', 'FocusLost', 'CursorHold' }, {

@@ -5,21 +5,22 @@ local startuptime_cursormoved = nil
 local startuptime_loaded = nil
 
 local sta
+local do_startuptime
 
 local startuptime = function(params)
   if not startuptime_loaded then
     startuptime_loaded = 1
     a.nvim_del_autocmd(startuptime_cursormoved)
-    sta, Do_startuptime = pcall(require, 'do_startuptime')
+    sta, do_startuptime = pcall(require, 'do_startuptime')
     if not sta then
-      print(Do_startuptime)
+      print(do_startuptime)
       return
     end
   end
-  if not Do_startuptime then
+  if not do_startuptime then
     return
   end
-  Do_startuptime.run(params)
+  do_startuptime.run(params)
 end
 
 a.nvim_create_user_command('StartuptimE', function(params)

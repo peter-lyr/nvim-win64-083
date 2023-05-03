@@ -8,6 +8,7 @@ local netrw_loaded = nil
 -- package.loaded['do_netrw'] = nil
 
 local sta
+local do_netrw
 
 g.netrw_lua = f['expand']('<sfile>')
 
@@ -16,16 +17,16 @@ local netrw = function(params)
   if not netrw_loaded then
     netrw_loaded = 1
     a.nvim_del_autocmd(netrw_cursormoved)
-    sta, Do_netrw = pcall(require, 'do_netrw')
+    sta, do_netrw = pcall(require, 'do_netrw')
     if not sta then
-      print(Do_netrw)
+      print(do_netrw)
       return
     end
   end
-  if not Do_netrw then
+  if not do_netrw then
     return
   end
-  Do_netrw.run(params)
+  do_netrw.run(params)
 end
 
 netrw_cursormoved = a.nvim_create_autocmd({ 'BufNew', 'CursorMoved', 'FocusLost', 'CursorHold' }, {

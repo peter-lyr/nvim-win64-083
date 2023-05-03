@@ -5,21 +5,22 @@ local badwhitespace_loaded = nil
 local badwhitespace_cursormoved = nil
 
 local sta
+local do_badwhitespace
 
 local badwhitespace = function(params)
   if not badwhitespace_loaded then
     badwhitespace_loaded = 1
     a.nvim_del_autocmd(badwhitespace_cursormoved)
-    sta, Do_badwhitespace = pcall(require, 'do_badwhitespace')
+    sta, do_badwhitespace = pcall(require, 'do_badwhitespace')
     if not sta then
-      print(Do_badwhitespace)
+      print(do_badwhitespace)
       return
     end
   end
-  if not Do_badwhitespace then
+  if not do_badwhitespace then
     return
   end
-  Do_badwhitespace.run(params)
+  do_badwhitespace.run(params)
 end
 
 a.nvim_create_user_command('BadwhitespacE', function(params)

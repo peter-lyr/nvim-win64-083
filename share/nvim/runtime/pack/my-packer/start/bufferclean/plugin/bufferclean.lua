@@ -5,21 +5,22 @@ local bufferclean_loaded = nil
 local bufferclean_cursormoved = nil
 
 local sta
+local do_bufferclean
 
 local bufferclean = function(params)
   if not bufferclean_loaded then
     bufferclean_loaded = 1
     a.nvim_del_autocmd(bufferclean_cursormoved)
-    sta, Do_bufferclean = pcall(require, 'do_bufferclean')
+    sta, do_bufferclean = pcall(require, 'do_bufferclean')
     if not sta then
-      print(Do_bufferclean)
+      print(do_bufferclean)
       return
     end
   end
-  if not Do_bufferclean then
+  if not do_bufferclean then
     return
   end
-  Do_bufferclean.run(params)
+  do_bufferclean.run(params)
 end
 
 a.nvim_create_user_command('BuffercleaN', function(params)

@@ -4,20 +4,21 @@ local s = vim.keymap.set
 local hop_loaded = nil
 
 local sta
+local do_hop
 
 local hop = function(params)
   if not hop_loaded then
     hop_loaded = 1
-    sta, Do_hop = pcall(require, 'do_hop')
+    sta, do_hop = pcall(require, 'do_hop')
     if not sta then
-      print(Do_hop)
+      print(do_hop)
       return
     end
   end
-  if not Do_hop then
+  if not do_hop then
     return
   end
-  Do_hop.run(params)
+  do_hop.run(params)
 end
 
 a.nvim_create_user_command('HoP', function(params)

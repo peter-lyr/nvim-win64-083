@@ -3,6 +3,9 @@ local s = vim.keymap.set
 local g = vim.g
 local f = vim.fn
 
+local sta
+local do_telescope
+
 g.telescope_lua = f['expand']('<sfile>')
 
 local telescope_loaded = nil
@@ -13,19 +16,18 @@ package.loaded['do_telescope'] = nil
 
 local telescope = function(params)
   if not telescope_loaded then
-    local sta
     telescope_loaded = 1
     a.nvim_del_autocmd(telescope_cursormoved)
-    sta, Do_telescope = pcall(require, 'do_telescope')
+    sta, do_telescope = pcall(require, 'do_telescope')
     if not sta then
-      print('no do_telescope:', Do_telescope)
+      print(do_telescope)
       return
     end
   end
-  if not Do_telescope then
+  if not do_telescope then
     return
   end
-  Do_telescope.run(params)
+  do_telescope.run(params)
 end
 
 a.nvim_create_user_command('TelescopE', function(params)

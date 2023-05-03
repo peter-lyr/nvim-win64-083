@@ -4,20 +4,21 @@ local s = vim.keymap.set
 local loaded_do_tortoisesvn = nil
 
 local sta
+local do_tortoisesvn
 
 local tortoisesvn_exe = function(params)
   if not loaded_do_tortoisesvn then
     loaded_do_tortoisesvn = 1
-    sta, Do_tortoisesvn = pcall(require, 'do_tortoisesvn')
+    sta, do_tortoisesvn = pcall(require, 'do_tortoisesvn')
     if not sta then
-      print(Do_tortoisesvn)
+      print(do_tortoisesvn)
       return
     end
   end
-  if not Do_tortoisesvn then
+  if not do_tortoisesvn then
     return
   end
-  Do_tortoisesvn.run(params)
+  do_tortoisesvn.run(params)
 end
 
 a.nvim_create_user_command('TortoisesvN', function(params)

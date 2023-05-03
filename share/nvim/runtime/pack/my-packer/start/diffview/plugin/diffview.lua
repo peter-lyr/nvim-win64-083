@@ -4,20 +4,21 @@ local s = vim.keymap.set
 local diffview_loaded = nil
 
 local sta
+local do_diffview
 
 local diffview = function(params)
   if not diffview_loaded then
     diffview_loaded = 1
-    sta, Do_diffview = pcall(require, 'do_diffview')
+    sta, do_diffview = pcall(require, 'do_diffview')
     if not sta then
-      print(Do_diffview)
+      print(do_diffview)
       return
     end
   end
-  if not Do_diffview then
+  if not do_diffview then
     return
   end
-  Do_diffview.run(params)
+  do_diffview.run(params)
 end
 
 a.nvim_create_user_command('DiffvieW', function(params)
