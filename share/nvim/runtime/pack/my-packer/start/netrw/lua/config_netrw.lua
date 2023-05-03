@@ -770,7 +770,6 @@ local rename_sel_list = function()
   local timer = vim.loop.new_timer()
   local tmp1 = 0
   local pattern = "^[:\\/%w%s%-%._%(%)%[%]一-龥]+$"
-  -- if string.match(fname, pattern) ~= nil then
   timer:start(100, 100, function()
     vim.schedule(function()
       if (f['bufwinnr'](diff1) == -1 or f['bufwinnr'](diff2) == -1) then
