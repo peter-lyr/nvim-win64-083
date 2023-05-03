@@ -813,22 +813,22 @@ local rename_sel_list = function()
             local v1path = Path:new(v1)
             if v1path:is_dir() then
               if string.sub(v1, #v1, #v1) ~= '\\' then
-                cmds[cnt] = {v1 .. '\\'}
+                cmds[cnt] = {0, v1 .. '\\'}
               else
-                cmds[cnt] = {v1}
+                cmds[cnt] = {0, v1}
               end
             else
-              cmds[cnt] = {v1}
+              cmds[cnt] = {1, v1}
             end
             cnt = cnt + 1
           end
         end
         for k, v in pairs(cmds) do
-          local src = v[1]
-          local srcpath = Path:new(src)
+          local is_file = v[1]
+          local src = v[2]
           src = string.gsub(src, '[/\\:]', '_')
           src = temppath:joinpath(src).filename
-          if srcpath:is_dir() then
+          if is_file == 0 then
             table.insert(cmds[k], src .. '\\')
           else
             table.insert(cmds[k], src)
@@ -838,8 +838,8 @@ local rename_sel_list = function()
         for _, v in ipairs(lines2) do
           local v1 = f['trim'](v)
           if #v1 > 0 and string.match(v1, pattern) then
-            local srcpath = Path:new(cmds[cnt][1])
-            if srcpath:is_dir() then
+            local is_file = cmds[cnt][1]
+            if is_file == 0 then
               if string.sub(v1, #v1, #v1) ~= '\\' then
                 table.insert(cmds[cnt], v1 .. '\\')
               else
@@ -852,7 +852,7 @@ local rename_sel_list = function()
           end
         end
         for k, v in pairs(cmds) do
-          print(k, v[1], v[2], v[3])
+          print(k, v[1], v[2], v[3], v[4])
         end
         pcall(c, diff1 .. 'bw!')
         pcall(c, diff2 .. 'bw!')
