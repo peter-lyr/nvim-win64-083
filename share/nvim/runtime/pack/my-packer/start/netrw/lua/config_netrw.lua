@@ -737,9 +737,6 @@ local copy_sel_list = function(payload)
   end
 end
 
-local s = vim.keymap.set
-local opt = { buffer = true }
-
 local rename_sel_list = function()
   local lines = {}
   for _, v in ipairs(g.netrw_sel_list) do
@@ -769,9 +766,20 @@ local rename_sel_list = function()
   c('diffthis')
   c('call feedkeys("zR$")')
   local timer = vim.loop.new_timer()
+  local tmp1 = 0
   timer:start(100, 100, function()
     vim.schedule(function()
       if (f['bufwinnr'](diff1) == -1 or f['bufwinnr'](diff2) == -1) then
+        if f['bufwinnr'](diff1) == -1 and f['bufwinnr'](diff2) == -1 then
+          tmp1 = tmp1 + 1
+          if tmp1 > 10 * 60 * 5 then
+            timer:stop()
+            pcall(c, diff1 .. 'bw!')
+            pcall(c, diff2 .. 'bw!')
+            print('canceled!')
+          end
+          return
+        end
         timer:stop()
         local lines1 = f['getbufline'](diff1, 1, '$')
         local lines2 = f['getbufline'](diff2, 1, '$')
