@@ -11,8 +11,8 @@ local sta
 
 local do_generateplugin
 local generateplugin_autocmd
-local generateplugin_loaded
 
+local generateplugin_loaded = nil
 -- package.loaded['do_generateplugin'] = nil
 
 local init = function()
