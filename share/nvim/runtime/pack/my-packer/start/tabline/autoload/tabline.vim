@@ -386,6 +386,11 @@ fu! tabline#restorehiddenprojects()
       continue
     endtry
   endfor
-  echomsg projectroots
+  exe 'norm ' . string(tabpagenr('$')) . "gt"
+  for projectroot in projectroots
+    tabnew
+    exe printf("e %s", projectroot[1])
+  endfor
+  let g:tabline_done = 0
   exe 'norm ' . string(curtabpagenr) . "gt"
 endfu
