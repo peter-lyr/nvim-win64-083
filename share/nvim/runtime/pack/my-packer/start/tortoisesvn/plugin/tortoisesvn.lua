@@ -1,5 +1,4 @@
 local a = vim.api
-local s = vim.keymap.set
 
 local loaded_do_tortoisesvn = nil
 

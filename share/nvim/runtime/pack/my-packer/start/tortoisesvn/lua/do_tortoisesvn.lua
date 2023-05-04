@@ -33,7 +33,7 @@ local system_cd_string = function(absfolder)
 end
 
 function M.run(params)
-  if #params < 3 then
+  if not params or #params < 3 then
     return
   end
   local cmd, cmd1, cmd2, root, yes = unpack(params)
