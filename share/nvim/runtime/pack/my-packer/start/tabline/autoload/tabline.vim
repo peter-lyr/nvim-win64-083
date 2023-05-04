@@ -320,17 +320,30 @@ fu! tabline#tabline()
   let curprojectroot = projectroots[curtabpageidx]
   let projectroots = UniquePrefix(projectroots)
   for i in range(len(projectroots))
+    let buflist = tabpagebuflist(i + 1)
+    let winnr = tabpagewinnr(i + 1)
+    let bufname = nvim_buf_get_name(buflist[winnr-1])
+    try
+      let ext = split(bufname, '\.')[-1]
+      let s ..= printf('%%#MyTabline%s#', ext)
+    catch
+      let s ..= '%#TablineDim#'
+    endtry
+    try
+    catch
+    endtry
+    let s ..= '▎'
     let projectroot = projectroots[i]
     let s ..= '%' .. (i + 1) .. 'T'
     if i == curtabpageidx
       try
         let s ..= printf('%%#MyTabline%s#', curext)
       catch
+        let s ..= '%#TablineDim#'
       endtry
     else
       let s ..= '%#TablineDim#'
     endif
-    let s ..= '▎'
     let s ..= string(i+1) . ' '
     if i == curtabpageidx
       let s ..= curprojectroot
