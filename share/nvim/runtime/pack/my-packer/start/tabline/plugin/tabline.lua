@@ -35,6 +35,12 @@ a.nvim_create_autocmd({ 'WinLeave' }, {
 })
 
 
+a.nvim_create_autocmd({ 'FocusLost', }, {
+  callback = function()
+    g.freshmem = 1
+  end,
+})
+
 local s = vim.keymap.set
 
 local opt = { silent = true }
