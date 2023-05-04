@@ -110,6 +110,15 @@ function! UniquePrefix(strings)
   let new_strings = []
   for string in strings
     let ok = 1
+    " let substrings = []
+    " for ch in string
+    "   if len(substrings) == 0
+    "     let substrings += [ch]
+    "   else
+    "     let substrings += [substrings[-1] . ch]
+    "   endif
+    " endfor
+    " echomsg 'substrings:' . string(substrings)
     for i in range(len(string))
       let substring = string[0:i]
       if substring == string
@@ -332,6 +341,6 @@ fu! tabline#tabline()
     endif
     let s ..= ' '
   endfor
-  let g:entablinetabline_string = trim(s) . ' '
+  let g:tabline_string = trim(s) . ' '
   return g:tabline_string
 endfu
