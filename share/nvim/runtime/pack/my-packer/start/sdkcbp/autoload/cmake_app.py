@@ -29,7 +29,7 @@ with open(os.path.join(rootdir, 'CMakeLists.txt'), 'wb') as ff:
         with open(os.path.join(i, f), 'rb') as fff:
           content = fff.read().decode('utf-8')
         directories = re.findall(patt1, content)
-        directories = [os.path.normpath(os.path.join(i, directory)) for directory in directories]
+        directories = list(set([os.path.normpath(os.path.join(i, directory)) for directory in directories]))
         files = re.findall(patt2, content)
         files = [os.path.normpath(os.path.join(i, file)).replace('\\', '/').replace(rootdir, '').strip('/') for file in files]
         d[ss] = [directories, files]
