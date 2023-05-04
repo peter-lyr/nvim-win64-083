@@ -370,7 +370,22 @@ fu! tabline#restorehiddenprojects()
       let projectrootstemp += [projectroot]
     endif
   endfor
-  for projectroot in projectroots
-    echomsg projectroot
+  let curtabpagenr = tabpagenr()
+  for i in range(tabpagenr('$'))
+    let buflist = tabpagebuflist(i + 1)
+    let winnr = tabpagewinnr(i + 1)
+    let bufname = nvim_buf_get_name(buflist[winnr-1])
+    try
+      let projectroot = tolower(substitute(projectroot#get(bufname), '\', '/', 'g'))
+      let idx = index(projectrootstemp, projectroot)
+      if idx != -1
+        call remove(projectroots, idx)
+        call remove(projectrootstemp, idx)
+      endif
+    catch
+      continue
+    endtry
   endfor
+  echomsg projectroots
+  exe 'norm ' . string(curtabpagenr) . "gt"
 endfu
