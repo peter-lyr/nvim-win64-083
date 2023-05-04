@@ -12,7 +12,7 @@ projFileNames_last = []
 libDirs = []
 
 patt1 = re.compile('directory="(.+)"')
-patt2 = re.compile('<File name="(.+?)"')
+patt2 = re.compile('filename="(.+?[cS])"')
 with open(os.path.join(rootdir, 'CMakeLists.txt'), 'wb') as ff:
   ff.write(b'cmake_minimum_required(VERSION 3.5)\n')
   ff.write(b'set(PROJECT_NAME proj_name)\n')
@@ -30,7 +30,9 @@ with open(os.path.join(rootdir, 'CMakeLists.txt'), 'wb') as ff:
           content = fff.read().decode('utf-8')
         directories = re.findall(patt1, content)
         directories = [os.path.normpath(os.path.join(i, directory)) for directory in directories]
-        d[ss] = directories
+        files = re.findall(patt2, content)
+        files = [os.path.normpath(os.path.join(i, file)).replace('\\', '/').replace(rootdir, '').strip('/') for file in files]
+        d[ss] = [directories, files]
       if f.split('.')[-1] == 'a':
         rel = i.replace(rootdir, '').replace('\\', '/')
         rel_list = rel.split('/')
@@ -42,14 +44,15 @@ with open(os.path.join(rootdir, 'CMakeLists.txt'), 'wb') as ff:
   for key, val in d.items():
     new_key = key.split('/')[-1].split('\\')[-1]
     if new_key not in new_d:
-      new_d[new_key] = [[key, val]]
+      new_d[new_key] = [[key, val[0], val[1]]]
     else:
-      new_d[new_key].append([key, val])
+      new_d[new_key].append([key, val[0], val[1]])
 
   for new_key, vals in new_d.items():
     if len(vals) == 1:
       key = vals[0][0]
-      val = vals[0][1]
+      directories = vals[0][1]
+      files = vals[0][2]
     else:
       prompt = 'select which:\n'
       l = len(vals)
@@ -67,24 +70,21 @@ with open(os.path.join(rootdir, 'CMakeLists.txt'), 'wb') as ff:
       if idx >= l:
         idx = l - 1
       key = vals[idx][0]
-      val = vals[idx][1]
+      directories = vals[idx][1]
+      files = vals[idx][2]
     print('make cbp:', key)
     if key.split('.')[0].split('\\')[-1] == 'app':
       projFileNames_last = [key]
       xl = key.split('\\')[0]
-      ff.write(("file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/%s/*.c)\n" % xl).encode('utf-8'))
-      ff.write(("file(GLOB_RECURSE ASM_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/%s/*.S)\n" % xl).encode('utf-8'))
-      ff.write(b"add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${ASM_SOURCE_FILES})\n")
-      bb = ['target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/%s)' % aa.replace('\\', '/').replace(rootdir, '').strip('\\').strip('/').replace('\\', '/') for aa in val]
+      ff.write(("add_executable(${PROJECT_NAME} ${PROJECT_SOURCE_DIR}/%s)\n" % (' ${PROJECT_SOURCE_DIR}/'.join(files))).encode('utf-8'))
+      bb = ['target_include_directories(${PROJECT_NAME} PUBLIC ${PROJECT_SOURCE_DIR}/%s)' % aa.replace('\\', '/').replace(rootdir, '').strip('\\').strip('/').replace('\\', '/') for aa in directories]
       ff.write(('\n'.join(bb).encode('utf-8')) + b'\n\n')
     elif key.split('.')[0].split('\\')[0] == 'libs':
       projFileNames.append(key)
       xl = '/'.join(key.split('\\')[0:2])
       libname = key.split('\\')[1]
-      ff.write(("file(GLOB_RECURSE SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/%s/*.c)\n" % xl).encode('utf-8'))
-      ff.write(("file(GLOB_RECURSE ASM_SOURCE_FILES ${CMAKE_CURRENT_SOURCE_DIR}/%s/*.S)\n" % xl).encode('utf-8'))
-      ff.write(("add_library(%s STATIC ${SOURCE_FILES} ${ASM_SOURCE_FILES})\n" % libname).encode('utf-8'))
-      bb = ['target_include_directories(%s PUBLIC ${PROJECT_SOURCE_DIR}/%s)' % (libname, aa.replace('\\', '/').replace(rootdir, '').strip('\\').strip('/').replace('\\', '/')) for aa in val]
+      ff.write(("add_library(%s STATIC ${PROJECT_SOURCE_DIR}/%s)\n" % (libname, ' ${PROJECT_SOURCE_DIR}/'.join(files))).encode('utf-8'))
+      bb = ['target_include_directories(%s PUBLIC ${PROJECT_SOURCE_DIR}/%s)' % (libname, aa.replace('\\', '/').replace(rootdir, '').strip('\\').strip('/').replace('\\', '/')) for aa in directories]
       ff.write(('\n'.join(bb).encode('utf-8')) + b'\n')
       ff.write(("target_link_libraries(${PROJECT_NAME} %s)\n\n" % libname).encode('utf-8'))
 
