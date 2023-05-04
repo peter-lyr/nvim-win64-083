@@ -355,3 +355,22 @@ fu! tabline#tabline()
   let g:tabline_string = trim(s) . ' '
   return g:tabline_string
 endfu
+
+fu! tabline#restorehiddenprojects()
+  let projectroots = []
+  let projectrootstemp = []
+  for bufnr in nvim_list_bufs()
+    if !buflisted(bufnr) && !nvim_buf_is_loaded(bufnr)
+      continue
+    endif
+    let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
+    let projectroot = tolower(substitute(projectroot#get(name), '\', '/', 'g'))
+    if len(name) > 0 && index(projectrootstemp, projectroot) == -1
+      let projectroots += [[projectroot, name]]
+      let projectrootstemp += [projectroot]
+    endif
+  endfor
+  for projectroot in projectroots
+    echomsg projectroot
+  endfor
+endfu
