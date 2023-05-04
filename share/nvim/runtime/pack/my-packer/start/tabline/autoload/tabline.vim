@@ -110,17 +110,15 @@ function! UniquePrefix(strings)
   let new_strings = []
   for string in strings
     let ok = 1
-    " let substrings = []
-    " for ch in string
-    "   if len(substrings) == 0
-    "     let substrings += [ch]
-    "   else
-    "     let substrings += [substrings[-1] . ch]
-    "   endif
-    " endfor
-    " echomsg 'substrings:' . string(substrings)
-    for i in range(len(string))
-      let substring = string[0:i]
+    let substrings = []
+    for ch in string
+      if len(substrings) == 0
+        let substrings += [ch]
+      else
+        let substrings += [substrings[-1] . ch]
+      endif
+    endfor
+    for substring in substrings
       if substring == string
         let new_strings += [substring]
         break
