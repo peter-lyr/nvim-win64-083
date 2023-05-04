@@ -113,7 +113,7 @@ function M.cmake_app_do(app_cbp)
   print(app_cbp)
   local ll = M.split_string(app_cbp, 'app/projects')
   local mm = table.concat(ll, 'app/projects')
-  local nn = string.match(app_cbp, mm .. 'app/projects/(.-)/')
+  local nn = string.match(app_cbp, 'app/projects/(.-)/')
   if string.match(app_cbp, 'app/projects') then
     c(string.format([[silent !start cmd /c "chcp 65001 & python "%s" "%s" %s & pause"]], g.cmake_app_py, mm, nn))
   end
