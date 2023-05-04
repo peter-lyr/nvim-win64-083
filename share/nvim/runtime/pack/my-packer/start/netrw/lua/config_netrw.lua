@@ -530,11 +530,11 @@ local appendIfNotExists = function(t, s)
   local cwd = f['getcwd']()
   if not idx then
     table.insert(t, s)
-    c(string.format([[ec 'attach: %s']], string.sub(s, #cwd + 2, #s)))
+    c(string.format([[ec 'attach(1/%d): %s']], #t, string.sub(s, #cwd + 2, #s)))
   else
     table.remove(t, idx)
     s = string.gsub(s, f['getcwd'](), '')
-    c(string.format([[ec 'detach: %s']], string.sub(s, #cwd + 2, #s)))
+    c(string.format([[ec 'detach(remain %d): %s']], #t, string.sub(s, #cwd + 2, #s)))
   end
   return t
 end
