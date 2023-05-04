@@ -33,3 +33,10 @@ a.nvim_create_autocmd({ 'WinLeave' }, {
     f['timer_start'](100, do_tabline.update_title_string)
   end,
 })
+
+
+local s = vim.keymap.set
+
+local opt = { silent = true }
+
+s({ 'n', 'v' }, '<c-F5>', ':<c-u>let g:freshmem = 1<cr>', opt)

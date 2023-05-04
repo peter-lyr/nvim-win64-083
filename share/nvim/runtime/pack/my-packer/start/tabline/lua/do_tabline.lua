@@ -161,22 +161,29 @@ local function format_time(seconds)
   return result
 end
 
+local mem = '-'
+
+g.freshmem = nil
+
 local timer = vim.loop.new_timer()
 timer:start(1000, 1000, function()
   vim.schedule(function()
-    local handle = io.popen(string.format("%s \"%s\"", vim.g.process_exe, vim.opt.titlestring:get()))
-    if handle then
-      local result = handle:read("*a")
-      handle:close()
-      local a1, b1 = string.match(result, '%S+%s+(%S+)%s+(%S+)%s*$')
-      local t = format_time(os.difftime(os.time(), g.startuptime))
-      if a1 and b1 then
-        local a2 = string.format("%.1f", tonumber(string.gsub(a1, ',', ''), 10) / 1024)
-        t = t .. ' ' .. a2
+    local t = format_time(os.difftime(os.time(), g.startuptime))
+    if g.freshmem then
+      g.freshmem = nil
+      local handle = io.popen(string.format("%s \"%s\"", vim.g.process_exe, vim.opt.titlestring:get()))
+      if handle then
+        local result = handle:read("*a")
+        handle:close()
+        local a1, b1 = string.match(result, '%S+%s+(%S+)%s+(%S+)%s*$')
+        if a1 and b1 then
+          mem = string.format("%.1f", tonumber(string.gsub(a1, ',', ''), 10) / 1024)
+        end
       end
-      g.process_mem = t
-      g.tabline_onesecond = 1
     end
+    t = t .. ' ' .. mem
+    g.process_mem = t
+    g.tabline_onesecond = 1
   end)
 end)
 
