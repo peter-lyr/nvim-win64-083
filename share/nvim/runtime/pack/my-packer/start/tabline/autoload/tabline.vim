@@ -332,6 +332,6 @@ fu! tabline#tabline()
     endif
     let s ..= ' '
   endfor
-  let g:tabline_string = trim(s)
+  let g:tabline_string = trim(s) . ' '
   return g:tabline_string
 endfu
