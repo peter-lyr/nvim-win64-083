@@ -42,3 +42,4 @@ local opt = { silent = true }
 s({ 'n', 'v' }, '<leader>bs', ':<c-u>call tabline#restorehiddenprojects()<cr>', opt)
 s({ 'n', 'v' }, '<leader>bt', ':<c-u>call tabline#savesession()<cr>', opt)
 s({ 'n', 'v' }, '<leader>bu', ':<c-u>call tabline#restoresession()<cr>', opt)
+s({ 'n', 'v' }, '<leader>bv', ':<c-u>call tabline#toggleshowtabline()<cr>', opt)

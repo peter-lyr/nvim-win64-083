@@ -466,3 +466,11 @@ fu! tabline#restoresession()
   endfor
   call tabline#restorehiddenprojects()
 endfu
+
+fu! tabline#toggleshowtabline()
+  if &showtabline == 0
+    set showtabline=2
+  else
+    set showtabline=0
+  endif
+endfu
