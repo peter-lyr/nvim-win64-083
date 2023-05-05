@@ -394,3 +394,9 @@ fu! tabline#restorehiddenprojects()
   let g:tabline_done = 0
   exe 'norm ' . string(curtabpagenr) . "gt"
 endfu
+
+lua << EOF
+local s = vim.keymap.set
+local opt = { silent = true }
+s({ 'n', 'v' }, '<leader>bs', ':<c-u>call tabline#restorehiddenprojects<cr>', opt)
+EOF
