@@ -456,7 +456,10 @@ fu! tabline#savesession()
     endif
     let names += [name]
   endfor
-  call writefile(names, s:sessionname)
+  if len(names) > 0
+    call writefile(names, s:sessionname)
+    echomsg 'saved ' .len(names) .' buffers'
+  endif
 endfu
 
 fu! tabline#restoresession()
