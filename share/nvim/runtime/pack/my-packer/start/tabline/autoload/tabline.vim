@@ -389,13 +389,39 @@ fu! tabline#restorehiddenprojects()
       continue
     endtry
   endfor
+  let openprojects = []
+  let tocloseprojects = []
+  for i in range(tabpagenr('$'))
+    let buflist = tabpagebuflist(i + 1)
+    let winnr = tabpagewinnr(i + 1)
+    let bufname = nvim_buf_get_name(buflist[winnr-1])
+    try
+      let projectroot = tolower(substitute(projectroot#get(bufname), '\', '/', 'g'))
+      let idx = index(openprojects, projectroot)
+      if idx == -1
+        let openprojects += [projectroot]
+      else
+        if index(tocloseprojects, i + 1) == -1
+          let tocloseprojects += [i + 1]
+        endif
+      endif
+    catch
+    endtry
+  endfor
+  for proj in tocloseprojects
+    exe printf("tabclose %d", proj)
+  endfor
   exe 'norm ' . string(tabpagenr('$')) . "gt"
   for projectroot in projectroots
     tabnew
     exe printf("e %s", projectroot[1])
+    echomsg printf("e %s", projectroot[1])
   endfor
   let g:tabline_done = 0
-  exe 'norm ' . string(curtabpagenr) . "gt"
+  try
+    exe 'norm ' . string(curtabpagenr) . "gt"
+  catch
+  endtry
 endfu
 
 lua << EOF
