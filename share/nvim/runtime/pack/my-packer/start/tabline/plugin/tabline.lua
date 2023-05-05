@@ -18,7 +18,7 @@ set_tabline = a.nvim_create_autocmd({ 'CursorMoved' }, {
   end,
 })
 
--- package.loaded['do_tabline'] = nil
+package.loaded['do_tabline'] = nil
 
 local sta, do_tabline
 a.nvim_create_autocmd({ 'WinLeave' }, {
@@ -35,17 +35,10 @@ a.nvim_create_autocmd({ 'WinLeave' }, {
 })
 
 
-a.nvim_create_autocmd({ 'FocusLost', }, {
-  callback = function()
-    g.freshmem = 1
-  end,
-})
-
 local s = vim.keymap.set
 
 local opt = { silent = true }
 
-s({ 'n', 'v' }, '<c-F5>', ':<c-u>let g:freshmem = 1<cr>', opt)
 s({ 'n', 'v' }, '<leader>bs', ':<c-u>call tabline#restorehiddenprojects()<cr>', opt)
 s({ 'n', 'v' }, '<leader>bt', ':<c-u>call tabline#savesession()<cr>', opt)
 s({ 'n', 'v' }, '<leader>bu', ':<c-u>call tabline#restoresession()<cr>', opt)

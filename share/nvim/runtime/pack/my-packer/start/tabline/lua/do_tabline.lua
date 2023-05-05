@@ -161,27 +161,11 @@ local function format_time(seconds)
   return result
 end
 
-local mem = '-'
-
-g.freshmem = nil
-
 local timer = vim.loop.new_timer()
 timer:start(1000, 1000, function()
   vim.schedule(function()
     local t = format_time(os.difftime(os.time(), g.startuptime))
-    if g.freshmem then
-      g.freshmem = nil
-      local handle = io.popen(string.format("%s \"%s\"", vim.g.process_exe, vim.opt.titlestring:get()))
-      if handle then
-        local result = handle:read("*a")
-        handle:close()
-        local a1, b1 = string.match(result, '%S+%s+(%S+)%s+(%S+)%s*$')
-        if a1 and b1 then
-          mem = string.format("%.1f", tonumber(string.gsub(a1, ',', ''), 10) / 1024)
-        end
-      end
-    end
-    t = t .. ' ' .. mem
+    t = t .. ' ' .. string.format("%.1f", vim.loop.resident_set_memory()/1024/1024)
     g.process_mem = t
     g.tabline_onesecond = 1
   end)
