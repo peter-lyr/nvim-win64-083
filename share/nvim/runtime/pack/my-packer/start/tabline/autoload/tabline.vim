@@ -364,6 +364,9 @@ fu! tabline#restorehiddenprojects()
       continue
     endif
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
+    if !filereadable(name)
+      continue
+    endif
     let projectroot = tolower(substitute(projectroot#get(name), '\', '/', 'g'))
     if len(name) > 0 && index(projectrootstemp, projectroot) == -1
       let projectroots += [[projectroot, name]]
@@ -398,5 +401,5 @@ endfu
 lua << EOF
 local s = vim.keymap.set
 local opt = { silent = true }
-s({ 'n', 'v' }, '<leader>bs', ':<c-u>call tabline#restorehiddenprojects<cr>', opt)
+s({ 'n', 'v' }, '<leader>bs', ':<c-u>call tabline#restorehiddenprojects()<cr>', opt)
 EOF
