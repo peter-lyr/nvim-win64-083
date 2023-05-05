@@ -431,12 +431,6 @@ fu! tabline#restorehiddenprojects()
   endtry
 endfu
 
-lua << EOF
-local s = vim.keymap.set
-local opt = { silent = true }
-s({ 'n', 'v' }, '<leader>bs', ':<c-u>call tabline#restorehiddenprojects()<cr>', opt)
-EOF
-
 let datadir = expand("$VIMRUNTIME") . "\\my-neovim-data"
 
 if !isdirectory(datadir)
@@ -467,16 +461,7 @@ endfu
 
 fu! tabline#restoresession()
   let lines = readfile(s:sessionname)
-  echomsg lines
   for line in lines
     exe 'e ' . line
   endfor
 endfu
-
-lua << EOF
-local s = vim.keymap.set
-local opt = { silent = true }
-s({ 'n', 'v' }, '<leader>bt', ':<c-u>call tabline#savesession()<cr>', opt)
-s({ 'n', 'v' }, '<leader>bu', ':<c-u>call tabline#restoresession()<cr>', opt)
-EOF
-
