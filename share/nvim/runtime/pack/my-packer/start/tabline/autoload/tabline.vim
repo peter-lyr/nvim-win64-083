@@ -118,9 +118,14 @@ function! UniquePrefix(strings)
         let substrings += [substrings[-1] . ch]
       endif
     endfor
+    let yes = 0
     for substring in substrings
-      if substring == string
-        let new_strings += [substring]
+      if substring == string || yes
+        if substring == string
+          let new_strings += [substring]
+        else
+          let new_strings += [substring . '…']
+        endif
         break
       endif
       let ok = 1
@@ -137,7 +142,9 @@ function! UniquePrefix(strings)
         if substring == string
           let new_strings += [substring]
         else
-          let new_strings += [substring . '…']
+          let yes = 1
+          continue
+          " let new_strings += [substring . '…']
         endif
         break
       endif
