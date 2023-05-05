@@ -436,3 +436,47 @@ local s = vim.keymap.set
 local opt = { silent = true }
 s({ 'n', 'v' }, '<leader>bs', ':<c-u>call tabline#restorehiddenprojects()<cr>', opt)
 EOF
+
+let datadir = expand("$VIMRUNTIME") . "\\my-neovim-data"
+
+if !isdirectory(datadir)
+  call mkdir(datadir)
+endif
+
+let sessiondir = datadir . "\\Session"
+if !isdirectory(sessiondir)
+  call mkdir(sessiondir)
+endif
+
+let s:sessionname = sessiondir . "\\session.txt"
+
+fu! tabline#savesession()
+  let names = []
+  for bufnr in nvim_list_bufs()
+    if !buflisted(bufnr) && !nvim_buf_is_loaded(bufnr)
+      continue
+    endif
+    let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
+    if !filereadable(name)
+      continue
+    endif
+    let names += [name]
+  endfor
+  call writefile(names, s:sessionname)
+endfu
+
+fu! tabline#restoresession()
+  let lines = readfile(s:sessionname)
+  echomsg lines
+  for line in lines
+    exe 'e ' . line
+  endfor
+endfu
+
+lua << EOF
+local s = vim.keymap.set
+local opt = { silent = true }
+s({ 'n', 'v' }, '<leader>bt', ':<c-u>call tabline#savesession()<cr>', opt)
+s({ 'n', 'v' }, '<leader>bu', ':<c-u>call tabline#restoresession()<cr>', opt)
+EOF
+
