@@ -464,4 +464,5 @@ fu! tabline#restoresession()
   for line in lines
     exe 'e ' . line
   endfor
+  call tabline#restorehiddenprojects()
 endfu
