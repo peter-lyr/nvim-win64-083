@@ -13,7 +13,7 @@ local open_fpath = function()
   elseif M.split == 'left' then
     c 'leftabove vsplit'
   end
-  c('e ' .. M.stack_fpath)
+  pcall(c, 'e ' .. M.stack_fpath)
 end
 
 function M.open(mode)
