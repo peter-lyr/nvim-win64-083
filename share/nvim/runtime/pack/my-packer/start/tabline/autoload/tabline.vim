@@ -103,7 +103,7 @@ fu! tabline#bwall()
       continue
     endif
     if buflisted(bufnr) && nvim_buf_is_loaded(bufnr) && filereadable(name)
-      if getbufvar(a:bufnr, '&readonly') != 1
+      if getbufvar(bufnr, '&readonly') != 1
         call tabline#pushdict(name)
         exe 'bw!' . bufnr
         let cnt += 1
