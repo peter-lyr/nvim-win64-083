@@ -29,7 +29,7 @@ if not sta then
   return
 end
 
-local by_filename = light.icons_by_filename
+local by_filename = light.icons_by_filename
 
 for _, v in pairs(by_filename) do
   table.insert(Colors, v['color'])
