@@ -17,7 +17,19 @@ a.nvim_create_autocmd({ 'WinEnter', 'BufEnter', 'VimResized' }, {
 
 Colors = {}
 
-local by_filename = require("nvim-web-devicons-light").icons_by_filename
+local sta, light = pcall(require, "nvim-web-devicons-light")
+if not sta then
+  print(light)
+  a.nvim_create_autocmd({ 'ColorScheme', }, {
+    callback = function()
+      f['statusline#color']()
+    end,
+  })
+  return
+end
+
+local by_filename = light.icons_by_filename
+
 for _, v in pairs(by_filename) do
   table.insert(Colors, v['color'])
 end
@@ -41,10 +53,10 @@ local statuslinecolor = function()
     vim.api.nvim_set_hl(0, hiname, opt)
   end
   c[[
-hi MyHiLiFnameTailActive   gui=bold guifg=#ff9933 guibg=NONE
-hi MyHiLiFnameTailInActive gui=NONE guifg=#996633 guibg=NONE
-hi StatusLine              gui=NONE guibg=NONE guifg=NONE
-hi StatusLineNC            gui=NONE guibg=NONE guifg=gray
+    hi MyHiLiFnameTailActive   gui=bold guifg=#ff9933 guibg=NONE
+    hi MyHiLiFnameTailInActive gui=NONE guifg=#996633 guibg=NONE
+    hi StatusLine              gui=NONE guibg=NONE guifg=NONE
+    hi StatusLineNC            gui=NONE guibg=NONE guifg=gray
   ]]
 end
 
