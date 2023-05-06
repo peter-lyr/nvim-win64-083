@@ -43,6 +43,7 @@ NetrwTreeListing
 **/pack/packer/**/cinnamon.nvim
 # my-neovim-data
 **/my-neovim-data/project_nvim
+**/my-neovim-data/Session
 # 匹配
 # 输出文件或文件夹
 saved_images
