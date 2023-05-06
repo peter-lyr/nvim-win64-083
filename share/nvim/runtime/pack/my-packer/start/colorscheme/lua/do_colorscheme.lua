@@ -15,14 +15,9 @@ end
 
 local changecolorscheme = function()
   local color
-  local cnt = 0
-  while 1 do
+  for _=1, 5 do
     color = ColorSchemes[math.random(#ColorSchemes)]
     if not string.match(color, 'light') then
-      break
-    end
-    cnt = cnt + 1
-    if cnt > 5 then
       break
     end
   end
