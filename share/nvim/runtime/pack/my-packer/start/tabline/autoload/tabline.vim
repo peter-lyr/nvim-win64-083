@@ -5,9 +5,11 @@ fu! tabline#bwwatcher(bufnr)
     catch
     endtry
     try
-      call tabline#pushdict(nvim_buf_get_name(a:bufnr))
-      exe 'bw' . a:bufnr
-      let g:tabline_done = 0
+      if getbufvar(a:bufnr, '&readonly') != 1
+        call tabline#pushdict(nvim_buf_get_name(a:bufnr))
+        exe 'bw' . a:bufnr
+        let g:tabline_done = 0
+      endif
     catch
     endtry
   endif
@@ -101,9 +103,11 @@ fu! tabline#bwall()
       continue
     endif
     if buflisted(bufnr) && nvim_buf_is_loaded(bufnr) && filereadable(name)
-      call tabline#pushdict(name)
-      exe 'bw!' . bufnr
-      let cnt += 1
+      if getbufvar(a:bufnr, '&readonly') != 1
+        call tabline#pushdict(name)
+        exe 'bw!' . bufnr
+        let cnt += 1
+      endif
     endif
   endfor
   let g:tabline_done = 0
@@ -381,6 +385,9 @@ fu! tabline#restorehiddenprojects()
     if !filereadable(name)
       continue
     endif
+    if getbufvar(bufnr, '&readonly') == 1
+      continue
+    endif
     let projectroot = tolower(substitute(projectroot#get(name), '\', '/', 'g'))
     if len(name) > 0 && index(projectrootstemp, projectroot) == -1
       let projectroots += [[projectroot, name]]
@@ -455,6 +462,9 @@ fu! tabline#savesession()
   let names = []
   for bufnr in nvim_list_bufs()
     if !buflisted(bufnr) && !nvim_buf_is_loaded(bufnr)
+      continue
+    endif
+    if getbufvar(bufnr, '&readonly') == 1
       continue
     endif
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
