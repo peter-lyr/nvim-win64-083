@@ -1,5 +1,4 @@
 local a = vim.api
-local c = vim.cmd
 
 local colorscheme_focuslost
 local colorscheme_bufreadpre
@@ -8,7 +7,7 @@ local do_colorscheme
 local sta
 
 local colorscheme_init = function()
-  sta, do_colorscheme = pcall(c, 'colorscheme sierra')
+  sta, do_colorscheme = pcall(require, 'do_colorscheme')
   if not sta then
     print(do_colorscheme)
   end
@@ -21,7 +20,7 @@ local del_autocmd = function()
 end
 
 colorscheme_bufreadpre = a.nvim_create_autocmd({ 'BufReadPre' }, {
-  pattern = { '*.c', '*.h', '*.lua', '*.py' },
+  pattern = { '*.vim', '*.c', '*.h', '*.lua', '*.py' },
   callback = del_autocmd,
 })
 
