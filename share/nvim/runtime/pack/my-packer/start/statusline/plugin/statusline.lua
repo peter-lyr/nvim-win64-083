@@ -19,7 +19,7 @@ local del_autocmd = function()
 end
 
 statusline_bufreadpre = a.nvim_create_autocmd({ 'BufReadPre' }, {
-  pattern = { '*.c', '*.h', '*.lua', '*.py' },
+  pattern = { '*.vim', '*.c', '*.h', '*.lua', '*.py' },
   callback = del_autocmd,
 })
 
