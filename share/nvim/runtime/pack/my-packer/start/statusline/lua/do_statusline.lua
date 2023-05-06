@@ -54,6 +54,7 @@ local statuslinecolor = function()
     vim.api.nvim_set_hl(0, hiname, opt)
   end
   c[[
+    hi MyHiLiInActive          gui=NONE guifg=#3a3a3a guibg=NONE
     hi MyHiLiFnameTailActive   gui=bold guifg=#ff9933 guibg=NONE
     hi MyHiLiFnameTailInActive gui=NONE guifg=#996633 guibg=NONE
     hi StatusLine              gui=NONE guibg=NONE guifg=NONE
