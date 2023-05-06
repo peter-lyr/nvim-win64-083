@@ -5,6 +5,7 @@ fu! tabline#bwwatcher(bufnr)
     catch
     endtry
     try
+      call tabline#pushdict(nvim_buf_get_name(a:bufnr))
       exe 'bw' . a:bufnr
       let g:tabline_done = 0
     catch
@@ -66,6 +67,10 @@ fu! tabline#getalldict()
 EOF
 endfu
 
+function! tabline#updatedict(cwd, names)
+  let g:bwall_dict[a:cwd] = a:names
+endfunction
+
 fu! tabline#getdict()
   let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
   if has_key(g:bwall_dict, cwd)
@@ -77,8 +82,10 @@ fu! tabline#getdict()
         table.insert(t1, v)
       end
       if #t1 > 0 then
-        vim.ui.select(t1, { prompt = 'open' }, function(choice, _)
-          vim.cmd(string.format('e %s', choice))
+        vim.ui.select(t1, { prompt = 'open' }, function(_, index)
+          vim.cmd(string.format('e %s', t1[index]))
+          table.remove(t1, index)
+          vim.fn['tabline#updatedict'](cwd, t1)
         end)
       end
 EOF
