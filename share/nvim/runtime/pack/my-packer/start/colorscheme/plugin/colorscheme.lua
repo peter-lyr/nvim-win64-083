@@ -6,6 +6,8 @@ local colorscheme_bufreadpre
 local do_colorscheme
 local sta
 
+-- package.loaded['do_colorscheme'] = nil
+
 local colorscheme_init = function()
   sta, do_colorscheme = pcall(require, 'do_colorscheme')
   if not sta then
