@@ -1,24 +1,21 @@
 fu! statusline#color()
-  hi MyGroup0  gui=NONE guifg=#3a3a3a guibg=NONE
+  hi MyHiLiInActive          gui=NONE guifg=#3a3a3a guibg=NONE
 
-  hi MyGroup1  gui=NONE guifg=NONE    guibg=NONE
-  hi MyGroup2  gui=NONE guifg=gray    guibg=NONE
-  hi MyGroup3  gui=NONE guifg=yellow  guibg=NONE
-  hi MyGroup4  gui=NONE guifg=#67813d guibg=NONE
-  hi MyGroup5  gui=NONE guifg=#277279 guibg=NONE
-  hi MyGroup6  gui=NONE guifg=#739874 guibg=NONE
-  hi MyGroup7  gui=NONE guifg=#923784 guibg=NONE
-  hi MyGroup8  gui=NONE guifg=#87a4a2 guibg=NONE
-  hi MyGroup9  gui=NONE guifg=#7890d3 guibg=NONE
-  hi MyGroup10 gui=NONE guifg=#668853 guibg=NONE
-  hi MyGroup11 gui=NONE guifg=#c77227 guibg=NONE
-  hi MyGroup12 gui=NONE guifg=#87a387 guibg=NONE
-  hi MyGroup13 gui=NONE guifg=#279372 guibg=NONE
-  hi MyGroup15 gui=bold guifg=#ff9933 guibg=NONE
-  hi MyGroup16 gui=NONE guifg=#996633 guibg=NONE
+  hi MyHiLiBufNr             gui=NONE guifg=gray    guibg=NONE
+  hi MyHiLiDate              gui=NONE guifg=#5781ad guibg=NONE
+  hi MyHiLiTime              gui=NONE guifg=#2752c9 guibg=NONE
+  hi MyHiLiWeek              gui=NONE guifg=#739874 guibg=NONE
+  hi MyHiLiFnameHead         gui=NONE guifg=#87a4a2 guibg=NONE
+  hi MyHiLiFileFormat        gui=NONE guifg=#968853 guibg=NONE
+  hi MyHiLiFileEncoding      gui=NONE guifg=#c77227 guibg=NONE
+  hi MyHiLiLineCol           gui=NONE guifg=#87a387 guibg=NONE
+  hi MyHiLiBotTop            gui=NONE guifg=#279372 guibg=NONE
+  hi MyHiLiFnameTailActive   gui=bold guifg=#ff9933 guibg=NONE
 
-  hi StatusLine   gui=NONE guibg=NONE guifg=NONE
-  hi StatusLineNC gui=NONE guibg=NONE guifg=gray
+  hi MyHiLiFnameTailInActive gui=NONE guifg=#996633 guibg=NONE
+
+  hi StatusLine              gui=NONE guibg=NONE guifg=NONE
+  hi StatusLineNC            gui=NONE guibg=NONE guifg=gray
 endfu
 
 call statusline#color()
@@ -41,11 +38,11 @@ fu! statusline#mode()
         \ ''
         \ )
   if 'INSERT ' == ret
-    hi MyGroup1 gui=bold guifg=orange guibg=NONE
+    hi MyHiLiMode gui=bold guifg=orange guibg=NONE
   elseif 'REPLACE' == ret
-    hi MyGroup1 gui=bold guifg=red guibg=NONE
+    hi MyHiLiMode gui=bold guifg=red guibg=NONE
   else
-    hi MyGroup1 gui=NONE guifg=NONE guibg=NONE
+    hi MyHiLiMode gui=NONE guifg=NONE guibg=NONE
   endif
   return ret
 endfu
@@ -56,42 +53,42 @@ fu! statusline#bufNr()
 endfu
 
 fu! s:active()
-  let statusline  = '%#MyGroup1#[%{statusline#mode()}]%*'
-  let statusline .= '%#MyGroup2#%{statusline#bufNr()}%*'
-  let statusline .= '%#MyGroup4# %{strftime("%Y-%m-%d")} %*'
-  let statusline .= '%#MyGroup5# %{strftime("%T")} %*'
-  let statusline .= '%#MyGroup6# %{strftime("%a")}%*'
-  let statusline .= '%#MyGroup3# %{statusline#fileSize(@%)}%*'
+  let statusline  = '%#MyHiLiMode#[%{statusline#mode()}]%*'
+  let statusline .= '%#MyHiLiBufNr#%{statusline#bufNr()}%*'
+  let statusline .= '%#MyHiLiDate# %{strftime("%Y-%m-%d")} %*'
+  let statusline .= '%#MyHiLiTime# %{strftime("%T")} %*'
+  let statusline .= '%#MyHiLiWeek# %{strftime("%a")}%*'
+  let statusline .= '%#MyHiLiFsize# %{statusline#fileSize(@%)}%*'
   let statusline .= '%='
   if len(statusline#fileAbspathHead(@%)) + len(statusline#fileAbspathTail(@%)) < winwidth(0)
-    let statusline .= '%#MyGroup8#%{statusline#fileAbspathHead(@%)}%*'
+    let statusline .= '%#MyHiLiFnameHead#%{statusline#fileAbspathHead(@%)}%*'
   endif
-  let statusline .= '%#MyGroup15#%{statusline#fileAbspathTail(@%)} %*'
+  let statusline .= '%#MyHiLiFnameTailActive#%{statusline#fileAbspathTail(@%)} %*'
   let statusline .= '%='
-  let statusline .= '%#MyGroup9#%m%r%y%*'
-  let statusline .= '%#MyGroup10# %{&ff} %*'
-  let statusline .= '%#MyGroup11# %{"".(&fenc==""?&enc:&fenc).((exists("+bomb") && &bomb)?",B":"")." "}%*'
-  let statusline .= '%#MyGroup12#%(%4l:%-4c%)%*'
-  let statusline .= '%#MyGroup13# %P %*'
+  let statusline .= '%#MyHiLiLineCol#%m%r%y%*'
+  let statusline .= '%#MyHiLiFileFormat# %{&ff} %*'
+  let statusline .= '%#MyHiLiFileEncoding# %{"".(&fenc==""?&enc:&fenc).((exists("+bomb") && &bomb)?",B":"")." "}%*'
+  let statusline .= '%#MyHiLiLineCol#%(%4l:%-4c%)%*'
+  let statusline .= '%#MyHiLiBotTop# %P %*'
   return statusline
 endfu
 
 fu! s:inactive()
-  let statusline  = '%#MyGroup0#[%{statusline#mode()}]%*'
-  let statusline .= '%#MyGroup0#%{statusline#bufNr()}%*'
-  let statusline .= '%#MyGroup0# %{strftime("%Y-%m-%d")} %*'
-  let statusline .= '%#MyGroup0#          %*'
-  let statusline .= '%#MyGroup0# %{strftime("%a")}%*'
-  let statusline .= '%#MyGroup0# %{statusline#fileSize(@%)}%*'
+  let statusline  = '%#MyHiLiInActive#[%{statusline#mode()}]%*'
+  let statusline .= '%#MyHiLiInActive#%{statusline#bufNr()}%*'
+  let statusline .= '%#MyHiLiInActive# %{strftime("%Y-%m-%d")} %*'
+  let statusline .= '%#MyHiLiInActive#          %*'
+  let statusline .= '%#MyHiLiInActive# %{strftime("%a")}%*'
+  let statusline .= '%#MyHiLiInActive# %{statusline#fileSize(@%)}%*'
   let statusline .= '%='
-  let statusline .= '%#MyGroup8# %{statusline#fileAbspathHead(@%)}%*'
-  let statusline .= '%#MyGroup16#%{statusline#fileAbspathTail(@%)} %*'
+  let statusline .= '%#MyHiLiFnameHead# %{statusline#fileAbspathHead(@%)}%*'
+  let statusline .= '%#MyHiLiFnameTailInActive#%{statusline#fileAbspathTail(@%)} %*'
   let statusline .= '%='
-  let statusline .= '%#MyGroup0#%m%r%y%*'
-  let statusline .= '%#MyGroup0# %{&ff} %*'
-  let statusline .= '%#MyGroup0# %{"".(&fenc==""?&enc:&fenc).((exists("+bomb") && &bomb)?",B":"")." "}%*'
-  let statusline .= '%#MyGroup0#%(%4l:%-4c%)%*'
-  let statusline .= '%#MyGroup0# %P %*'
+  let statusline .= '%#MyHiLiInActive#%m%r%y%*'
+  let statusline .= '%#MyHiLiInActive# %{&ff} %*'
+  let statusline .= '%#MyHiLiInActive# %{"".(&fenc==""?&enc:&fenc).((exists("+bomb") && &bomb)?",B":"")." "}%*'
+  let statusline .= '%#MyHiLiInActive#%(%4l:%-4c%)%*'
+  let statusline .= '%#MyHiLiInActive# %P %*'
   return statusline
 endfu
 
@@ -130,16 +127,16 @@ fu! statusline#fileSize(fname)
     return '        '
   endif
   if l:size < 1024
-    hi MyGroup3 gui=NONE guifg=gray guibg=NONE
+    hi MyHiLiFsize gui=NONE guifg=gray guibg=NONE
     return printf('%6d', l:size) .'B '
   elseif l:size < 1024*1024
-    hi MyGroup3 gui=NONE guifg=yellow guibg=NONE
+    hi MyHiLiFsize gui=NONE guifg=yellow guibg=NONE
     return printf('%3d', l:size/1024) .'.' .split(printf('%.2f', l:size/1024.0), '\.')[-1] .'K '
   elseif l:size < 1024*1024*1024
-    hi MyGroup3 gui=bold guifg=orange guibg=NONE
+    hi MyHiLiFsize gui=bold guifg=orange guibg=NONE
     return printf('%3d', l:size/1024/1024) .'.' .split(printf('%.2f', l:size/1024.0/1024.0), '\.')[-1] .'M '
   else
-    hi MyGroup3 gui=bold guifg=red guibg=NONE
+    hi MyHiLiFsize gui=bold guifg=red guibg=NONE
     return printf('%3d', l:size/1024/1024/1024) .'.' .split(printf('%.2f', l:size/1024.0/1024.0/1024.0), '\.')[-1] .'G '
   endif
 endfu
