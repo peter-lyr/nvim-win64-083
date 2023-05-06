@@ -45,7 +45,9 @@ fu! tabline#pushdict(name)
   if !has_key(g:bwall_dict, cwd)
     let g:bwall_dict[cwd] = [a:name]
   else
-    let g:bwall_dict[cwd] += [a:name]
+    if index(g:bwall_dict[cwd], a:name) == -1
+      let g:bwall_dict[cwd] += [a:name]
+    endif
   endif
 endfu
 
@@ -102,11 +104,11 @@ fu! tabline#bwall()
       continue
     endif
     if buflisted(bufnr) && nvim_buf_is_loaded(bufnr) && filereadable(name)
-      exe 'bw!' . bufnr
       if getbufvar(bufnr, '&readonly') != 1
         call tabline#pushdict(name)
       endif
     endif
+    exe 'bw!' . bufnr
   endfor
   let g:tabline_done = 0
 endfu
