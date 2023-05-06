@@ -18,7 +18,7 @@ set_tabline = a.nvim_create_autocmd({ 'CursorMoved' }, {
   end,
 })
 
-package.loaded['do_tabline'] = nil
+-- package.loaded['do_tabline'] = nil
 
 local sta, do_tabline
 a.nvim_create_autocmd({ 'WinLeave' }, {
