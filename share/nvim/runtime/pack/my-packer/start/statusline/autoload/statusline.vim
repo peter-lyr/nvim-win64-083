@@ -1,7 +1,7 @@
 fu! statusline#color()
   hi MyHiLiInActive          gui=NONE guifg=#3a3a3a guibg=NONE
 
-  hi MyHiLiBufNr             gui=NONE guifg=gray    guibg=NONE
+  hi MyHiLiBufNr             gui=NONE guifg=#5781ad guibg=NONE
   hi MyHiLiDate              gui=NONE guifg=#5781ad guibg=NONE
   hi MyHiLiTime              gui=NONE guifg=#2752c9 guibg=NONE
   hi MyHiLiWeek              gui=NONE guifg=#739874 guibg=NONE
@@ -10,8 +10,8 @@ fu! statusline#color()
   hi MyHiLiFileEncoding      gui=NONE guifg=#c77227 guibg=NONE
   hi MyHiLiLineCol           gui=NONE guifg=#87a387 guibg=NONE
   hi MyHiLiBotTop            gui=NONE guifg=#279372 guibg=NONE
-  hi MyHiLiFnameTailActive   gui=bold guifg=#ff9933 guibg=NONE
 
+  hi MyHiLiFnameTailActive   gui=bold guifg=#ff9933 guibg=NONE
   hi MyHiLiFnameTailInActive gui=NONE guifg=#996633 guibg=NONE
 
   hi StatusLine              gui=NONE guibg=NONE guifg=NONE

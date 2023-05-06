@@ -1,26 +1,13 @@
 local a = vim.api
-local f = vim.fn
 
 local statusline_focuslost
 local statusline_bufreadpre
 
 local statusline_init = function()
-  local timer = vim.loop.new_timer()
-  timer:start(100, 100, function()
-    vim.schedule(function()
-      f['statusline#ro']()
-    end)
-  end)
-  a.nvim_create_autocmd({ 'WinEnter', 'BufEnter', 'VimResized' }, {
-    callback = function()
-      f['statusline#watch']()
-    end,
-  })
-  a.nvim_create_autocmd({ 'ColorScheme', }, {
-    callback = function()
-      f['statusline#color']()
-    end,
-  })
+  local sta, do_statusline = pcall(require, 'do_statusline')
+  if not sta then
+    print(do_statusline)
+  end
 end
 
 local del_autocmd = function()
