@@ -3,6 +3,8 @@ local a = vim.api
 local statusline_focuslost
 local statusline_bufreadpre
 
+-- package.loaded['do_statusline'] = nil
+
 local statusline_init = function()
   local sta, do_statusline = pcall(require, 'do_statusline')
   if not sta then

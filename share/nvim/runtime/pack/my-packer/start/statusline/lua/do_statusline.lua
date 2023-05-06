@@ -20,7 +20,7 @@ Colors = {}
 local sta, light = pcall(require, "nvim-web-devicons-light")
 if not sta then
   print(light)
-  a.nvim_create_autocmd({ 'ColorScheme', }, {
+  a.nvim_create_autocmd({ 'ColorScheme', 'TabEnter', }, {
     callback = function()
       f['statusline#color']()
     end,
@@ -60,7 +60,7 @@ local statuslinecolor = function()
   ]]
 end
 
-a.nvim_create_autocmd({ 'ColorScheme', }, {
+a.nvim_create_autocmd({ 'ColorScheme', 'TabEnter', }, {
   callback = function()
     statuslinecolor()
   end,
