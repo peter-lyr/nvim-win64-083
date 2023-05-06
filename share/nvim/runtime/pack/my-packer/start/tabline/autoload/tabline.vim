@@ -96,17 +96,15 @@ endfu
 
 fu! tabline#bwall()
   let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
-  let cnt = 0
   for bufnr in nvim_list_bufs()
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
     if match(tolower(name), cwd) == -1
       continue
     endif
     if buflisted(bufnr) && nvim_buf_is_loaded(bufnr) && filereadable(name)
+      exe 'bw!' . bufnr
       if getbufvar(bufnr, '&readonly') != 1
         call tabline#pushdict(name)
-        exe 'bw!' . bufnr
-        let cnt += 1
       endif
     endif
   endfor
