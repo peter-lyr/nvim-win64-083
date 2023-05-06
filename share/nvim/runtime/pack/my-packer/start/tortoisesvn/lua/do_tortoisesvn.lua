@@ -26,7 +26,7 @@ local system_cd_string = function(absfolder)
   if not path:exists() then
     return ''
   end
-  if path:is_file() then
+  if path:is_dir() then
     return string.sub(absfolder, 1, 1) .. ': && cd ' .. absfolder
   end
   return string.sub(absfolder, 1, 1) .. ': && cd ' .. path:parent()['filename']
