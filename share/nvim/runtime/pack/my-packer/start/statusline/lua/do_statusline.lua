@@ -1,11 +1,12 @@
 local a = vim.api
 local c = vim.cmd
 local f = vim.fn
+local o = vim.opt
 
 local timer = vim.loop.new_timer()
 timer:start(100, 100, function()
   vim.schedule(function()
-    f['statusline#ro']()
+    o.ro = o.ro:get()
   end)
 end)
 

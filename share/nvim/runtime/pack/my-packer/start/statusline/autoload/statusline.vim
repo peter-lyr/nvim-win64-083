@@ -140,7 +140,3 @@ fu! statusline#fileSize(fname)
     return printf('%3d', l:size/1024/1024/1024) .'.' .split(printf('%.2f', l:size/1024.0/1024.0/1024.0), '\.')[-1] .'G '
   endif
 endfu
-
-fu! statusline#ro()
-  let &ro = &ro
-endfu
