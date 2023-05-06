@@ -95,9 +95,9 @@ fu! tabline#bwall()
     endif
     if buflisted(bufnr) && nvim_buf_is_loaded(bufnr) && filereadable(name)
       call tabline#pushdict(name)
+      exe 'bw!' . bufnr
+      let cnt += 1
     endif
-    exe 'bw' . bufnr
-    let cnt += 1
   endfor
   let g:tabline_done = 0
 endfu
