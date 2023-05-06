@@ -465,7 +465,9 @@ endfu
 fu! tabline#restoresession()
   let lines = readfile(s:sessionname)
   for line in lines
-    exe 'e ' . line
+    if filereadable(line)
+      exe 'e ' . line
+    endif
   endfor
   call tabline#restorehiddenprojects()
 endfu
