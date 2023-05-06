@@ -14,7 +14,7 @@ for _, v in pairs(vim.fn.getcompletion("", "color")) do
 end
 
 local changecolorscheme = function()
-  c('colorscheme ' .. ColorSchemes[math.random(#ColorSchemes)])
+  c(string.format([[call feedkeys("colorscheme %s")]], ColorSchemes[math.random(#ColorSchemes)]))
 end
 
 a.nvim_create_autocmd({ 'TabEnter', }, {
