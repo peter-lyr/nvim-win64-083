@@ -26,7 +26,7 @@ fu! statusline#mode()
         \ 'i':      'INSERT',
         \ 'R':      'REPLACE',
         \ 'v':      'VISUAL',
-        \ 'V':      'VISUAL',
+        \ 'V':      'V-LINE',
         \ "\<C-v>": 'V-BLOCK',
         \ 'c':      'COMMAND',
         \ 's':      'SELECT',
@@ -38,14 +38,30 @@ fu! statusline#mode()
         \ ''
         \ )
   if 'INSERT' == ret
-    hi MyHiLiMode gui=bold guifg=orange guibg=NONE
+    hi MyHiLiMode gui=bold guifg=orange
+  elseif 'VISUAL'   == ret
+    hi MyHiLiMode gui=bold guifg=yellow
+  elseif 'V-LINE'   == ret
+    hi MyHiLiMode gui=bold guifg=yellow
+  elseif 'V-BLOCK'  == ret
+    hi MyHiLiMode gui=bold guifg=yellow
   elseif 'REPLACE' == ret
-    hi MyHiLiMode gui=bold guifg=red guibg=NONE
+    hi MyHiLiMode gui=bold guifg=red
+  elseif 'TERMINAL' == ret
+    hi MyHiLiMode gui=NONE guifg=green
+  elseif 'COMMAND' == ret
+    hi MyHiLiMode gui=bold guifg=purple
+  elseif 'SELECT'   == ret
+    hi MyHiLiMode gui=bold guifg=red
+  elseif 'S-LINE'   == ret
+    hi MyHiLiMode gui=bold guifg=red
+  elseif 'S-BLOCK'  == ret
+    hi MyHiLiMode gui=bold guifg=red
   else
-    hi MyHiLiMode gui=NONE guifg=NONE guibg=NONE
+    hi MyHiLiMode gui=NONE guifg=NONE
   endif
   let ret = '[' . ret . ']'
-  return printf("%-9s", ret)
+  return printf("%-10s", ret)
 endfu
 
 fu! statusline#bufNr()
@@ -76,7 +92,7 @@ fu! s:active()
 endfu
 
 fu! s:inactive()
-  let statusline  = '         '
+  let statusline  = '          '
   let statusline .= '%{statusline#bufNr()}'
   let statusline .= '            '
   let statusline .= '         '
