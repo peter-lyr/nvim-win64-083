@@ -43,3 +43,4 @@ s({ 'n', 'v' }, '<leader>bs', ':<c-u>call tabline#restorehiddenprojects()<cr>', 
 s({ 'n', 'v' }, '<leader>bt', ':<c-u>call tabline#savesession()<cr>', opt)
 s({ 'n', 'v' }, '<leader>bu', ':<c-u>call tabline#restoresession()<cr>', opt)
 s({ 'n', 'v' }, '<leader>bv', ':<c-u>call tabline#toggleshowtabline()<cr>', opt)
+s({ 'n', 'v' }, '<leader>bz', ':<c-u>call tabline#bwothers()<cr>', opt)

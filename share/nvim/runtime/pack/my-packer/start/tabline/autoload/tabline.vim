@@ -495,3 +495,20 @@ fu! tabline#toggleshowtabline()
     set showtabline=0
   endif
 endfu
+
+fu! tabline#bwothers()
+  let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
+  for bufnr in nvim_list_bufs()
+    let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
+    if match(tolower(name), cwd) == -1 || bufnr == g:curbufnr
+      continue
+    endif
+    if buflisted(bufnr) && nvim_buf_is_loaded(bufnr) && filereadable(name)
+      if getbufvar(bufnr, '&readonly') != 1
+        call tabline#pushdict(name)
+      endif
+    endif
+    exe 'bw!' . bufnr
+  endfor
+  let g:tabline_done = 0
+endfu
