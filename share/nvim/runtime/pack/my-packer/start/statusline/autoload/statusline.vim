@@ -49,7 +49,7 @@ endfu
 
 fu! statusline#bufNr()
   let res = printf('[%d]', bufnr())
-  return printf('%5s', res)
+  return printf('%6s', res)
 endfu
 
 fu! s:active()
