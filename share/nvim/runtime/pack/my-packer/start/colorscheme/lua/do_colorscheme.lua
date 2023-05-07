@@ -49,4 +49,4 @@ a.nvim_create_autocmd({ 'BufEnter', }, {
 
 local s = vim.keymap.set
 local opt = { silent = true }
-s({ 'n', 'v', 'i' }, '<leader>bw', function() changecolorscheme(true) end, opt)
+s({ 'n', 'v' }, '<leader>bw', function() changecolorscheme(true) end, opt)
