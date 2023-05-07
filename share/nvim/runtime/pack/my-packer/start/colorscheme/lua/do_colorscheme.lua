@@ -14,6 +14,7 @@ for _, v in pairs(vim.fn.getcompletion("", "color")) do
 end
 
 local colors = {}
+local do_tabline
 
 local changecolorscheme = function(force)
   local cwd = string.lower(string.gsub(vim.loop.cwd(), '\\', '/'))
@@ -30,9 +31,17 @@ local changecolorscheme = function(force)
   else
     c(string.format([[call feedkeys(":\<c-u>colorscheme %s\<cr>")]], colors[cwd]))
   end
+  if not do_tabline then
+    sta, do_tabline = pcall(require, 'do_tabline')
+    if not sta then
+      print('no do_tabline')
+      return
+    end
+  end
+  vim.fn['timer_start'](100, do_tabline.update_title_string)
 end
 
-a.nvim_create_autocmd({ 'TabEnter', }, {
+a.nvim_create_autocmd({ 'BufEnter', }, {
   callback = function()
     changecolorscheme(false)
   end,

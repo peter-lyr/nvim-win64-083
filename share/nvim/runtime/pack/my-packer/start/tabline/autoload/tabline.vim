@@ -436,7 +436,6 @@ fu! tabline#restorehiddenprojects()
   for projectroot in projectroots
     tabnew
     exe printf("e %s", projectroot[1])
-    echomsg printf("e %s", projectroot[1])
   endfor
   let g:tabline_done = 0
   try
