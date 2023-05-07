@@ -1,4 +1,5 @@
 local c = vim.cmd
+local f = vim.fn
 local a = vim.api
 
 local sta, colorscheme = pcall(c, 'colorscheme sierra')
@@ -19,7 +20,7 @@ local lastcwd = ''
 
 local changecolorscheme = function(force)
   local cwd = string.lower(string.gsub(vim.loop.cwd(), '\\', '/'))
-  if cwd == lastcwd and force ~= true then
+  if force ~= true and (cwd == lastcwd or f['filereadable'](a.nvim_buf_get_name(0)) == 0) then
     return
   end
   lastcwd = cwd
