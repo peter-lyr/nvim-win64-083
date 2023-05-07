@@ -74,11 +74,11 @@ fu! s:active()
 endfu
 
 fu! s:inactive()
-  let statusline  = '%#MyHiLiInActive#[%{statusline#mode()}]'
+  let statusline  = '         '
   let statusline .= '%{statusline#bufNr()}'
-  let statusline .= ' %{strftime("%Y-%m-%d")} '
+  let statusline .= '            '
   let statusline .= '         '
-  let statusline .= ' %{strftime("%a")}'
+  let statusline .= ' ' . strftime("%a")
   let statusline .= ' %{statusline#fileSize(@%)}'
   let statusline .= '%='
   let statusline .= '%#MyHiLiFnameHead# %{statusline#fileAbspathHead(@%)}'
