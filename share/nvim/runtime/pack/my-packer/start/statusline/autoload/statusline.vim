@@ -55,16 +55,16 @@ endfu
 fu! s:active()
   let statusline  = '%#MyHiLiMode#[%{statusline#mode()}]'
   let statusline .= '%#MyHiLiBufNr#' . statusline#bufNr()
-  let statusline .= '%#MyHiLiDate# ' . strftime("%Y-%m-%d") . ''
-  let statusline .= '%#MyHiLiTime# %{strftime("%T")} '
-  let statusline .= '%#MyHiLiWeek# %{strftime("%a")}'
+  let statusline .= '%#MyHiLiDate# ' . strftime("%Y-%m-%d")
+  let statusline .= '%#MyHiLiTime# %{strftime("%T")}'
+  let statusline .= '%#MyHiLiWeek# ' . strftime("%a")
   let statusline .= '%#MyHiLiFsize# %{statusline#fileSize(@%)}'
-  let statusline .= '%='
+  let statusline .= ' %='
   if len(expand(@%)) < winwidth(0)
     let statusline .= '%#MyHiLiFnameHead#' . statusline#fileAbspathHead(@%)
   endif
   let statusline .= '%#MyHiLiFnameTailActive#' . statusline#fileAbspathTail(@%)
-  let statusline .= '%='
+  let statusline .= ' %='
   let statusline .= '%#MyHiLiLineCol#%m%r%y'
   let statusline .= '%#MyHiLiFileFormat# %{&ff} '
   let statusline .= '%#MyHiLiFileEncoding# %{"".(&fenc==""?&enc:&fenc).((exists("+bomb") && &bomb)?",B":"")." "}'
@@ -78,12 +78,12 @@ fu! s:inactive()
   let statusline .= '%{statusline#bufNr()}'
   let statusline .= '            '
   let statusline .= '         '
-  let statusline .= ' ' . strftime("%a")
+  let statusline .= strftime("%a")
   let statusline .= ' %{statusline#fileSize(@%)}'
-  let statusline .= '%='
-  let statusline .= '%#MyHiLiFnameHead# %{statusline#fileAbspathHead(@%)}'
-  let statusline .= '%#MyHiLiFnameTailInActive#%{statusline#fileAbspathTail(@%)} '
-  let statusline .= '%='
+  let statusline .= ' %='
+  let statusline .= '%#MyHiLiFnameHead#%{statusline#fileAbspathHead(@%)}'
+  let statusline .= '%#MyHiLiFnameTailInActive#%{statusline#fileAbspathTail(@%)}'
+  let statusline .= ' %='
   let statusline .= '%#MyHiLiInActive#%m%r%y'
   let statusline .= ' %{&ff} '
   let statusline .= ' %{"".(&fenc==""?&enc:&fenc).((exists("+bomb") && &bomb)?",B":"")." "}'
@@ -128,15 +128,15 @@ fu! statusline#fileSize(fname)
   endif
   if l:size < 1024
     hi MyHiLiFsize gui=NONE guifg=gray guibg=NONE
-    return printf('%6d', l:size) .'B '
+    return printf('%6d', l:size) .'B'
   elseif l:size < 1024*1024
     hi MyHiLiFsize gui=NONE guifg=yellow guibg=NONE
-    return printf('%3d', l:size/1024) .'.' .split(printf('%.2f', l:size/1024.0), '\.')[-1] .'K '
+    return printf('%3d', l:size/1024) .'.' .split(printf('%.2f', l:size/1024.0), '\.')[-1] .'K'
   elseif l:size < 1024*1024*1024
     hi MyHiLiFsize gui=bold guifg=orange guibg=NONE
-    return printf('%3d', l:size/1024/1024) .'.' .split(printf('%.2f', l:size/1024.0/1024.0), '\.')[-1] .'M '
+    return printf('%3d', l:size/1024/1024) .'.' .split(printf('%.2f', l:size/1024.0/1024.0), '\.')[-1] .'M'
   else
     hi MyHiLiFsize gui=bold guifg=red guibg=NONE
-    return printf('%3d', l:size/1024/1024/1024) .'.' .split(printf('%.2f', l:size/1024.0/1024.0/1024.0), '\.')[-1] .'G '
+    return printf('%3d', l:size/1024/1024/1024) .'.' .split(printf('%.2f', l:size/1024.0/1024.0/1024.0), '\.')[-1] .'G'
   endif
 endfu
