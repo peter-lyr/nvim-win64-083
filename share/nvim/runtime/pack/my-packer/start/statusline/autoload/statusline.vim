@@ -49,7 +49,8 @@ endfu
 
 fu! statusline#bufNr()
   let res = printf('[%d]', bufnr())
-  return printf('%6s', res)
+  let cnt = len(string(bufnr('$'))) + 2
+  return printf(printf('%%%ds', cnt), res)
 endfu
 
 fu! s:active()
