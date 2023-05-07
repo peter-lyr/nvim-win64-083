@@ -22,29 +22,30 @@ call statusline#color()
 
 fu! statusline#mode()
   let ret = get({
-        \ 'n':      'NORMAL ',
-        \ 'i':      'INSERT ',
+        \ 'n':      'NORMAL',
+        \ 'i':      'INSERT',
         \ 'R':      'REPLACE',
-        \ 'v':      'VISUAL ',
-        \ 'V':      'VISUAL ',
+        \ 'v':      'VISUAL',
+        \ 'V':      'VISUAL',
         \ "\<C-v>": 'V-BLOCK',
         \ 'c':      'COMMAND',
-        \ 's':      'SELECT ',
-        \ 'S':      'S-LINE ',
+        \ 's':      'SELECT',
+        \ 'S':      'S-LINE',
         \ "\<C-s>": 'S-BLOCK',
         \ 't':      'TERMINAL'
         \ },
         \ mode(),
         \ ''
         \ )
-  if 'INSERT ' == ret
+  if 'INSERT' == ret
     hi MyHiLiMode gui=bold guifg=orange guibg=NONE
   elseif 'REPLACE' == ret
     hi MyHiLiMode gui=bold guifg=red guibg=NONE
   else
     hi MyHiLiMode gui=NONE guifg=NONE guibg=NONE
   endif
-  return ret
+  let ret = '[' . ret . ']'
+  return printf("%-9s", ret)
 endfu
 
 fu! statusline#bufNr()
@@ -54,7 +55,7 @@ fu! statusline#bufNr()
 endfu
 
 fu! s:active()
-  let statusline  = '%#MyHiLiMode#[%{statusline#mode()}]'
+  let statusline  = '%#MyHiLiMode#%{statusline#mode()}'
   let statusline .= '%#MyHiLiBufNr#' . statusline#bufNr()
   let statusline .= '%#MyHiLiDate# ' . strftime("%Y-%m-%d")
   let statusline .= '%#MyHiLiTime# %{strftime("%T")}'
