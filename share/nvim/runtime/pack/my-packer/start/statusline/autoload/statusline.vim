@@ -53,42 +53,42 @@ fu! statusline#bufNr()
 endfu
 
 fu! s:active()
-  let statusline  = '%#MyHiLiMode#[%{statusline#mode()}]%*'
-  let statusline .= '%#MyHiLiBufNr#%{statusline#bufNr()}%*'
-  let statusline .= '%#MyHiLiDate# %{strftime("%Y-%m-%d")} %*'
-  let statusline .= '%#MyHiLiTime# %{strftime("%T")} %*'
-  let statusline .= '%#MyHiLiWeek# %{strftime("%a")}%*'
-  let statusline .= '%#MyHiLiFsize# %{statusline#fileSize(@%)}%*'
+  let statusline  = '%#MyHiLiMode#[%{statusline#mode()}]'
+  let statusline .= '%#MyHiLiBufNr#' . statusline#bufNr()
+  let statusline .= '%#MyHiLiDate# ' . strftime("%Y-%m-%d") . ''
+  let statusline .= '%#MyHiLiTime# %{strftime("%T")} '
+  let statusline .= '%#MyHiLiWeek# %{strftime("%a")}'
+  let statusline .= '%#MyHiLiFsize# %{statusline#fileSize(@%)}'
   let statusline .= '%='
-  if len(statusline#fileAbspathHead(@%)) + len(statusline#fileAbspathTail(@%)) < winwidth(0)
-    let statusline .= '%#MyHiLiFnameHead#%{statusline#fileAbspathHead(@%)}%*'
+  if len(expand(@%)) < winwidth(0)
+    let statusline .= '%#MyHiLiFnameHead#' . statusline#fileAbspathHead(@%)
   endif
-  let statusline .= '%#MyHiLiFnameTailActive#%{statusline#fileAbspathTail(@%)} %*'
+  let statusline .= '%#MyHiLiFnameTailActive#' . statusline#fileAbspathTail(@%)
   let statusline .= '%='
-  let statusline .= '%#MyHiLiLineCol#%m%r%y%*'
-  let statusline .= '%#MyHiLiFileFormat# %{&ff} %*'
-  let statusline .= '%#MyHiLiFileEncoding# %{"".(&fenc==""?&enc:&fenc).((exists("+bomb") && &bomb)?",B":"")." "}%*'
-  let statusline .= '%#MyHiLiLineCol#%(%4l:%-4c%)%*'
-  let statusline .= '%#MyHiLiBotTop# %P %*'
+  let statusline .= '%#MyHiLiLineCol#%m%r%y'
+  let statusline .= '%#MyHiLiFileFormat# %{&ff} '
+  let statusline .= '%#MyHiLiFileEncoding# %{"".(&fenc==""?&enc:&fenc).((exists("+bomb") && &bomb)?",B":"")." "}'
+  let statusline .= '%#MyHiLiLineCol#%(%4l:%-4c%)'
+  let statusline .= '%#MyHiLiBotTop# %P '
   return statusline
 endfu
 
 fu! s:inactive()
-  let statusline  = '%#MyHiLiInActive#[%{statusline#mode()}]%*'
-  let statusline .= '%#MyHiLiInActive#%{statusline#bufNr()}%*'
-  let statusline .= '%#MyHiLiInActive# %{strftime("%Y-%m-%d")} %*'
-  let statusline .= '%#MyHiLiInActive#          %*'
-  let statusline .= '%#MyHiLiInActive# %{strftime("%a")}%*'
-  let statusline .= '%#MyHiLiInActive# %{statusline#fileSize(@%)}%*'
+  let statusline  = '%#MyHiLiInActive#[%{statusline#mode()}]'
+  let statusline .= '%{statusline#bufNr()}'
+  let statusline .= ' %{strftime("%Y-%m-%d")} '
+  let statusline .= '         '
+  let statusline .= ' %{strftime("%a")}'
+  let statusline .= ' %{statusline#fileSize(@%)}'
   let statusline .= '%='
-  let statusline .= '%#MyHiLiFnameHead# %{statusline#fileAbspathHead(@%)}%*'
-  let statusline .= '%#MyHiLiFnameTailInActive#%{statusline#fileAbspathTail(@%)} %*'
+  let statusline .= '%#MyHiLiFnameHead# %{statusline#fileAbspathHead(@%)}'
+  let statusline .= '%#MyHiLiFnameTailInActive#%{statusline#fileAbspathTail(@%)} '
   let statusline .= '%='
-  let statusline .= '%#MyHiLiInActive#%m%r%y%*'
-  let statusline .= '%#MyHiLiInActive# %{&ff} %*'
-  let statusline .= '%#MyHiLiInActive# %{"".(&fenc==""?&enc:&fenc).((exists("+bomb") && &bomb)?",B":"")." "}%*'
-  let statusline .= '%#MyHiLiInActive#%(%4l:%-4c%)%*'
-  let statusline .= '%#MyHiLiInActive# %P %*'
+  let statusline .= '%#MyHiLiInActive#%m%r%y'
+  let statusline .= ' %{&ff} '
+  let statusline .= ' %{"".(&fenc==""?&enc:&fenc).((exists("+bomb") && &bomb)?",B":"")." "}'
+  let statusline .= '%(%4l:%-4c%)'
+  let statusline .= ' %P '
   return statusline
 endfu
 
