@@ -18,6 +18,7 @@ a.nvim_create_autocmd({ 'ColorScheme' }, {
       local color = v[2]
       local hl_group = "MyTabline" .. ext
       vim.api.nvim_set_hl(0, hl_group, { fg = color, bold = true })
+      vim.api.nvim_set_hl(0, "TablineDim", { fg = '#626262' })
     end
   end,
 })
