@@ -15,9 +15,14 @@ end
 
 local colors = {}
 local do_tabline
+local lastcwd = ''
 
 local changecolorscheme = function(force)
   local cwd = string.lower(string.gsub(vim.loop.cwd(), '\\', '/'))
+  if cwd == lastcwd and force ~= true then
+    return
+  end
+  lastcwd = cwd
   if not vim.tbl_contains(vim.tbl_keys(colors), cwd) or force == true then
     local color
     for _=1, 5 do
@@ -26,10 +31,7 @@ local changecolorscheme = function(force)
         break
       end
     end
-    c(string.format([[call feedkeys(":\<c-u>colorscheme %s\<cr>")]], color))
     colors[cwd] = color
-  else
-    c(string.format([[call feedkeys(":\<c-u>colorscheme %s\<cr>")]], colors[cwd]))
   end
   if not do_tabline then
     sta, do_tabline = pcall(require, 'do_tabline')
@@ -38,14 +40,16 @@ local changecolorscheme = function(force)
       return
     end
   end
+  c(string.format([[call feedkeys(":\<c-u>colorscheme %s\<cr>")]], colors[cwd]))
   vim.fn['timer_start'](100, do_tabline.update_title_string)
 end
 
-a.nvim_create_autocmd({ 'BufEnter', }, {
-  callback = function()
+local timer = vim.loop.new_timer()
+timer:start(100, 100, function()
+  vim.schedule(function()
     changecolorscheme(false)
-  end,
-})
+  end)
+end)
 
 local s = vim.keymap.set
 local opt = { silent = true }
