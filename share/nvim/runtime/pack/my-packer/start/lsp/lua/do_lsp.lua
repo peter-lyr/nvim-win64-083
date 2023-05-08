@@ -163,6 +163,16 @@ lspconfig.lua_ls.setup({
   }
 })
 
+lspconfig.marksman.setup({
+  capabilities = capabilities,
+  root_dir = function(fname)
+    local root_files = {
+      '.git',
+    }
+    return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname)
+  end,
+})
+
 
 s('n', '[f', d.open_float)
 s('n', ']f', d.setloclist)
