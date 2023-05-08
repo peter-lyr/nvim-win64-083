@@ -62,6 +62,7 @@ cmp.setup({
     ["<C-Space>"] = cmp.mapping.complete(),
     ["<C-e>"] = cmp.mapping.abort(),
     ["<CR>"] = cmp.mapping.confirm({ select = false }),
+    ["qo"] = cmp.mapping.confirm({ select = false }),
   }),
   sources = cmp.config.sources(
     {
