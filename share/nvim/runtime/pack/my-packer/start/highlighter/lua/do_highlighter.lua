@@ -30,3 +30,23 @@ if not add_pack_help({ 'vim-highlighter' }) then
   return nil
 end
 
+local a = vim.api
+local o = vim.opt
+
+local hista = nil
+
+a.nvim_create_autocmd({ 'BufEnter' }, {
+  callback = function()
+    vim.schedule(function()
+      if o.ft:get() == 'qf' then
+        if f['highlighter#isfollowed']() == 1 then
+          hista = true
+          c('Hi -')
+        end
+      elseif hista then
+        hista = nil
+        c('Hi >>')
+      end
+    end)
+  end,
+})

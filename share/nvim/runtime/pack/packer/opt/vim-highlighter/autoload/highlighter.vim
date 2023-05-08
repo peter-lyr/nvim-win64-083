@@ -1971,5 +1971,12 @@ function highlighter#Command(cmd, ...)
   return s:Search
 endfunction
 
+function highlighter#isfollowed()
+  if !exists("s:HiMode['>']") || s:HiMode['>'] != '>'
+    return 0
+  endif
+  return 1
+endfunction
+
 let &cpo = s:cpo_save
 unlet s:cpo_save
