@@ -64,11 +64,13 @@ s({ 'n', 'v' }, '<a-L>', ':<c-u>TelescopE live_grep<cr>', opt)
 s({ 'n', 'v' }, '<a-i>', ':<c-u>TelescopE grep_string shorten_path=true word_match=-w only_sort_text=true search= grep_open_files=true<cr>', opt)
 s({ 'n', 'v' }, '<a-I>', ':<c-u>TelescopE my grep_string<cr>', opt)
 
+s({ 'n', 'v' }, '<a-b>',   ':<c-u>TelescopE lsp_document_symbols<cr>', opt)
+s({ 'n', 'v' }, '<a-r>',   ':<c-u>TelescopE lsp_references<cr>', opt)
+
 s({ 'n', 'v' }, '<a-q>', ':<c-u>TelescopE quickfix<cr>', opt)
 s({ 'n', 'v' }, '<a-Q>', ':<c-u>TelescopE quickfixhistory<cr>', opt)
 
 s({ 'n', 'v' }, '<a-\'>a', ':<c-u>TelescopE builtin<cr>', opt)
-s({ 'n', 'v' }, '<a-\'>b', ':<c-u>TelescopE lsp_document_symbols<cr>', opt)
 s({ 'n', 'v' }, '<a-\'>c', ':<c-u>TelescopE colorscheme<cr>', opt)
 s({ 'n', 'v' }, '<a-\'>d', ':<c-u>TelescopE diagnostics<cr>', opt)
 s({ 'n', 'v' }, '<a-\'>f', ':<c-u>TelescopE filetypes<cr>', opt)
@@ -77,7 +79,6 @@ s({ 'n', 'v' }, '<a-\'>j', ':<c-u>TelescopE jumplist<cr>', opt)
 s({ 'n', 'v' }, '<a-\'>m', ':<c-u>TelescopE keymaps<cr>', opt)
 s({ 'n', 'v' }, '<a-\'>o', ':<c-u>TelescopE vim_options<cr>', opt)
 s({ 'n', 'v' }, '<a-\'>p', ':<c-u>TelescopE planets<cr>', opt)
-s({ 'n', 'v' }, '<a-\'>r', ':<c-u>TelescopE lsp_references<cr>', opt)
 s({ 'n', 'v' }, '<a-\'>z', ':<c-u>TelescopE current_buffer_fuzzy_find<cr>', opt)
 
 
