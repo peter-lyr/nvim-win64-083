@@ -79,7 +79,7 @@ fu! s:active()
   let statusline .= '%#MyHiLiFsize# %{statusline#fileSize(@%)}'
   let statusline .= ' %='
   if len(expand(@%)) < winwidth(0)
-    let statusline .= '%#MyHiLiFnameHead#' . statusline#fileAbspathHead(@%)
+    let statusline .= '%#MyHiLiFnameHead#%{statusline#fileAbspathHead(@%)}'
   endif
   let statusline .= '%#MyHiLiFnameTailActive#' . statusline#fileAbspathTail(@%)
   let statusline .= ' %='
