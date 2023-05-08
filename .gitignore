@@ -32,7 +32,6 @@ NetrwTreeListing
 **/pack/packer/**/vim-projectroot
 **/pack/packer/**/indent-blankline.nvim
 **/pack/packer/**/nvim-bqf
-**/pack/packer/**/vim-highlighter
 **/pack/packer/**/vim-searchindex
 **/pack/packer/**/asyncrun.vim
 **/pack/packer/**/nvim-scrollview
