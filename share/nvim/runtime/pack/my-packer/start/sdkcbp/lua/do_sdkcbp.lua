@@ -5,7 +5,6 @@ local f = vim.fn
 local c = vim.cmd
 local a = vim.api
 
-M.searched_folders = {}
 M.cbp_files = {}
 
 local Path = require("plenary.path")
@@ -32,24 +31,14 @@ local rep = function(path)
   return path
 end
 
-function M.traverse_folder(project, abspath)
+function M.traverse_folder(abspath)
   local path = Path:new(abspath)
-  local entries = Scan.scan_dir(path.filename, { hidden = false, depth = 1, add_dirs = true })
+  local entries = Scan.scan_dir(path.filename, { hidden = false, depth = 3, add_dirs = false })
   for _, entry in ipairs(entries) do
-    local entry_path = Path:new(entry)
     local entry_path_name = rep(entry)
-    if entry_path:is_dir() then
-      if not index_of(M.searched_folders, entry_path_name) then
-        table.insert(M.searched_folders, entry_path_name)
-        if string.find(entry_path_name, project) then
-          M.traverse_folder(project, entry_path_name)
-        end
-      end
-    else
-      if string.match(entry_path_name, '%.([^%.]+)$') == 'cbp' then
-        if not index_of(M.cbp_files, entry_path_name) then
-          table.insert(M.cbp_files, entry_path_name)
-        end
+    if string.match(entry_path_name, '%.([^%.]+)$') == 'cbp' then
+      if not index_of(M.cbp_files, entry_path_name) then
+        table.insert(M.cbp_files, entry_path_name)
       end
     end
   end
@@ -76,7 +65,7 @@ function M.find_cbp(dtargets)
       for _, dtarget in ipairs(dtargets) do
         local dpath = dname:joinpath(dtarget)
         if dpath:is_dir() then
-          M.traverse_folder(M.project, dpath['filename'])
+          M.traverse_folder(dpath['filename'])
           break
         else
           local fpath = dname:joinpath(dtarget .. '.cbp')
@@ -148,7 +137,6 @@ function M.run()
     print('no projectroot:', fname)
   end
   M.cbp_files = {}
-  M.searched_folders = {}
   M.find_cbp({ 'app' })
   if #M.cbp_files == 0 then
     M.find_cbp({ 'boot', 'masklib', 'spiloader' })
