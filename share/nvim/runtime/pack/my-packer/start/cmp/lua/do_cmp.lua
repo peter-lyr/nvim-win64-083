@@ -46,6 +46,12 @@ if not sta then
   return
 end
 
+local types
+sta, types = pcall(require, 'cmp.types')
+if not sta then
+  print(types)
+end
+
 o.completeopt = "menu,menuone,noselect"
 
 cmp.setup({
@@ -63,6 +69,16 @@ cmp.setup({
     ["<C-e>"] = cmp.mapping.abort(),
     ["<CR>"] = cmp.mapping.confirm({ select = false }),
     ["qo"] = cmp.mapping.confirm({ select = false }),
+    ["qi"] = {
+      i = function()
+        if cmp.visible() then
+          cmp.select_next_item({ behavior = types.cmp.SelectBehavior.Insert })
+          cmp.confirm({ select = false })
+        else
+          cmp.complete()
+        end
+      end,
+    },
   }),
   sources = cmp.config.sources(
     {
