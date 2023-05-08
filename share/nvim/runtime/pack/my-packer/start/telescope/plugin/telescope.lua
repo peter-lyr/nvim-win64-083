@@ -65,7 +65,7 @@ s({ 'n', 'v' }, '<a-i>', ':<c-u>TelescopE grep_string shorten_path=true word_mat
 s({ 'n', 'v' }, '<a-I>', ':<c-u>TelescopE my grep_string<cr>', opt)
 
 s({ 'n', 'v' }, '<a-b>',   ':<c-u>TelescopE lsp_document_symbols<cr>', opt)
-s({ 'n', 'v' }, '<a-r>',   ':<c-u>TelescopE lsp_references<cr>', opt)
+s({ 'n', 'v' }, '<a-.>',   ':<c-u>TelescopE lsp_references<cr>', opt)
 
 s({ 'n', 'v' }, '<a-q>', ':<c-u>TelescopE quickfix<cr>', opt)
 s({ 'n', 'v' }, '<a-Q>', ':<c-u>TelescopE quickfixhistory<cr>', opt)
