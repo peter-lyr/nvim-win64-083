@@ -95,6 +95,14 @@ local get_setup_table = function(file_ignore_patterns)
           ['qo'] = actions.select_default,
           ['<a-,>'] = actions.select_default,
           ['<a-n>'] = actions_layout.toggle_preview,
+          ['qj'] = function(prompt_bufnr)
+            actions.move_selection_next(prompt_bufnr)
+            c([[call feedkeys("\<esc>")]])
+          end,
+          ['qk'] = function(prompt_bufnr)
+            actions.move_selection_previous(prompt_bufnr)
+            c([[call feedkeys("\<esc>")]])
+          end,
         },
         n = {
           ['ql'] = actions.close,
