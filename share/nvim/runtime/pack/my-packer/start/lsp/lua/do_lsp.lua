@@ -233,7 +233,6 @@ a.nvim_create_autocmd({ 'BufEnter', 'WinEnter' }, {
             end
             cnt = cnt + 1
             if cnt > 5 then
-              print('lsp time out')
               timer:stop()
             end
           end)
