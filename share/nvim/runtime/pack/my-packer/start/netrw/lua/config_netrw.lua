@@ -901,11 +901,11 @@ local paste_from_clip = function(payload)
     do_terminal.send_cmd('powershell', cmd, 0)
     local cnt = 0
     local timer = vim.loop.new_timer()
-    timer:start(1000, 1000, function()
+    timer:start(300, 400, function()
       vim.schedule(function()
         refresh()
         cnt = cnt + 1
-        if cnt > 10 then
+        if cnt > 10 or vim.opt.ft:get() ~= 'netrw' then
           timer:stop()
         end
       end)
