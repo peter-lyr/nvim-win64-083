@@ -903,10 +903,11 @@ local paste_from_clip = function(payload)
     local timer = vim.loop.new_timer()
     timer:start(300, 400, function()
       vim.schedule(function()
-        refresh()
         cnt = cnt + 1
         if cnt > 10 or vim.opt.ft:get() ~= 'netrw' then
           timer:stop()
+        else
+          refresh()
         end
       end)
     end)
