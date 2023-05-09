@@ -207,3 +207,23 @@ a.nvim_create_autocmd('LspAttach', {
     s({ 'n', 'v' }, '<leader>fc', b.code_action, opts)
   end,
 })
+
+local lastcwd = nil
+
+local rep = function(path)
+  path, _ = string.gsub(path, '/', '\\')
+  return path
+end
+
+a.nvim_create_autocmd('BufEnter', {
+  callback = function()
+    local curcwd = f['tolower'](rep(vim.loop.cwd()))
+    if curcwd ~= lastcwd then
+      lastcwd = curcwd
+      if lastcwd ~= nil then
+        vim.lsp.stop_client(vim.lsp.get_active_clients())
+        c('LspStart')
+      end
+    end
+  end,
+})
