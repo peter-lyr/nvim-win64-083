@@ -24,3 +24,21 @@ project_nvim.setup({
     -- ".svn",
   }
 })
+
+local g = vim.g
+
+g.rootmarkers = {
+  ".cache",
+  "build",
+  "compile_commands.json",
+  "CMakeLists.txt",
+  ".git",
+  -- ".svn",
+  -- '.projectroot',
+  -- '.git',
+  -- '.hg',
+  -- '.svn',
+  -- '.bzr',
+  -- '_darcs',
+  -- 'build.xml'
+}
