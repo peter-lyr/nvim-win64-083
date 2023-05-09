@@ -215,15 +215,31 @@ local rep = function(path)
   return path
 end
 
-a.nvim_create_autocmd('BufEnter', {
+a.nvim_create_autocmd({ 'BufEnter', 'WinEnter' }, {
   callback = function()
-    local curcwd = f['tolower'](rep(vim.loop.cwd()))
+    local curcwd = f['tolower'](rep(f['projectroot#get'](a.nvim_buf_get_name(0))))
     if curcwd ~= lastcwd then
-      lastcwd = curcwd
       if lastcwd ~= nil then
+        local cnt = 0
         vim.lsp.stop_client(vim.lsp.get_active_clients())
-        c('LspStart')
+        local timer = vim.loop.new_timer()
+        timer:start(400, 400, function()
+          vim.schedule(function()
+            c('LspStart')
+            local curbufnr = vim.fn.bufnr()
+            local curclient = vim.lsp.get_active_clients({ bufnr = curbufnr })
+            if #curclient == 1 and vim.tbl_contains(vim.tbl_keys(curclient[1]), 'id') and vim.lsp.buf_is_attached(curbufnr, curclient[1]['id']) then
+              timer:stop()
+            end
+            cnt = cnt + 1
+            if cnt > 5 then
+              print('lsp time out')
+              timer:stop()
+            end
+          end)
+        end)
       end
+      lastcwd = curcwd
     end
   end,
 })
