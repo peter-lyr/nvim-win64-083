@@ -25,6 +25,10 @@ local rep = function(path)
   return path
 end
 
+local refresh = function()
+  f['netrw#Call']("NetrwRefresh", 1, f['netrw#Call']("NetrwBrowseChgDir", 1, './'))
+end
+
 local get_dname = function(payload)
   f['netrw#Call']("NetrwBrowseChgDir", 1, f['netrw#Call']("NetrwGetWord"), 1)
   if not payload or payload['type'] == 0 then
@@ -300,11 +304,12 @@ local ignore_list = {
 local hide = function()
   local netrw_list_hide = table.concat(ignore_list, ',')
   local netrw_list_hide2 = string.gsub(
-  string.gsub(
-  f['system']('cd ' ..
-  f['netrw#Call']('NetrwGetCurdir', 1) ..
-  ' && git config --local core.quotepath false & git ls-files --other --ignored --exclude-standard --directory'), '\n',
-  ','), ',$', '')
+    string.gsub(
+      f['system']('cd ' ..
+        f['netrw#Call']('NetrwGetCurdir', 1) ..
+        ' && git config --local core.quotepath false & git ls-files --other --ignored --exclude-standard --directory'),
+      '\n',
+      ','), ',$', '')
   if #netrw_list_hide2 > 0 then
     netrw_list_hide = netrw_list_hide .. ',' .. netrw_list_hide2
   end
@@ -617,7 +622,7 @@ local delete_sel_list = function()
       end
       f['system'](string.format('%s "%s"', g.netrw_recyclebin, v:match('^(.-)\\*$')))
     end
-    f['netrw#Call']("NetrwRefresh", 1, f['netrw#Call']("NetrwBrowseChgDir", 1, './'))
+    refresh()
     empty_sel_list()
   else
     print('canceled!')
@@ -633,7 +638,7 @@ local move_sel_list = function(payload)
         local dname = get_fname_tail(v)
         dname = string.format('%s%s', target, dname)
         if Path:new(dname):exists() then
-          c'redraw'
+          c 'redraw'
           local dname_new = f['input'](v .. " ->\nExisted! Rename? ", dname)
           if #dname_new > 0 and dname_new ~= dname then
             f['system'](string.format('move "%s" "%s"', string.sub(v, 1, #v - 1), dname_new))
@@ -641,7 +646,7 @@ local move_sel_list = function(payload)
             print('cancel all!')
             return
           else
-            c'redraw'
+            c 'redraw'
             print(v .. ' -> failed!')
             goto continue
           end
@@ -652,7 +657,7 @@ local move_sel_list = function(payload)
         local fname = get_fname_tail(v)
         fname = string.format('%s%s', target, fname)
         if Path:new(fname):exists() then
-          c'redraw'
+          c 'redraw'
           local fname_new = f['input'](v .. " ->\nExisted! Rename? ", fname)
           if #fname_new > 0 and fname_new ~= fname then
             f['system'](string.format('move "%s" "%s"', v, fname_new))
@@ -660,7 +665,7 @@ local move_sel_list = function(payload)
             print('cancel all!')
             return
           else
-            c'redraw'
+            c 'redraw'
             print(v .. ' -> failed!')
             goto continue
           end
@@ -672,7 +677,7 @@ local move_sel_list = function(payload)
       ::continue::
     end
     empty_sel_list()
-    f['netrw#Call']("NetrwRefresh", 1, f['netrw#Call']("NetrwBrowseChgDir", 1, './'))
+    refresh()
   else
     print('canceled!')
   end
@@ -687,7 +692,7 @@ local copy_sel_list = function(payload)
         local dname = get_fname_tail(v)
         dname = string.format('%s%s', target, dname)
         if Path:new(dname):exists() then
-          c'redraw'
+          c 'redraw'
           local dname_new = f['input'](v .. " ->\nExisted! Rename? ", dname)
           if #dname_new > 0 and dname_new ~= dname then
             if string.sub(dname_new, #dname_new, #dname_new) ~= '\\' then
@@ -698,7 +703,7 @@ local copy_sel_list = function(payload)
             print('cancel all!')
             return
           else
-            c'redraw'
+            c 'redraw'
             print(v .. ' -> failed!')
             goto continue
           end
@@ -712,7 +717,7 @@ local copy_sel_list = function(payload)
         local fname = get_fname_tail(v)
         fname = string.format('%s%s', target, fname)
         if Path:new(fname):exists() then
-          c'redraw'
+          c 'redraw'
           local fname_new = f['input'](v .. "\n ->Existed! Rename? ", fname)
           if #fname_new > 0 and fname_new ~= fname then
             f['system'](string.format('copy "%s" "%s"', v, fname_new))
@@ -720,7 +725,7 @@ local copy_sel_list = function(payload)
             print('cancel all!')
             return
           else
-            c'redraw'
+            c 'redraw'
             print(v .. ' -> failed!')
             goto continue
           end
@@ -728,7 +733,7 @@ local copy_sel_list = function(payload)
           f['system'](string.format('copy "%s" "%s"', v, fname))
         end
       end
-      f['netrw#Call']("NetrwRefresh", 1, f['netrw#Call']("NetrwBrowseChgDir", 1, './'))
+      refresh()
       ::continue::
     end
     empty_sel_list()
@@ -812,12 +817,12 @@ local rename_sel_list = function()
             local v1path = Path:new(v1)
             if v1path:is_dir() then
               if string.sub(v1, #v1, #v1) ~= '\\' then
-                cmds[cnt] = {0, v1 .. '\\'}
+                cmds[cnt] = { 0, v1 .. '\\' }
               else
-                cmds[cnt] = {0, v1}
+                cmds[cnt] = { 0, v1 }
               end
             else
-              cmds[cnt] = {1, v1}
+              cmds[cnt] = { 1, v1 }
             end
             cnt = cnt + 1
           end
@@ -854,8 +859,8 @@ local rename_sel_list = function()
           local s1 = v[2]
           local s2 = v[3]
           if v[1] == 0 then
-            s1 = string.sub(v[2], 0, #v[2]-1)
-            s2 = string.sub(v[3], 0, #v[3]-1)
+            s1 = string.sub(v[2], 0, #v[2] - 1)
+            s2 = string.sub(v[3], 0, #v[3] - 1)
           end
           f['system'](string.format('move "%s" "%s"', s1, s2))
         end
@@ -863,8 +868,8 @@ local rename_sel_list = function()
           local s2 = v[3]
           local s3 = v[4]
           if v[1] == 0 then
-            s2 = string.sub(v[3], 0, #v[3]-1)
-            s3 = string.sub(v[4], 0, #v[4]-1)
+            s2 = string.sub(v[3], 0, #v[3] - 1)
+            s3 = string.sub(v[4], 0, #v[4] - 1)
           end
           f['system'](string.format('move "%s" "%s"', s2, s3))
         end
@@ -882,6 +887,32 @@ local copy_2_clip = function()
     files = files .. " " .. '"' .. v .. '"'
   end
   f['system'](string.format('%s%s', g.copy2clip, files))
+end
+
+local terminal_sta, do_terminal = pcall(require, 'do_terminal')
+if not terminal_sta then
+  print(do_terminal)
+end
+
+local paste_from_clip = function(payload)
+  local dtarget = f['trim'](string.gsub(get_dtarget(payload), "/", "\\"), '\\')
+  if terminal_sta then
+    local cmd = string.format([[Get-Clipboard -Format FileDropList | ForEach-Object { Copy-Item -Path $_.FullName -Destination "%s" }]], dtarget)
+    do_terminal.send_cmd('powershell', cmd, 0)
+    local cnt = 0
+    local timer = vim.loop.new_timer()
+    timer:start(1000, 1000, function()
+      vim.schedule(function()
+        refresh()
+        cnt = cnt + 1
+        if cnt > 10 then
+          timer:stop()
+        end
+      end)
+    end)
+  else
+    print(do_terminal)
+  end
 end
 
 local create = function(payload)
@@ -906,7 +937,7 @@ local createmulti = function(payload)
       print('failed: ' .. fname)
     end
   end
-  f['netrw#Call']("NetrwRefresh", 1, f['netrw#Call']("NetrwBrowseChgDir", 1, './'))
+  refresh()
   if a1 then
     print('只允许字母、数字、空格、连字符、下划线、点号、括号、方括号和中文字符出现')
   end
@@ -931,7 +962,7 @@ local create_dirmulti = function(payload)
       print('failed: ' .. fname)
     end
   end
-  f['netrw#Call']("NetrwRefresh", 1, f['netrw#Call']("NetrwBrowseChgDir", 1, './'))
+  refresh()
   if a1 then
     print('只允许字母、数字、空格、连字符、下划线、点号、括号、方括号和中文字符出现')
   end
@@ -1027,11 +1058,13 @@ netrw.setup {
     ['dR'] = function() rename_sel_list() end,
     ['dC'] = function(payload) copy_sel_list(payload) end,
     ['dY'] = function() copy_2_clip() end,
+    ['dP'] = function(payload) paste_from_clip(payload) end,
     ['da'] = function(payload) create(payload) end,
     ['dA'] = function(payload) createmulti(payload) end,
     ['ds'] = function(payload) create_dir(payload) end,
     ['dS'] = function(payload) create_dirmulti(payload) end,
     ['D'] = function(payload) delete(payload) end,
     ['R'] = function(payload) rename(payload) end,
+    ['(f5)'] = function() refresh() end,
   },
 }
