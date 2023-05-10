@@ -290,7 +290,11 @@ local system_start = function(payload)
     return
   end
   if payload['type'] == 1 then
-    f['system'](string.format([[start cmd /c "cd %s && %s"]], get_dtarget(payload), get_fname(payload)))
+    if vim.tbl_contains({ 'bat', 'exe', }, payload.extension) then
+      f['system'](string.format([[start cmd /c "cd %s && "%s""]], get_dtarget(payload), get_fname(payload)))
+    else
+      f['system'](string.format([[start /b /min cmd /c "cd %s && "%s""]], get_dtarget(payload), get_fname(payload)))
+    end
   else
     f['system'](string.format("start %s", get_dname(payload)))
   end
