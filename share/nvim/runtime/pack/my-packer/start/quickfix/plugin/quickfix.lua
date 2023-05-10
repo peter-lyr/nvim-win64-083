@@ -1,6 +1,5 @@
 local o = vim.opt
 local a = vim.api
-local c = vim.cmd
 local s = vim.keymap.set
 
 local do_quickfix = nil
@@ -8,8 +7,6 @@ local loaded_do_quickfix = nil
 local quickfix_cursormoved = nil
 
 local sta = nil
-
-local cnt = 0
 
 local function init()
   if not loaded_do_quickfix then
@@ -19,13 +16,6 @@ local function init()
       print('no do_quickfix')
       return
     end
-  end
-  if cnt < 8 then
-    cnt = cnt + 1
-    c([[
-      hi BqfPreviewBorder guifg=#50a14f ctermfg=71
-      hi link BqfPreviewRange Search
-    ]])
   end
 end
 

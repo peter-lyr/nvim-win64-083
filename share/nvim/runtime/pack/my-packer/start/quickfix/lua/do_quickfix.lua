@@ -1,5 +1,6 @@
 local M = {}
 
+local a = vim.api
 local f = vim.fn
 local c = vim.cmd
 local o = vim.opt
@@ -15,6 +16,21 @@ local is_copened = function()
   end
   return nil
 end
+
+local hi = function()
+  c([[
+    hi BqfPreviewBorder guifg=#50a14f ctermfg=71
+    hi link BqfPreviewRange Search
+  ]])
+end
+
+hi()
+
+a.nvim_create_autocmd({ 'ColorScheme', }, {
+  callback = function()
+    hi()
+  end,
+})
 
 local nvim_bqf
 sta, nvim_bqf = pcall(c, 'packadd nvim-bqf')
