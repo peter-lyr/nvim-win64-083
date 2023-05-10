@@ -24,6 +24,8 @@ with open(os.path.join(rootdir, 'CMakeLists.txt'), 'wb') as ff:
         if f == 'app.cbp':
           if projectName != 'projects' and projectName not in i.replace(rootdir, ''):
             continue
+          if projectName == 'projects':
+            projectName = 'standard'
 
         ss = os.path.join(i, f).replace(rootdir, '').strip('/').strip('\\')
         with open(os.path.join(i, f), 'rb') as fff:
