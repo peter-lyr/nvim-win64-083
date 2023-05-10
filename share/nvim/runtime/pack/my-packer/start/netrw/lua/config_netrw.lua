@@ -290,7 +290,7 @@ local system_start = function(payload)
     return
   end
   if payload['type'] == 1 then
-    f['system'](string.format([[start /b /min cmd /c "%s"]], get_fname(payload)))
+    f['system'](string.format([[start cmd /c "cd %s && %s"]], get_dtarget(payload), get_fname(payload)))
   else
     f['system'](string.format("start %s", get_dname(payload)))
   end
