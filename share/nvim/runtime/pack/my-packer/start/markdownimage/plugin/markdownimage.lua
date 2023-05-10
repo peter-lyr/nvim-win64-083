@@ -101,6 +101,8 @@ a.nvim_create_autocmd({ 'BufReadPre' }, {
   end,
 })
 
+local sel_jpg = 'sel_png'
+
 a.nvim_create_autocmd({ 'BufReadPost' }, {
   callback = function()
     if gobackbufnr then
@@ -112,12 +114,19 @@ a.nvim_create_autocmd({ 'BufReadPost' }, {
         c('bw! ' .. curbufnr)
         return
       end
-      vim.ui.select({ 'sel_png', 'sel_jpg' }, { prompt = 'sel png or jpg' }, function(choice, _)
-        local sel_jpg = choice
+      if sel_jpg and index_of({ 'sel_png', 'sel_jpg' }, sel_jpg) then
         markdownimage_exe({ 'dragimage', sel_jpg, dragimagename })
         c 'w!'
         c('bw! ' .. curbufnr)
-      end)
+      else
+        vim.ui.select({ 'sel_png', 'sel_jpg' }, { prompt = 'sel png or jpg' }, function(choice, _)
+          local sel_jpg_tmp = choice
+          markdownimage_exe({ 'dragimage', sel_jpg_tmp, dragimagename })
+          c 'w!'
+          c('bw! ' .. curbufnr)
+        end)
+      end
+
     end
   end,
 })
