@@ -85,7 +85,7 @@ fu! tabline#getdict()
       for _, v in pairs(vim.g.bwall_dict[cwd]) do
         if filereadable(v) then
           table.insert(t1, v)
-        endif
+        end
       end
       if #t1 > 0 then
         vim.ui.select(t1, { prompt = 'open' }, function(_, index)
