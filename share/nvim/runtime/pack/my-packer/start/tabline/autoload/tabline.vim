@@ -83,7 +83,7 @@ fu! tabline#getdict()
       local cwd = string.gsub(vim.fn['getcwd'](), '\\', '/')
       cwd = vim.fn['tolower'](cwd)
       for _, v in pairs(vim.g.bwall_dict[cwd]) do
-        if filereadable(v)
+        if filereadable(v) then
           table.insert(t1, v)
         endif
       end
