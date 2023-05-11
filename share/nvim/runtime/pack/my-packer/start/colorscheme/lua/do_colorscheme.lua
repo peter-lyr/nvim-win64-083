@@ -45,6 +45,19 @@ local changecolorscheme = function(force)
   vim.fn['timer_start'](100, do_tabline.update_title_string)
 end
 
+local changecolorschemedefault = function()
+  local cwd = string.lower(string.gsub(vim.loop.cwd(), '\\', '/'))
+  if vim.tbl_contains(vim.tbl_keys(colors), cwd) then
+    if vim.g.colors_name == 'default' then
+      c(string.format([[call feedkeys(":\<c-u>colorscheme %s\<cr>")]], colors[cwd]))
+      vim.fn['timer_start'](100, do_tabline.update_title_string)
+      return
+    end
+  end
+  c([[call feedkeys(":\<c-u>colorscheme default\<cr>")]])
+  vim.fn['timer_start'](100, do_tabline.update_title_string)
+end
+
 local timer = vim.loop.new_timer()
 timer:start(100, 100, function()
   vim.schedule(function()
@@ -55,3 +68,4 @@ end)
 local s = vim.keymap.set
 local opt = { silent = true }
 s({ 'n', 'v' }, '<leader>bw', function() changecolorscheme(true) end, opt)
+s({ 'n', 'v' }, '<leader>bW', function() changecolorschemedefault(true) end, opt)
