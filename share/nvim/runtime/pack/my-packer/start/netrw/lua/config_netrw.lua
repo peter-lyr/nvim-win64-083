@@ -290,11 +290,18 @@ local system_start = function(payload)
     return
   end
   if payload['type'] == 1 then
-    if vim.tbl_contains({ 'bat', 'exe', }, payload.extension) then
-      f['system'](string.format([[start cmd /c "cd %s && "%s""]], get_dtarget(payload), get_fname(payload)))
-    else
-      f['system'](string.format([[start /b /min cmd /c "cd %s && "%s""]], get_dtarget(payload), get_fname(payload)))
-    end
+    f['system'](string.format([[start /b /min cmd /c "cd %s && "%s""]], get_dtarget(payload), get_fname(payload)))
+  else
+    f['system'](string.format("start %s", get_dname(payload)))
+  end
+end
+
+local system_start_cmd = function(payload)
+  if not payload then
+    return
+  end
+  if payload['type'] == 1 then
+    f['system'](string.format([[start cmd /c "cd %s && "%s""]], get_dtarget(payload), get_fname(payload)))
   else
     f['system'](string.format("start %s", get_dname(payload)))
   end
@@ -1041,6 +1048,7 @@ netrw.setup {
     ['cd'] = function(payload) chg_dir(payload) end,
     ['X'] = function(payload) explorer(payload) end,
     ['x'] = function(payload) system_start(payload) end,
+    ['cx'] = function(payload) system_start_cmd(payload) end,
     ['.'] = function() hide() end,
     ['a'] = function(payload) open(payload, 'here') end,
     ['O'] = function(payload) go_dir(payload) end,
