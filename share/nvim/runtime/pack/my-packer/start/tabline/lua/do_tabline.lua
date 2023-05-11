@@ -197,7 +197,7 @@ local get_fname_tail = function(fname)
 end
 
 M.update_title_string = function()
-  local title = get_fname_tail(f['getcwd']())
+  local title = vim.loop.cwd()
   if #title > 0 then
     local t1 = title .. ' | ' .. datetime
     if g.colors_name then
