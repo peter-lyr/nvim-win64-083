@@ -80,7 +80,7 @@ local plugins = function(use)
   use({ 'dbakker/vim-projectroot' })
   use({ 'lukas-reineke/indent-blankline.nvim', opt = true })
   use({ 'kevinhwang91/nvim-bqf', opt = true })
-  use({ 'azabiong/vim-highlighter', opt = true })
+  -- use({ 'azabiong/vim-highlighter', opt = true }) -- 不再更新官方修改
   use({ 'google/vim-searchindex', opt = true })
   use({ 'skywind3000/asyncrun.vim', opt = true })
   use({ 'dstein64/nvim-scrollview', opt = true })
