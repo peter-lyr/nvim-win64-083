@@ -83,7 +83,9 @@ fu! tabline#getdict()
       local cwd = string.gsub(vim.fn['getcwd'](), '\\', '/')
       cwd = vim.fn['tolower'](cwd)
       for _, v in pairs(vim.g.bwall_dict[cwd]) do
-        table.insert(t1, v)
+        if filereadable(v)
+          table.insert(t1, v)
+        endif
       end
       if #t1 > 0 then
         vim.ui.select(t1, { prompt = 'open' }, function(_, index)
