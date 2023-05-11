@@ -92,6 +92,8 @@ local plugins = function(use)
 
   use({ 'declancm/cinnamon.nvim' })
 
+  use({ 'chrisbra/vim-diff-enhanced' })
+
 end
 
 return packer.startup(function(use)
