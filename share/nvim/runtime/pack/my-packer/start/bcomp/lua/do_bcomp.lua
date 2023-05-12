@@ -30,8 +30,20 @@ M.run = function(params)
           c(string.format([[silent !start /b /min cmd /c "bcomp "%s" "%s""]], file1, file2))
         end
       end
+    else
+      if param == '1' then
+        file1 = ''
+      elseif param == '2' then
+        file2 = ''
+      end
+    end
+    if param == '3' then
+      if #file1 > 0 and #file2 > 0 then
+        c(string.format([[silent !start /b /min cmd /c "bcomp "%s" "%s""]], file1, file2))
+      end
     end
   end
+
 
 end
 
