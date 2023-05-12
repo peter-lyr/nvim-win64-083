@@ -40,3 +40,4 @@ local s = vim.keymap.set
 local opt = { silent = true }
 s({ 'n', 'v' }, '<leader>b<f1>', ':<c-u>BcomP 1<cr>', opt)
 s({ 'n', 'v' }, '<leader>b<f2>', ':<c-u>BcomP 2<cr>', opt)
+s({ 'n', 'v' }, '<leader>b<f3>', ':<c-u>BcomP 3<cr>', opt)
