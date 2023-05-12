@@ -39,6 +39,7 @@ endfu
 let g:process_mem = ''
 let g:tabline_exts = {}
 let g:bwall_dict = {}
+let s:showtablineright = 1
 
 fu! tabline#pushdict(name)
   let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
@@ -304,74 +305,78 @@ fu! tabline#tabline()
   let s ..= '%#TablineDim#%T'
   let s ..= "%="
   let s ..= '%#TablineDim#'
-  let s ..= "  ("
-  let s ..= g:process_mem
-  let s ..= "M)  "
-  let projectroots = []
-  let curtabpgnr = tabpagenr()
-  for i in range(tabpagenr('$'))
-    let buflist = tabpagebuflist(i + 1)
-    let winnr = tabpagewinnr(i + 1)
-    let bufname = nvim_buf_get_name(buflist[winnr-1])
-    if i + 1 == curtabpgnr
-      let curtabpageidx = i
-      try
-        let curext = split(bufname, '\.')[-1]
-      catch
-      endtry
-    endif
-    if len(trim(bufname)) == 0
-      let projectroots += ['+']
-    else
-      try
-        let project = projectroot#get(bufname)
-      catch
-        let project = bufname
-      endtry
-      let project = substitute(project, '\', '/', 'g')
-      let project = split(project, '/')
-      if len(project) > 0
-        let projectroots += [project[-1]]
-      else
-        let projectroots += ['-']
+  if s:showtablineright
+    let s ..= "  ("
+    let s ..= g:process_mem
+    let s ..= "M)  "
+    let projectroots = []
+    let curtabpgnr = tabpagenr()
+    for i in range(tabpagenr('$'))
+      let buflist = tabpagebuflist(i + 1)
+      let winnr = tabpagewinnr(i + 1)
+      let bufname = nvim_buf_get_name(buflist[winnr-1])
+      if i + 1 == curtabpgnr
+        let curtabpageidx = i
+        try
+          let curext = split(bufname, '\.')[-1]
+        catch
+        endtry
       endif
-    endif
-  endfor
-  let curprojectroot = projectroots[curtabpageidx]
-  let projectroots = UniquePrefix(projectroots)
-  for i in range(len(projectroots))
-    let buflist = tabpagebuflist(i + 1)
-    let winnr = tabpagewinnr(i + 1)
-    let bufname = nvim_buf_get_name(buflist[winnr-1])
-    try
-      let ext = split(bufname, '\.')[-1]
-      let s ..= printf('%%#MyTabline%s#', ext)
-    catch
-      let s ..= '%#TablineDim#'
-    endtry
-    try
-    catch
-    endtry
-    let s ..= '▎'
-    let projectroot = projectroots[i]
-    let s ..= '%' .. (i + 1) .. 'T'
-    if i == curtabpageidx
+      if len(trim(bufname)) == 0
+        let projectroots += ['+']
+      else
+        try
+          let project = projectroot#get(bufname)
+        catch
+          let project = bufname
+        endtry
+        let project = substitute(project, '\', '/', 'g')
+        let project = split(project, '/')
+        if len(project) > 0
+          let projectroots += [project[-1]]
+        else
+          let projectroots += ['-']
+        endif
+      endif
+    endfor
+    let curprojectroot = projectroots[curtabpageidx]
+    let projectroots = UniquePrefix(projectroots)
+    for i in range(len(projectroots))
+      let buflist = tabpagebuflist(i + 1)
+      let winnr = tabpagewinnr(i + 1)
+      let bufname = nvim_buf_get_name(buflist[winnr-1])
       try
-        let s ..= printf('%%#MyTabline%s#', curext)
+        let ext = split(bufname, '\.')[-1]
+        let s ..= printf('%%#MyTabline%s#', ext)
       catch
         let s ..= '%#TablineDim#'
       endtry
-    else
-      let s ..= '%#TablineDim#'
-    endif
-    let s ..= string(i+1) . ' '
-    if i == curtabpageidx
-      let s ..= curprojectroot
-    else
-      let s ..= projectroot
-    endif
-    let s ..= ' '
-  endfor
+      try
+      catch
+      endtry
+      let s ..= '▎'
+      let projectroot = projectroots[i]
+      let s ..= '%' .. (i + 1) .. 'T'
+      if i == curtabpageidx
+        try
+          let s ..= printf('%%#MyTabline%s#', curext)
+        catch
+          let s ..= '%#TablineDim#'
+        endtry
+      else
+        let s ..= '%#TablineDim#'
+      endif
+      let s ..= string(i+1) . ' '
+      if i == curtabpageidx
+        let s ..= curprojectroot
+      else
+        let s ..= projectroot
+      endif
+      let s ..= ' '
+    endfor
+  else
+    let s ..= printf("  %d/%d", tabpagenr(), tabpagenr('$'))
+  endif
   let g:tabline_string = trim(s) . ' '
   return g:tabline_string
 endfu
@@ -495,6 +500,15 @@ fu! tabline#toggleshowtabline()
     set showtabline=2
   else
     set showtabline=0
+  endif
+endfu
+
+fu! tabline#toggleshowtablineright()
+  let g:tabline_done = 0
+  if s:showtablineright
+    let s:showtablineright = 0
+  else
+    let s:showtablineright = 1
   endif
 endfu
 
