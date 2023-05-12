@@ -28,7 +28,6 @@ local diffenhanced = function()
   if not init() then
     return
   end
-  pcall(do_diffenhanced.run)
 end
 
 
