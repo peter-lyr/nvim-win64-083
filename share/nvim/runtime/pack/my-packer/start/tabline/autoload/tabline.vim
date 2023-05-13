@@ -52,7 +52,7 @@ fu! tabline#pushdict(name)
   endif
 endfu
 
-fu! tabline#getalldict()
+fu! tabline#openbwprojects()
   lua << EOF
     local t1 = {}
     for k, _ in pairs(vim.g.bwall_dict) do
@@ -76,7 +76,7 @@ function! tabline#updatedict(cwd, names)
   let g:bwall_dict[a:cwd] = a:names
 endfunction
 
-fu! tabline#getdict()
+fu! tabline#openbw()
   let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
   if has_key(g:bwall_dict, cwd)
     lua << EOF
@@ -99,7 +99,7 @@ EOF
   endif
 endfu
 
-fu! tabline#bwall()
+fu! tabline#bwallcurprojects()
   let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
   for bufnr in nvim_list_bufs()
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
@@ -170,9 +170,9 @@ function! UniquePrefix(strings)
   return new_strings
 endfunction
 
-nnoremap <silent><nowait> <leader>b<a-bs> :call tabline#bwall()<cr>
-nnoremap <silent><nowait> <leader>bq :call tabline#getdict()<cr>
-nnoremap <silent><nowait> <leader>br :call tabline#getalldict()<cr>
+nnoremap <silent><nowait> <leader>x<a-bs> :call tabline#bwallcurprojects()<cr>
+nnoremap <silent><nowait> <leader>bq :call tabline#openbw()<cr>
+nnoremap <silent><nowait> <leader>br :call tabline#openbwprojects()<cr>
 
 let g:tabline_string = ''
 let g:curbufnr = 0
@@ -231,11 +231,11 @@ fu! tabline#tabline()
       let b1 = '`' . string(cnt-10)
     endif
     exe 'nnoremap <buffer><silent><nowait> <leader>' . b1 ' :b' . bufnr .'<cr>'
-    exe 'nnoremap <buffer><silent><nowait> <leader>b' . b1 ' :call tabline#bw(' . bufnr .')<cr>'
+    exe 'nnoremap <buffer><silent><nowait> <leader>x' . b1 ' :call tabline#bw(' . bufnr .')<cr>'
     if i + 1 == curcnt
       exe 'nnoremap <buffer><silent><nowait> <leader>- :b' . L[i][0] .'<cr>'
       exe 'nnoremap <buffer><silent><nowait> <c-h> :b' . L[i][0] .'<cr>'
-      exe 'nnoremap <buffer><silent><nowait> <leader>b- :call tabline#bw(' . L[i][0] .')<cr>'
+      exe 'nnoremap <buffer><silent><nowait> <leader>x- :call tabline#bw(' . L[i][0] .')<cr>'
       exe 'nnoremap <buffer><silent><nowait> <c-bs> :b' . L[i][0] .'<cr>'
       if i + 1 == length - 1
         let g:nextbufnr = L[i][0]
@@ -243,11 +243,11 @@ fu! tabline#tabline()
     elseif i - 1 == curcnt
       exe 'nnoremap <buffer><silent><nowait> <leader>= :b' . L[i][0] .'<cr>'
       exe 'nnoremap <buffer><silent><nowait> <c-l> :b' . L[i][0] .'<cr>'
-      exe 'nnoremap <buffer><silent><nowait> <leader>b= :call tabline#bw(' . L[i][0] .')<cr>'
+      exe 'nnoremap <buffer><silent><nowait> <leader>x= :call tabline#bw(' . L[i][0] .')<cr>'
       exe 'nnoremap <buffer><silent><nowait> <bs> :b' . L[i][0] .'<cr>'
       let g:nextbufnr = L[i][0]
     elseif i == curcnt
-      exe 'nnoremap <buffer><silent><nowait> <leader>bx :call tabline#bw(' . bufnr .')<cr>'
+      exe 'nnoremap <buffer><silent><nowait> <leader>x<bs> :call tabline#bw(' . bufnr .')<cr>'
     endif
     let ext = split(name, '\.')[-1]
     let s ..= '%' . bufnr
@@ -282,14 +282,14 @@ fu! tabline#tabline()
     if index(keys(L), '0') != -1
       exe 'nnoremap <buffer><silent><nowait> <leader>= :b' . L[0][0] .'<cr>'
       exe 'nnoremap <buffer><silent><nowait> <c-l> :b' . L[0][0] .'<cr>'
-      exe 'nnoremap <buffer><silent><nowait> <leader>b= :call tabline#bw(' . L[0][0] .')<cr>'
+      exe 'nnoremap <buffer><silent><nowait> <leader>x= :call tabline#bw(' . L[0][0] .')<cr>'
       exe 'nnoremap <buffer><silent><nowait> <bs> :b' . L[0][0] .'<cr>'
     endif
   elseif 0 == curcnt
     if index(keys(L), string(length-1)) != -1
       exe 'nnoremap <buffer><silent><nowait> <leader>- :b' . L[length-1][0] .'<cr>'
       exe 'nnoremap <buffer><silent><nowait> <c-h> :b' . L[length-1][0] .'<cr>'
-      exe 'nnoremap <buffer><silent><nowait> <leader>b- :call tabline#bw(' . L[length-1][0] .')<cr>'
+      exe 'nnoremap <buffer><silent><nowait> <leader>x- :call tabline#bw(' . L[length-1][0] .')<cr>'
       exe 'nnoremap <buffer><silent><nowait> <c-bs> :b' . L[length-1][0] .'<cr>'
     endif
   endif
@@ -300,7 +300,7 @@ fu! tabline#tabline()
     let s ..= ' 1 empty name '
   else
     exe 'nnoremap <buffer><silent><nowait> <leader>0 :b' . bufnr .'<cr>'
-    exe 'nnoremap <buffer><silent><nowait> <leader>b0 :call tabline#bw(' . bufnr .')<cr>'
+    exe 'nnoremap <buffer><silent><nowait> <leader>x0 :call tabline#bw(' . bufnr .')<cr>'
   endif
   let s ..= '%#TablineDim#%T'
   let s ..= "%="
