@@ -539,8 +539,8 @@ fu! tabline#bwothers()
       if getbufvar(bufnr, '&readonly') != 1
         call tabline#pushdict(name)
       endif
+      exe 'bw!' . bufnr
     endif
-    exe 'bw!' . bufnr
   endfor
   let g:tabline_done = 0
 endfu
@@ -580,6 +580,26 @@ fu! tabline#bwleft()
         call tabline#pushdict(name)
       endif
       exe 'bw!' . bufnr
+    endif
+  endfor
+  let g:tabline_done = 0
+endfu
+
+fu! tabline#bwfiletype()
+  let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
+  let ft = input('input filetype to bw: ')
+  for bufnr in nvim_list_bufs()
+    let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
+    if name == '' || match(tolower(name), cwd) == -1
+      continue
+    endif
+    if buflisted(bufnr) && nvim_buf_is_loaded(bufnr) && filereadable(name)
+      if split(split(name, '/')[-1], '\.')[-1] == ft
+        if getbufvar(bufnr, '&readonly') != 1
+          call tabline#pushdict(name)
+        endif
+        exe 'bw!' . bufnr
+      endif
     endif
   endfor
   let g:tabline_done = 0
