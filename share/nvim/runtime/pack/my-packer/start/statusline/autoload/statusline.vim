@@ -86,6 +86,9 @@ fu! s:active()
   catch
     let branchname = ''
   endtry
+  if branchname == ''
+    let branchname = '-'
+  endif
   let statusline  = '%#MyHiLiMode#%{statusline#mode()}'
   let statusline .= '%#MyHiLiBufNr#' . statusline#bufNr()
   let statusline .= '%#MyHiLiDate# ' . strftime("%Y-%m-%d")
