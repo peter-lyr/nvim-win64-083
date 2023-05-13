@@ -47,3 +47,4 @@ s({ 'n', 'v' }, '<leader>by', ':<c-u>call tabline#toggleshowtablineright()<cr>',
 s({ 'n', 'v' }, '<leader>xo', ':<c-u>call tabline#bwothers()<cr>', opt)
 s({ 'n', 'v' }, '<leader>xl', ':<c-u>call tabline#bwright()<cr>', opt)
 s({ 'n', 'v' }, '<leader>xh', ':<c-u>call tabline#bwleft()<cr>', opt)
+s({ 'n', 'v' }, '<leader>xf', ':<c-u>call tabline#bwfiletype()<cr>', opt)

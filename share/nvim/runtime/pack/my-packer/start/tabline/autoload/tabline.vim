@@ -588,13 +588,14 @@ endfu
 fu! tabline#bwfiletype()
   let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
   let ft = input('input filetype to bw: ')
+  let ft = split(trim(tolower(substitute(ft, '\s\+', ' ', 'g'))), ' ')
   for bufnr in nvim_list_bufs()
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
-    if name == '' || match(tolower(name), cwd) == -1
+    if name == '' || match(tolower(name), cwd) == -1 || bufnr == s:curbufnr
       continue
     endif
     if buflisted(bufnr) && nvim_buf_is_loaded(bufnr) && filereadable(name)
-      if split(split(name, '/')[-1], '\.')[-1] == ft
+      if index(ft, split(split(name, '/')[-1], '\.')[-1]) != -1
         if getbufvar(bufnr, '&readonly') != 1
           call tabline#pushdict(name)
         endif
