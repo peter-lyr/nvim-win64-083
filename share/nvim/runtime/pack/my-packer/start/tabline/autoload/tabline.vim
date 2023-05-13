@@ -544,3 +544,43 @@ fu! tabline#bwothers()
   endfor
   let g:tabline_done = 0
 endfu
+
+fu! tabline#bwright()
+  let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
+  for bufnr in nvim_list_bufs()
+    if bufnr <= s:curbufnr
+      continue
+    endif
+    let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
+    if match(tolower(name), cwd) == -1
+      continue
+    endif
+    if buflisted(bufnr) && nvim_buf_is_loaded(bufnr) && filereadable(name)
+      if getbufvar(bufnr, '&readonly') != 1
+        call tabline#pushdict(name)
+      endif
+    endif
+    exe 'bw!' . bufnr
+  endfor
+  let g:tabline_done = 0
+endfu
+
+fu! tabline#bwleft()
+  let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
+  for bufnr in nvim_list_bufs()
+    if bufnr >= s:curbufnr
+      break
+    endif
+    let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
+    if match(tolower(name), cwd) == -1
+      continue
+    endif
+    if buflisted(bufnr) && nvim_buf_is_loaded(bufnr) && filereadable(name)
+      if getbufvar(bufnr, '&readonly') != 1
+        call tabline#pushdict(name)
+      endif
+    endif
+    exe 'bw!' . bufnr
+  endfor
+  let g:tabline_done = 0
+endfu
