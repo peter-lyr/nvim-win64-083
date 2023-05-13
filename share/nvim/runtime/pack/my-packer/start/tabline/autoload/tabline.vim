@@ -171,7 +171,7 @@ function! UniquePrefix(strings)
   return new_strings
 endfunction
 
-nnoremap <silent><nowait> <leader>x<a-bs> :call tabline#bwallcurprojects()<cr>
+nnoremap <silent><nowait> <leader>xC :call tabline#bwallcurprojects()<cr>
 nnoremap <silent><nowait> <leader>bq :call tabline#openbw()<cr>
 nnoremap <silent><nowait> <leader>br :call tabline#openbwprojects()<cr>
 
