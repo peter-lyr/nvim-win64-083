@@ -206,8 +206,8 @@ fu! tabline#tabline()
       let b1 = '`' . string(i + 1 - 10)
     endif
     try
-      exe 'nunmap <buffer><silent><nowait> <leader>' . b1
-      exe 'nunmap <buffer><silent><nowait> <leader>x' . b1
+      exe 'unmap <buffer> <leader>' . b1
+      exe 'unmap <buffer> <leader>x' . b1
     catch
     endtry
   endfor
@@ -543,6 +543,7 @@ fu! tabline#bwothers()
     endif
   endfor
   let g:tabline_done = 0
+  let s:cnt = 19
 endfu
 
 fu! tabline#bwright()
@@ -563,6 +564,7 @@ fu! tabline#bwright()
     endif
   endfor
   let g:tabline_done = 0
+  let s:cnt = 19
 endfu
 
 fu! tabline#bwleft()
@@ -583,6 +585,7 @@ fu! tabline#bwleft()
     endif
   endfor
   let g:tabline_done = 0
+  let s:cnt = 19
 endfu
 
 fu! tabline#bwfiletype()
@@ -604,4 +607,5 @@ fu! tabline#bwfiletype()
     endif
   endfor
   let g:tabline_done = 0
+  let s:cnt = 19
 endfu
