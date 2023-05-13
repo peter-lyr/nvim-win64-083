@@ -559,8 +559,8 @@ fu! tabline#bwright()
       if getbufvar(bufnr, '&readonly') != 1
         call tabline#pushdict(name)
       endif
+      exe 'bw!' . bufnr
     endif
-    exe 'bw!' . bufnr
   endfor
   let g:tabline_done = 0
 endfu
@@ -579,8 +579,8 @@ fu! tabline#bwleft()
       if getbufvar(bufnr, '&readonly') != 1
         call tabline#pushdict(name)
       endif
+      exe 'bw!' . bufnr
     endif
-    exe 'bw!' . bufnr
   endfor
   let g:tabline_done = 0
 endfu
