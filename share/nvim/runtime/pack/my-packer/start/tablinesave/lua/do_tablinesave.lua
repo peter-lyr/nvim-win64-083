@@ -48,7 +48,7 @@ M.getnew = function()
       goto continue
     end
     fpath = Path:new(fname)
-    if fpath:exists() ~= true then
+    if fpath:exists() ~= true or fpath:is_dir() then
       goto continue
     end
     f['gitbranch#detect'](fpath:parent().filename)
