@@ -76,7 +76,7 @@ aerial.setup({
   },
   post_jump_cmd = [[call feedkeys('zt3\<c-y>')]],
   close_automatic_events = { 'unfocus', 'switch_buffer', 'unsupported' },
-  close_on_select = true,
+  close_on_select = false,
   float = {
     relative = 'win',
   }
