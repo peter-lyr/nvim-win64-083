@@ -174,22 +174,22 @@ nnoremap <silent><nowait> <leader>x<a-bs> :call tabline#bwallcurprojects()<cr>
 nnoremap <silent><nowait> <leader>bq :call tabline#openbw()<cr>
 nnoremap <silent><nowait> <leader>br :call tabline#openbwprojects()<cr>
 
-let g:tabline_string = ''
-let g:curbufnr = 0
+let s:tabline_string = ''
+let s:curbufnr = 0
 let g:tabline_onesecond = 1
 let g:tabline_done = 1
 
 fu! tabline#tabline()
-  if g:curbufnr == bufnr() && g:tabpagecnt == tabpagenr() && g:tabline_done
+  if s:curbufnr == bufnr() && g:tabpagecnt == tabpagenr() && g:tabline_done
     if g:tabline_onesecond == 0
-      return g:tabline_string
+      return s:tabline_string
     endif
-    return substitute(g:tabline_string, '\(#  ([0-9:. %-]\+M)  %\)', '#  (' . g:process_mem . 'M)  %', 'g')
+    return substitute(s:tabline_string, '\(#  ([0-9:. %-]\+M)  %\)', '#  (' . g:process_mem . 'M)  %', 'g')
   endif
   let g:tabpagecnt = tabpagenr()
   let g:tabline_done = 1
   let g:tabline_onesecond = 0
-  let g:curbufnr = bufnr()
+  let s:curbufnr = bufnr()
   let s = ''
   let curname = substitute(nvim_buf_get_name(0), '\', '/', 'g')
   let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
@@ -206,7 +206,7 @@ fu! tabline#tabline()
     endif
     let names = split(name, '/')
     let name = names[-1]
-    if bufnr == g:curbufnr
+    if bufnr == s:curbufnr
       let curcnt = cnt
     else
     endif
@@ -295,7 +295,7 @@ fu! tabline#tabline()
   endif
   if len(s) == 0
     let s ..= '%#TablineDim#'
-    let s ..= '%' . g:curbufnr
+    let s ..= '%' . s:curbufnr
     let s ..= '@tabline#gobuffer@'
     let s ..= ' 1 empty name '
   else
@@ -377,8 +377,8 @@ fu! tabline#tabline()
   else
     let s ..= printf("  %d/%d", tabpagenr(), tabpagenr('$'))
   endif
-  let g:tabline_string = trim(s) . ' '
-  return g:tabline_string
+  let s:tabline_string = trim(s) . ' '
+  return s:tabline_string
 endfu
 
 fu! tabline#restorehiddenprojects()
@@ -516,7 +516,7 @@ fu! tabline#bwothers()
   let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
   for bufnr in nvim_list_bufs()
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
-    if match(tolower(name), cwd) == -1 || bufnr == g:curbufnr
+    if match(tolower(name), cwd) == -1 || bufnr == s:curbufnr
       continue
     endif
     if buflisted(bufnr) && nvim_buf_is_loaded(bufnr) && filereadable(name)
