@@ -104,7 +104,7 @@ fu! tabline#bwallcurprojects()
   let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
   for bufnr in nvim_list_bufs()
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
-    if match(tolower(name), cwd) == -1
+    if name == '' || match(tolower(name), cwd) == -1
       continue
     endif
     if buflisted(bufnr) && nvim_buf_is_loaded(bufnr) && filereadable(name)
@@ -216,7 +216,7 @@ fu! tabline#tabline()
       continue
     endif
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
-    if !filereadable(name) || match(tolower(name), cwd) == -1 || cwd != tolower(substitute(projectroot#get(name), '\', '/', 'g'))
+    if name == '' || !filereadable(name) || match(tolower(name), cwd) == -1 || cwd != tolower(substitute(projectroot#get(name), '\', '/', 'g'))
       continue
     endif
     let names = split(name, '/')
@@ -405,7 +405,7 @@ fu! tabline#restorehiddenprojects()
       continue
     endif
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
-    if !filereadable(name)
+    if name == '' || !filereadable(name)
       continue
     endif
     if getbufvar(bufnr, '&readonly') == 1
@@ -490,7 +490,7 @@ fu! tabline#savesession()
       continue
     endif
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
-    if !filereadable(name)
+    if name == '' || !filereadable(name)
       continue
     endif
     let names += [name]
@@ -532,7 +532,7 @@ fu! tabline#bwothers()
   let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
   for bufnr in nvim_list_bufs()
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
-    if match(tolower(name), cwd) == -1 || bufnr == s:curbufnr
+    if name == '' || match(tolower(name), cwd) == -1 || bufnr == s:curbufnr
       continue
     endif
     if buflisted(bufnr) && nvim_buf_is_loaded(bufnr) && filereadable(name)
@@ -552,7 +552,7 @@ fu! tabline#bwright()
       continue
     endif
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
-    if match(tolower(name), cwd) == -1
+    if name == '' || match(tolower(name), cwd) == -1
       continue
     endif
     if buflisted(bufnr) && nvim_buf_is_loaded(bufnr) && filereadable(name)
@@ -572,7 +572,7 @@ fu! tabline#bwleft()
       break
     endif
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
-    if match(tolower(name), cwd) == -1
+    if name == '' || match(tolower(name), cwd) == -1
       continue
     endif
     if buflisted(bufnr) && nvim_buf_is_loaded(bufnr) && filereadable(name)
