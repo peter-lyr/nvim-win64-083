@@ -1,3 +1,7 @@
-snippet pri "print('%s:', %s)"
-print('$1:', $1)
+snippet pv "print variable"
+print("$1", vim.inspect($1))
+endsnippet
+
+snippet ps "print string"
+print("$1")
 endsnippet
