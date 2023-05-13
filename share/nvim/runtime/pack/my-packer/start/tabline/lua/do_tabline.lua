@@ -179,23 +179,6 @@ local opt = { silent = true }
 
 s({ 'n', 'v' }, '<leader><bs>', ':<c-u>try|exe "b" . g:lastbufnr|catch|endtry<cr>', opt)
 
-local get_fname_tail = function(fname)
-  fname = string.gsub(fname, "\\", '/')
-  local path = Path:new(fname)
-  if path:is_file() then
-    fname = path:_split()
-    return fname[#fname]
-  elseif path:is_dir() then
-    fname = path:_split()
-    if #fname[#fname] > 0 then
-      return fname[#fname]
-    else
-      return fname[#fname - 1]
-    end
-  end
-  return ''
-end
-
 M.update_title_string = function()
   local title = vim.loop.cwd()
   if #title > 0 then
