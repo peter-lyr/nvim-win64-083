@@ -179,6 +179,8 @@ let s:curbufnr = 0
 let g:tabline_onesecond = 1
 let g:tabline_done = 1
 
+let s:cnt = 19
+
 fu! tabline#tabline()
   if s:curbufnr == bufnr() && g:tabpagecnt == tabpagenr() && g:tabline_done
     if g:tabline_onesecond == 0
@@ -196,6 +198,18 @@ fu! tabline#tabline()
   let cnt = 0
   let curcnt = 0
   let L = {}
+  for i in range(s:cnt)
+    if i + 1 < 10
+      let b1 = i + 1
+    else
+      let b1 = '`' . string(i + 1 - 10)
+    endif
+    try
+      exe 'nunmap <buffer><silent><nowait> <leader>' . b1
+      exe 'nunmap <buffer><silent><nowait> <leader>x' . b1
+    catch
+    endtry
+  endfor
   for bufnr in nvim_list_bufs()
     if !buflisted(bufnr) && !nvim_buf_is_loaded(bufnr)
       continue
@@ -277,6 +291,7 @@ fu! tabline#tabline()
     endtry
     let s ..= ' '
   endfor
+  let s:cnt = cnt
   let s = trim(s)
   if length == curcnt + 1
     if index(keys(L), '0') != -1
