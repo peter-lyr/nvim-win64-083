@@ -6,6 +6,9 @@ fu! statusline#color()
   hi MyHiLiTime              gui=NONE guifg=#2752c9 guibg=NONE
   hi MyHiLiWeek              gui=NONE guifg=#739874 guibg=NONE
   hi MyHiLiFnameHead         gui=NONE guifg=#87a4a2 guibg=NONE
+
+  hi MyHiLiBranchName        gui=bold guifg=#77e4a2 guibg=NONE
+
   hi MyHiLiFileType          gui=NONE guifg=#268853 guibg=NONE
   hi MyHiLiFileFormat        gui=NONE guifg=#968853 guibg=NONE
   hi MyHiLiFileEncoding      gui=NONE guifg=#c77227 guibg=NONE
@@ -71,7 +74,18 @@ fu! statusline#bufNr()
   return printf(printf('%%%ds', cnt), res)
 endfu
 
+try
+  gitbranch#name()
+catch
+  echomsg 'no gitbranch#name() itchyny/vim-gitbranch'
+endtry
+
 fu! s:active()
+  try
+    let branchname = gitbranch#name()
+  catch
+    let branchname = ''
+  endtry
   let statusline  = '%#MyHiLiMode#%{statusline#mode()}'
   let statusline .= '%#MyHiLiBufNr#' . statusline#bufNr()
   let statusline .= '%#MyHiLiDate# ' . strftime("%Y-%m-%d")
@@ -84,6 +98,7 @@ fu! s:active()
   endif
   let statusline .= '%#MyHiLiFnameTailActive#' . statusline#fileAbspathTail(@%)
   let statusline .= ' %='
+  let statusline .= '%#MyHiLiBranchName#(' . branchname . ') '
   let statusline .= '%#MyHiLiFileType#%m%r%y'
   let statusline .= '%#MyHiLiFileFormat# %{&ff} '
   let statusline .= '%#MyHiLiFileEncoding# %{"".(&fenc==""?&enc:&fenc).((exists("+bomb") && &bomb)?",B":"")." "}'

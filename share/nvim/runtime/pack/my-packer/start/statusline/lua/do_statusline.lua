@@ -58,6 +58,7 @@ local statuslinecolor = function()
     hi MyHiLiInActive          gui=NONE guifg=#3a3a3a guibg=NONE
     hi MyHiLiFnameTailActive   gui=bold guifg=#ff9933 guibg=NONE
     hi MyHiLiFnameTailInActive gui=NONE guifg=#996633 guibg=NONE
+    hi MyHiLiBranchName        gui=bold guifg=#77e4a2 guibg=NONE
     hi StatusLine              gui=NONE guibg=NONE guifg=NONE
     hi StatusLineNC            gui=NONE guibg=NONE guifg=gray
   ]]
