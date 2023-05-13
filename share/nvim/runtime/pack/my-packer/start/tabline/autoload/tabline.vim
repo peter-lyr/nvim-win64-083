@@ -42,12 +42,13 @@ let g:bwall_dict = {}
 let s:showtablineright = 1
 
 fu! tabline#pushdict(name)
+  let name = tolower(substitute(a:name, '\', '/', 'g'))
   let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
   if !has_key(g:bwall_dict, cwd)
-    let g:bwall_dict[cwd] = [a:name]
+    let g:bwall_dict[cwd] = [name]
   else
-    if index(g:bwall_dict[cwd], a:name) == -1
-      let g:bwall_dict[cwd] += [a:name]
+    if index(g:bwall_dict[cwd], name) == -1
+      let g:bwall_dict[cwd] += [name]
     endif
   endif
 endfu
