@@ -31,7 +31,7 @@ a.nvim_create_autocmd({ 'WinLeave' }, {
       end
     end
     f['timer_start'](100, do_tabline.update_title_string)
- end,
+  end,
 })
 
 
