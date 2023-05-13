@@ -6,6 +6,7 @@ fu! statusline#color()
   hi MyHiLiTime              gui=NONE guifg=#2752c9 guibg=NONE
   hi MyHiLiWeek              gui=NONE guifg=#739874 guibg=NONE
   hi MyHiLiFnameHead         gui=NONE guifg=#87a4a2 guibg=NONE
+  hi MyHiLiFileType          gui=NONE guifg=#268853 guibg=NONE
   hi MyHiLiFileFormat        gui=NONE guifg=#968853 guibg=NONE
   hi MyHiLiFileEncoding      gui=NONE guifg=#c77227 guibg=NONE
   hi MyHiLiLineCol           gui=NONE guifg=#87a387 guibg=NONE
@@ -83,7 +84,7 @@ fu! s:active()
   endif
   let statusline .= '%#MyHiLiFnameTailActive#' . statusline#fileAbspathTail(@%)
   let statusline .= ' %='
-  let statusline .= '%#MyHiLiLineCol#%m%r%y'
+  let statusline .= '%#MyHiLiFileType#%m%r%y'
   let statusline .= '%#MyHiLiFileFormat# %{&ff} '
   let statusline .= '%#MyHiLiFileEncoding# %{"".(&fenc==""?&enc:&fenc).((exists("+bomb") && &bomb)?",B":"")." "}'
   let statusline .= '%#MyHiLiLineCol#%(%4l:%-4c%)'

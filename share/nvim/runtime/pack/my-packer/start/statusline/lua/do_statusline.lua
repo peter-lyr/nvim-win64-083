@@ -41,6 +41,7 @@ MyHi = {
   "MyHiLiTime",
   "MyHiLiWeek",
   "MyHiLiFnameHead",
+  "MyHiLiFileType",
   "MyHiLiFileFormat",
   "MyHiLiFileEncoding",
   "MyHiLiLineCol",
