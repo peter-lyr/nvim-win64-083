@@ -1,5 +1,13 @@
+snippet p3 "print 3 variable"
+print($1, $1, $1)
+endsnippet
+
+snippet p2 "print 2 variable"
+print($1, $1)
+endsnippet
+
 snippet pv "print variable"
-print("$1", vim.inspect($1))
+print("$1:", vim.inspect($1))
 endsnippet
 
 snippet ps "print string"
