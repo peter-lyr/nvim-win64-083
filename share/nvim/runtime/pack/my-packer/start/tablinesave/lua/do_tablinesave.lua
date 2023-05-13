@@ -80,20 +80,22 @@ end
 M.savesession = function()
   local old = loadstring('return ' .. session:read())()
   local new = M.getnew()
-  for cwd, v1 in pairs(old) do
-    if not vim.tbl_contains(vim.tbl_keys(new), cwd) then
-      new[cwd] = v1
-    else
-      for branch, fnames in pairs(v1) do
-        if not vim.tbl_contains(vim.tbl_keys(new[cwd]), branch) then
-          new[cwd][branch] = fnames
-        -- else
-        --   for _, fname in ipairs(fnames) do
-        --     if not vim.tbl_contains(new[cwd][branch], fname) then
-        --       table.insert(new[cwd][branch], fname)
-        --       print("fname:", vim.inspect(fname))
-        --     end
-        --   end
+  if old then
+    for cwd, v1 in pairs(old) do
+      if not vim.tbl_contains(vim.tbl_keys(new), cwd) then
+        new[cwd] = v1
+      else
+        for branch, fnames in pairs(v1) do
+          if not vim.tbl_contains(vim.tbl_keys(new[cwd]), branch) then
+            new[cwd][branch] = fnames
+          -- else
+          --   for _, fname in ipairs(fnames) do
+          --     if not vim.tbl_contains(new[cwd][branch], fname) then
+          --       table.insert(new[cwd][branch], fname)
+          --       print("fname:", vim.inspect(fname))
+          --     end
+          --   end
+          end
         end
       end
     end
