@@ -163,6 +163,20 @@ lspconfig.lua_ls.setup({
   }
 })
 
+lspconfig.vimls.setup({
+  capabilities = capabilities,
+  root_dir = function(fname)
+    local root_files = {
+      '.git',
+      '.svn',
+      'start',
+      'opt',
+      'my-packer',
+    }
+    return util.root_pattern(unpack(root_files))(fname) or util.find_git_ancestor(fname)
+  end,
+})
+
 lspconfig.marksman.setup({
   capabilities = capabilities,
   root_dir = function(fname)
