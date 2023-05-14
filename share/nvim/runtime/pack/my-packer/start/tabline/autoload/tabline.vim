@@ -497,7 +497,6 @@ fu! tabline#savesession()
   endfor
   if len(names) > 0
     call writefile(names, s:sessionname)
-    echomsg 'saved ' .len(names) .' buffers'
   endif
 endfu
 
@@ -588,16 +587,43 @@ fu! tabline#bwleft()
   let s:cnt = 19
 endfu
 
+fu! BwFileType(A, L, P)
+  return s:fts
+endfu
+
+command! -complete=customlist,BwFileType -nargs=* BwFileType call tabline#bwfiletypedo('<args>')
+
 fu! tabline#bwfiletype()
   let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
-  let ft = input('input filetype to bw: ')
-  let ft = split(trim(tolower(substitute(ft, '\s\+', ' ', 'g'))), ' ')
+  let s:fts = []
   for bufnr in nvim_list_bufs()
     let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
     if name == '' || match(tolower(name), cwd) == -1 || bufnr == s:curbufnr
       continue
     endif
-    if buflisted(bufnr) && nvim_buf_is_loaded(bufnr) && filereadable(name)
+    if nvim_buf_is_loaded(bufnr) && filereadable(name)
+      let ft = split(split(name, '/')[-1], '\.')[-1]
+      if index(s:fts, ft) == -1
+        let s:fts += [ft]
+      endif
+    endif
+  endfor
+  if len(s:fts) == 0
+    echomsg 'no other filetypes to bw'
+    return
+  endif
+  call feedkeys(":\<c-u>BwFileType ")
+endfu
+
+fu! tabline#bwfiletypedo(ft)
+  let ft = split(trim(tolower(substitute(a:ft, '\s\+', ' ', 'g'))), ' ')
+  let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
+  for bufnr in nvim_list_bufs()
+    let name = substitute(nvim_buf_get_name(bufnr), '\', '/', 'g')
+    if name == '' || match(tolower(name), cwd) == -1 || bufnr == s:curbufnr
+      continue
+    endif
+    if nvim_buf_is_loaded(bufnr) && filereadable(name)
       if index(ft, split(split(name, '/')[-1], '\.')[-1]) != -1
         if getbufvar(bufnr, '&readonly') != 1
           call tabline#pushdict(name)

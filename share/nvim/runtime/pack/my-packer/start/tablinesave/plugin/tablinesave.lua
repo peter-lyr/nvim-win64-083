@@ -38,5 +38,5 @@ end, { nargs = '*', })
 
 local s = vim.keymap.set
 local opt = { silent = true }
-s({ 'n', 'v' }, '<leader>bT', ':<c-u>TablinesavE save<cr>', opt)
+s({ 'n', 'v' }, '<leader>bt', ':<c-u>TablinesavE save<cr>', opt)
 s({ 'n', 'v' }, '<leader>bU', ':<c-u>TablinesavE load<cr>', opt)

@@ -149,6 +149,7 @@ M.run = function(params)
     local param = params[1]
     if param == 'save' then
       M.savesession()
+      f['tabline#savesession']()
     elseif param == 'load' then
       M.loadsession()
     end
