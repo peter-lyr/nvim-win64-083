@@ -283,6 +283,9 @@ fu! tabline#tabline()
   else
     let s2 ..= printf("  %d/%d", tabpagenr(), tabpagenr('$'))
   endif
+  let temps2 = substitute(s2, '%#.\{-}#', '', 'g')
+  let temps2 = substitute(temps2, '%\d\{-}T', '', 'g')
+  let temps2 = temps2 . ' '
   for bufnr in nvim_list_bufs()
     if !buflisted(bufnr) && !nvim_buf_is_loaded(bufnr)
       continue
@@ -330,7 +333,7 @@ fu! tabline#tabline()
     let S1 += [temps1]
   endfor
   let columns = &columns
-  echomsg columns
+  echomsg printf('%d, %d', columns, len(temps2))
   let cnt = 0
   if !filereadable(curname)
     let curcnt = -1
@@ -422,9 +425,6 @@ fu! tabline#tabline()
   let s1 ..= '%#TablineDim#%T'
   let s1 ..= "%="
   let s1 ..= '%#TablineDim#'
-  let temps2 = substitute(s2, '%#.\{-}#', '', 'g')
-  let temps2 = substitute(temps2, '%\d\{-}T', '', 'g')
-  let temps2 = temps2 . ' '
   let s = s1 .. s2
   let s:tabline_string = trim(s) . ' '
   return s:tabline_string
