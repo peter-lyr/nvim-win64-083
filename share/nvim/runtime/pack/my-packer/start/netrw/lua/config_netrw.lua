@@ -1060,9 +1060,9 @@ netrw.setup {
     ['O'] = function(payload) go_dir(payload) end,
 
     ['pf'] = function() unfold_all(0) end,
-    ['pr'] = function() unfold_all(3) end,
     ['pe'] = function() unfold_all(1) end,
     ['pd'] = function() unfold_all(2) end,
+    ['pr'] = function() unfold_all(3) end,
     ['pw'] = function() fold_all() end,
 
     ['U'] = function() go_parent() end,
