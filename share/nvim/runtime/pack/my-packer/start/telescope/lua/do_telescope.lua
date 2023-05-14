@@ -201,6 +201,12 @@ M.open = function()
   f.search('telescope.setup' .. '(get_setup_table')
 end
 
+M.open2 = function()
+  c 'split'
+  c('e ' .. g.telescope_lua)
+  f.search('{ silent = true }')
+end
+
 local Path = require("plenary.path")
 local Scan = require("plenary.scandir")
 
@@ -341,8 +347,12 @@ M.run = function(params)
   if not params or #params == 0 then
     return
   end
-  if #params == 1 and params[1] == 'open' then
-    M.open()
+  if #params == 1 then
+    if params[1] == 'open' then
+      M.open()
+    elseif params[1] == 'open2' then
+      M.open2()
+    end
     return
   end
   if params[1] == 'my' then
