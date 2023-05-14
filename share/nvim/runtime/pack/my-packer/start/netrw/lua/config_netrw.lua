@@ -1050,10 +1050,11 @@ netrw.setup {
     ['y'] = function(payload) copy_fname(payload) end,
     ['gy'] = function(payload) copy_fname_full(payload) end,
 
-    ['cd'] = function(payload) chg_dir(payload) end,
-    ['cx'] = function(payload) system_start_cmd(payload) end,
-    ['x'] = function(payload) system_start(payload) end,
-    ['X'] = function(payload) explorer(payload) end,
+    ['c.'] = function(payload) chg_dir(payload) end,
+
+    ['xc'] = function(payload) system_start_cmd(payload) end,
+    ['xs'] = function(payload) system_start(payload) end,
+    ['xe'] = function(payload) explorer(payload) end,
 
     ['.'] = function() hide() end,
 
@@ -1086,10 +1087,10 @@ netrw.setup {
     ['dY'] = function() copy_2_clip() end,
     ['dP'] = function(payload) paste_from_clip(payload) end,
 
-    ['da'] = function(payload) create(payload) end,
-    ['dA'] = function(payload) createmulti(payload) end,
-    ['ds'] = function(payload) create_dir(payload) end,
-    ['dS'] = function(payload) create_dirmulti(payload) end,
+    ['cf'] = function(payload) create(payload) end,
+    ['cF'] = function(payload) createmulti(payload) end,
+    ['cd'] = function(payload) create_dir(payload) end,
+    ['cD'] = function(payload) create_dirmulti(payload) end,
 
     ['D'] = function(payload) delete(payload) end,
     ['R'] = function(payload) rename(payload) end,
