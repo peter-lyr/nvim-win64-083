@@ -210,6 +210,79 @@ fu! tabline#tabline()
     catch
     endtry
   endfor
+  let s2 = ''
+  if s:showtablineright
+    let s2 ..= "  ("
+    let s2 ..= g:process_mem
+    let s2 ..= "M)  "
+    let projectroots = []
+    let curtabpgnr = tabpagenr()
+    for i in range(tabpagenr('$'))
+      let buflist = tabpagebuflist(i + 1)
+      let winnr = tabpagewinnr(i + 1)
+      let bufname = nvim_buf_get_name(buflist[winnr-1])
+      if i + 1 == curtabpgnr
+        let curtabpageidx = i
+        try
+          let curext = split(bufname, '\.')[-1]
+        catch
+        endtry
+      endif
+      if len(trim(bufname)) == 0
+        let projectroots += ['+']
+      else
+        try
+          let project = projectroot#get(bufname)
+        catch
+          let project = bufname
+        endtry
+        let project = substitute(project, '\', '/', 'g')
+        let project = split(project, '/')
+        if len(project) > 0
+          let projectroots += [project[-1]]
+        else
+          let projectroots += ['-']
+        endif
+      endif
+    endfor
+    let curprojectroot = projectroots[curtabpageidx]
+    let projectroots = UniquePrefix(projectroots)
+    for i in range(len(projectroots))
+      let buflist = tabpagebuflist(i + 1)
+      let winnr = tabpagewinnr(i + 1)
+      let bufname = nvim_buf_get_name(buflist[winnr-1])
+      try
+        let ext = split(bufname, '\.')[-1]
+        let s2 ..= printf('%%#MyTabline%s#', ext)
+      catch
+        let s2 ..= '%#TablineDim#'
+      endtry
+      try
+      catch
+      endtry
+      let s2 ..= '▎'
+      let projectroot = projectroots[i]
+      let s2 ..= '%' .. (i + 1) .. 'T'
+      if i == curtabpageidx
+        try
+          let s2 ..= printf('%%#MyTabline%s#', curext)
+        catch
+          let s2 ..= '%#TablineDim#'
+        endtry
+      else
+        let s2 ..= '%#TablineDim#'
+      endif
+      let s2 ..= string(i+1) . ' '
+      if i == curtabpageidx
+        let s2 ..= curprojectroot
+      else
+        let s2 ..= projectroot
+      endif
+      let s2 ..= ' '
+    endfor
+  else
+    let s2 ..= printf("  %d/%d", tabpagenr(), tabpagenr('$'))
+  endif
   for bufnr in nvim_list_bufs()
     if !buflisted(bufnr) && !nvim_buf_is_loaded(bufnr)
       continue
@@ -256,6 +329,8 @@ fu! tabline#tabline()
     let temps1 ..= ' '
     let S1 += [temps1]
   endfor
+  let columns = &columns
+  echomsg columns
   let cnt = 0
   if !filereadable(curname)
     let curcnt = -1
@@ -347,79 +422,6 @@ fu! tabline#tabline()
   let s1 ..= '%#TablineDim#%T'
   let s1 ..= "%="
   let s1 ..= '%#TablineDim#'
-  let s2 = ''
-  if s:showtablineright
-    let s2 ..= "  ("
-    let s2 ..= g:process_mem
-    let s2 ..= "M)  "
-    let projectroots = []
-    let curtabpgnr = tabpagenr()
-    for i in range(tabpagenr('$'))
-      let buflist = tabpagebuflist(i + 1)
-      let winnr = tabpagewinnr(i + 1)
-      let bufname = nvim_buf_get_name(buflist[winnr-1])
-      if i + 1 == curtabpgnr
-        let curtabpageidx = i
-        try
-          let curext = split(bufname, '\.')[-1]
-        catch
-        endtry
-      endif
-      if len(trim(bufname)) == 0
-        let projectroots += ['+']
-      else
-        try
-          let project = projectroot#get(bufname)
-        catch
-          let project = bufname
-        endtry
-        let project = substitute(project, '\', '/', 'g')
-        let project = split(project, '/')
-        if len(project) > 0
-          let projectroots += [project[-1]]
-        else
-          let projectroots += ['-']
-        endif
-      endif
-    endfor
-    let curprojectroot = projectroots[curtabpageidx]
-    let projectroots = UniquePrefix(projectroots)
-    for i in range(len(projectroots))
-      let buflist = tabpagebuflist(i + 1)
-      let winnr = tabpagewinnr(i + 1)
-      let bufname = nvim_buf_get_name(buflist[winnr-1])
-      try
-        let ext = split(bufname, '\.')[-1]
-        let s2 ..= printf('%%#MyTabline%s#', ext)
-      catch
-        let s2 ..= '%#TablineDim#'
-      endtry
-      try
-      catch
-      endtry
-      let s2 ..= '▎'
-      let projectroot = projectroots[i]
-      let s2 ..= '%' .. (i + 1) .. 'T'
-      if i == curtabpageidx
-        try
-          let s2 ..= printf('%%#MyTabline%s#', curext)
-        catch
-          let s2 ..= '%#TablineDim#'
-        endtry
-      else
-        let s2 ..= '%#TablineDim#'
-      endif
-      let s2 ..= string(i+1) . ' '
-      if i == curtabpageidx
-        let s2 ..= curprojectroot
-      else
-        let s2 ..= projectroot
-      endif
-      let s2 ..= ' '
-    endfor
-  else
-    let s2 ..= printf("  %d/%d", tabpagenr(), tabpagenr('$'))
-  endif
   let temps2 = substitute(s2, '%#.\{-}#', '', 'g')
   let temps2 = substitute(temps2, '%\d\{-}T', '', 'g')
   let temps2 = temps2 . ' '
