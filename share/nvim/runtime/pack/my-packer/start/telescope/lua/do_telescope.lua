@@ -350,10 +350,11 @@ M.run = function(params)
   if #params == 1 then
     if params[1] == 'open' then
       M.open()
+      return
     elseif params[1] == 'open2' then
       M.open2()
+      return
     end
-    return
   end
   if params[1] == 'my' then
     if params[2] == 'grep_string' then
