@@ -29,6 +29,21 @@ local refresh = function()
   f['netrw#Call']("NetrwRefresh", 1, f['netrw#Call']("NetrwBrowseChgDir", 1, './'))
 end
 
+local refreshtimes = function()
+  local cnt = 0
+  local timer = vim.loop.new_timer()
+  timer:start(300, 400, function()
+    vim.schedule(function()
+      cnt = cnt + 1
+      if cnt > 10 or vim.opt.ft:get() ~= 'netrw' then
+        timer:stop()
+      else
+        refresh()
+      end
+    end)
+  end)
+end
+
 local get_dname = function(payload)
   f['netrw#Call']("NetrwBrowseChgDir", 1, f['netrw#Call']("NetrwGetWord"), 1)
   if not payload or payload['type'] == 0 then
@@ -753,6 +768,20 @@ local copy_sel_list = function(payload)
   end
 end
 
+local system_execute = function(payload)
+  if #g.netrw_sel_list == 0 then
+    return
+  end
+  local dtarget = get_dtarget(payload)
+  local items = table.concat(g.netrw_sel_list, ' ')
+  c("echo '" .. dtarget .. "'")
+  local cmd = f['input']('', items)
+  cmd = '!start /min /b cmd /c "' .. 'cd ' .. dtarget .. ' && ' .. cmd .. '"'
+  c(cmd)
+  empty_sel_list()
+  refreshtimes()
+end
+
 local temppath = Path:new(f['expand']('$temp'))
 
 local rename_sel_list = function()
@@ -910,18 +939,7 @@ local paste_from_clip = function(payload)
   if terminal_sta then
     local cmd = string.format([[Get-Clipboard -Format FileDropList | ForEach-Object { Copy-Item -Path $_.FullName -Destination "%s" }]], dtarget)
     do_terminal.send_cmd('powershell', cmd, 0)
-    local cnt = 0
-    local timer = vim.loop.new_timer()
-    timer:start(300, 400, function()
-      vim.schedule(function()
-        cnt = cnt + 1
-        if cnt > 10 or vim.opt.ft:get() ~= 'netrw' then
-          timer:stop()
-        else
-          refresh()
-        end
-      end)
-    end)
+    refreshtimes()
   else
     print(do_terminal)
   end
@@ -1083,6 +1101,8 @@ netrw.setup {
     ['dM'] = function(payload) move_sel_list(payload) end,
     ['dR'] = function() rename_sel_list() end,
     ['dC'] = function(payload) copy_sel_list(payload) end,
+
+    ['dX'] = function(payload) system_execute(payload) end,
 
     ['dY'] = function() copy_2_clip() end,
     ['dP'] = function(payload) paste_from_clip(payload) end,
