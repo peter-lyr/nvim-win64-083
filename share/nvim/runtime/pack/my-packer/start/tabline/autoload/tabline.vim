@@ -333,23 +333,25 @@ fu! tabline#tabline()
     let S1 += [temps1]
   endfor
   let columns = &columns
-  let w1 = columns - len(temps2)
-  let c1 = 0
-  for i1 in range(curcnt, 0, -1)
-    if c1 + strdisplaywidth(S1[i1]) > w1 / 2
-      break
-    endif
-    let c1 += strdisplaywidth(S1[i1])
-  endfor
+  let w1 = columns - strdisplaywidth(temps2)
+  let c1 = strdisplaywidth(S1[curcnt])
+  if curcnt > 0
+    for i1 in range(curcnt - 1, 0, -1)
+      if c1 + strdisplaywidth(S1[i1]) > w1 / 2
+        break
+      endif
+      let c1 += strdisplaywidth(S1[i1])
+    endfor
+  endif
   let c2 = 0
   let x2 = 0
   if curcnt < length - 1
     for i2 in range(curcnt + 1, len(S1) - 1)
-      let c2 += strdisplaywidth(S1[i2])
-      let x2 += 1
-      if c2 > w1 - c1
+      if c2 + strdisplaywidth(S1[i2]) > w1 - c1
         break
       endif
+      let c2 += strdisplaywidth(S1[i2])
+      let x2 += 1
     endfor
   endif
   let maxcnt = curcnt + x2
