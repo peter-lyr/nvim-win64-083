@@ -3,6 +3,18 @@ local M = {}
 local config = require('netrw.config')
 local parse = require('netrw.parse')
 
+local hls = {}
+
+vim.api.nvim_create_autocmd({ 'ColorScheme' }, {
+  callback = function()
+    for _, v in ipairs(hls) do
+      local hl_group = v[1]
+      local hl = v[2]
+      vim.api.nvim_set_hl(0, hl_group, hl)
+    end
+  end,
+})
+
 ---@param bufnr number
 M.embelish = function(bufnr)
   local namespace = vim.api.nvim_create_namespace('netrw')
@@ -26,7 +38,11 @@ M.embelish = function(bufnr)
           local ic, color = devicons.get_icon_color(word.node, word.extension)
           if ic then
             local hl_group = "FileIconColor" .. word.extension
-            vim.api.nvim_set_hl(0, hl_group, { fg = color })
+            local hl = { fg = color }
+            if not vim.tbl_contains(hls, hl_group) then
+              table.insert(hls, {hl_group, hl})
+            end
+            vim.api.nvim_set_hl(0, hl_group, hl)
             opts.sign_hl_group = 'FileIconColor' .. word.extension
             opts.sign_text = ic
           end
