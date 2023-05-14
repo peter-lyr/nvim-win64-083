@@ -235,7 +235,9 @@ fu! tabline#tabline()
   endif
   let length = len(L)
   let s1 = ''
+  let S1 = []
   for i in range(mincnt, maxcnt)
+    let temps1 = ''
     let key = L[i]
     let bufnr = key[0]
     let name = key[1]
@@ -265,32 +267,36 @@ fu! tabline#tabline()
       exe 'nnoremap <buffer><silent><nowait> <leader>x<bs> :call tabline#bw(' . bufnr .')<cr>'
     endif
     let ext = split(name, '\.')[-1]
-    let s1 ..= '%' . bufnr
-    let s1 ..= '@tabline#gobuffer@'
+    let temps1 ..= '%' . bufnr
+    let temps1 ..= '@tabline#gobuffer@'
     if i == curcnt
-      let s1 ..= printf('%%#MyTabline%s#▎', ext)
-      let s1 ..= cnt
+      let temps1 ..= printf('%%#MyTabline%s#▎', ext)
+      let temps1 ..= cnt
     else
-      let s1 ..= '%#TablineDim#▎'
-      let s1 ..= cnt
+      let temps1 ..= '%#TablineDim#▎'
+      let temps1 ..= cnt
     endif
     if i == curcnt && length >= 7
-      let s1 ..= '/'
-      let s1 ..= length
+      let temps1 ..= '/'
+      let temps1 ..= length
     endif
-    let s1 ..= ' '
+    let temps1 ..= ' '
     if i != curcnt
-      let s1 ..= '%#TablineDim#'
+      let temps1 ..= '%#TablineDim#'
     endif
     try
       let ic = g:tabline_exts[ext][0]
-      let s1 ..= join(split(name, '\.')[0:-2], '\.')
-      let s1 ..= printf('%%#MyTabline%s#', ext)
-      let s1 ..= ' ' .. ic
+      let temps1 ..= join(split(name, '\.')[0:-2], '\.')
+      let temps1 ..= printf('%%#MyTabline%s#', ext)
+      let temps1 ..= ' ' .. ic
     catch
-      let s1 ..= name
+      let temps1 ..= name
     endtry
-    let s1 ..= ' '
+    let temps1 ..= ' '
+    let s1 ..= temps1
+    let temps1 = substitute(temps1, '%\d\{-}@tabline#gobuffer@', '', 'g')
+    let temps1 = substitute(temps1, '%#.\{-}#', '', 'g')
+    let S1 += [temps1]
   endfor
   let s:cnt = cnt
   let s1 = trim(s1)
