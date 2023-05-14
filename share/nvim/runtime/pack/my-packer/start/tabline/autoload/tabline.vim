@@ -394,6 +394,9 @@ fu! tabline#tabline()
   else
     let s2 ..= printf("  %d/%d", tabpagenr(), tabpagenr('$'))
   endif
+  let temps2 = substitute(s2, '%#.\{-}#', '', 'g')
+  let temps2 = substitute(temps2, '%\d\{-}T', '', 'g')
+  let temps2 = temps2 . ' '
   let s = s1 .. s2
   let s:tabline_string = trim(s) . ' '
   return s:tabline_string
