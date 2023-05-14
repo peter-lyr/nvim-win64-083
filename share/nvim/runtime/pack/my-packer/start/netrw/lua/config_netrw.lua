@@ -1035,7 +1035,10 @@ netrw.setup {
     ['(2-leftmouse)'] = function(payload) preview_file(payload) end,
     ['(s-tab)'] = function(payload) preview_go(payload) end,
     ['(middlemouse)'] = function() updir() end,
+
     ['q'] = function() updir() end,
+    ['a'] = function(payload) open(payload, 'here') end,
+
     ['o'] = function(payload) open(payload, 'here') end,
     ['do'] = function(payload) open(payload, 'here') end,
     ['dk'] = function(payload) open(payload, 'up') end,
@@ -1043,41 +1046,54 @@ netrw.setup {
     ['dh'] = function(payload) open(payload, 'left') end,
     ['dl'] = function(payload) open(payload, 'right') end,
     ['di'] = function(payload) open(payload, 'tab') end,
+
     ['y'] = function(payload) copy_fname(payload) end,
     ['gy'] = function(payload) copy_fname_full(payload) end,
+
     ['cd'] = function(payload) chg_dir(payload) end,
-    ['X'] = function(payload) explorer(payload) end,
-    ['x'] = function(payload) system_start(payload) end,
     ['cx'] = function(payload) system_start_cmd(payload) end,
+    ['x'] = function(payload) system_start(payload) end,
+    ['X'] = function(payload) explorer(payload) end,
+
     ['.'] = function() hide() end,
-    ['a'] = function(payload) open(payload, 'here') end,
+
     ['O'] = function(payload) go_dir(payload) end,
+
     ['pf'] = function() unfold_all(0) end,
     ['pr'] = function() unfold_all(3) end,
     ['pe'] = function() unfold_all(1) end,
     ['pd'] = function() unfold_all(2) end,
     ['pw'] = function() fold_all() end,
+
     ['U'] = function() go_parent() end,
     ['K'] = function() go_sibling('up') end,
     ['J'] = function() go_sibling('down') end,
+
     ['dp'] = function() search_fname('up') end,
     ['dn'] = function() search_fname('down') end,
+
     ['\''] = function(payload) sel_toggle_cur(payload) end,
     ['"'] = function() sel_toggle_all() end,
     ['|'] = function(payload) sel_all(payload) end,
+
     ['dE'] = function() empty_sel_list() end,
+
     ['dD'] = function() delete_sel_list() end,
     ['dM'] = function(payload) move_sel_list(payload) end,
     ['dR'] = function() rename_sel_list() end,
     ['dC'] = function(payload) copy_sel_list(payload) end,
+
     ['dY'] = function() copy_2_clip() end,
     ['dP'] = function(payload) paste_from_clip(payload) end,
+
     ['da'] = function(payload) create(payload) end,
     ['dA'] = function(payload) createmulti(payload) end,
     ['ds'] = function(payload) create_dir(payload) end,
     ['dS'] = function(payload) create_dirmulti(payload) end,
+
     ['D'] = function(payload) delete(payload) end,
     ['R'] = function(payload) rename(payload) end,
+
     ['(f5)'] = function() refresh() end,
   },
 }
