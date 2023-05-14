@@ -1129,6 +1129,8 @@ local help = function()
       local fpath = Path:new(file)
       lines = fpath:readlines()
     end
+    k = string.gsub(k, '%(', '<')
+    k = string.gsub(k, '%)', '>')
     table.insert(t1, {string.match(lines[line], 'function%(.-%) (.+) end'), k, line})
     if cnt < #k then
       cnt = #k
