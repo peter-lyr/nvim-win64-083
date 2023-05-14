@@ -1044,77 +1044,105 @@ local rename = function(payload)
   end
 end
 
+local mappings = {
+  ['(f1)'] = function(payload) test(payload) end,
+  ['(tab)'] = function(payload) preview(payload) end,
+  ['(leftmouse)'] = function(payload) toggle_dir(payload) end,
+  ['(2-leftmouse)'] = function(payload) preview_file(payload) end,
+  ['(s-tab)'] = function(payload) preview_go(payload) end,
+  ['(middlemouse)'] = function() updir() end,
+
+  ['q'] = function() updir() end,
+  ['a'] = function(payload) open(payload, 'here') end,
+
+  ['o'] = function(payload) open(payload, 'here') end,
+  ['do'] = function(payload) open(payload, 'here') end,
+  ['dk'] = function(payload) open(payload, 'up') end,
+  ['dj'] = function(payload) open(payload, 'down') end,
+  ['dh'] = function(payload) open(payload, 'left') end,
+  ['dl'] = function(payload) open(payload, 'right') end,
+  ['di'] = function(payload) open(payload, 'tab') end,
+
+  ['y'] = function(payload) copy_fname(payload) end,
+  ['gy'] = function(payload) copy_fname_full(payload) end,
+
+  ['c.'] = function(payload) chg_dir(payload) end,
+
+  ['xc'] = function(payload) system_start_cmd(payload) end,
+  ['xs'] = function(payload) system_start(payload) end,
+  ['xe'] = function(payload) explorer(payload) end,
+
+  ['.'] = function() hide() end,
+
+  ['O'] = function(payload) go_dir(payload) end,
+
+  ['pf'] = function() unfold_all(0) end,
+  ['pe'] = function() unfold_all(1) end,
+  ['pd'] = function() unfold_all(2) end,
+  ['pr'] = function() unfold_all(3) end,
+  ['pw'] = function() fold_all() end,
+
+  ['U'] = function() go_parent() end,
+  ['K'] = function() go_sibling('up') end,
+  ['J'] = function() go_sibling('down') end,
+
+  ['dp'] = function() search_fname('up') end,
+  ['dn'] = function() search_fname('down') end,
+
+  ['\''] = function(payload) sel_toggle_cur(payload) end,
+  ['"'] = function() sel_toggle_all() end,
+  ['|'] = function(payload) sel_all(payload) end,
+
+  ['dE'] = function() empty_sel_list() end,
+
+  ['dD'] = function() delete_sel_list() end,
+  ['dM'] = function(payload) move_sel_list(payload) end,
+  ['dR'] = function() rename_sel_list() end,
+  ['dC'] = function(payload) copy_sel_list(payload) end,
+
+  ['dX'] = function(payload) system_execute(payload) end,
+
+  ['dY'] = function() copy_2_clip() end,
+  ['dP'] = function(payload) paste_from_clip(payload) end,
+
+  ['cf'] = function(payload) create(payload) end,
+  ['cF'] = function(payload) createmulti(payload) end,
+  ['cd'] = function(payload) create_dir(payload) end,
+  ['cD'] = function(payload) create_dirmulti(payload) end,
+
+  ['D'] = function(payload) delete(payload) end,
+  ['R'] = function(payload) rename(payload) end,
+
+  ['(f5)'] = function() refresh() end,
+}
+
+local help = function()
+  local lines = nil
+  local line
+  local t1 = {}
+  local cnt = 0
+  for k, v in pairs(mappings) do
+    local p1 = debug.getinfo(v)
+    line = p1['linedefined']
+    if not lines then
+      local file = string.sub(p1['source'], 2)
+      local fpath = Path:new(file)
+      lines = fpath:readlines()
+    end
+    table.insert(t1, {string.match(lines[line], 'function%(.-%) (.+) end'), k, line})
+    if cnt < #k then
+      cnt = #k
+    end
+  end
+  table.sort(t1, function(a1, b1) return a1[3] < b1[3] end)
+  for _, v in ipairs(t1) do
+    print(string.format(string.format("%%-%ds -> %%s", cnt), v[2], v[1]))
+  end
+end
+
+mappings['?'] = function() help() end
+
 netrw.setup {
   use_devicons = true,
-  mappings = {
-    ['(f1)'] = function(payload) test(payload) end,
-    ['(tab)'] = function(payload) preview(payload) end,
-    ['(leftmouse)'] = function(payload) toggle_dir(payload) end,
-    ['(2-leftmouse)'] = function(payload) preview_file(payload) end,
-    ['(s-tab)'] = function(payload) preview_go(payload) end,
-    ['(middlemouse)'] = function() updir() end,
-
-    ['q'] = function() updir() end,
-    ['a'] = function(payload) open(payload, 'here') end,
-
-    ['o'] = function(payload) open(payload, 'here') end,
-    ['do'] = function(payload) open(payload, 'here') end,
-    ['dk'] = function(payload) open(payload, 'up') end,
-    ['dj'] = function(payload) open(payload, 'down') end,
-    ['dh'] = function(payload) open(payload, 'left') end,
-    ['dl'] = function(payload) open(payload, 'right') end,
-    ['di'] = function(payload) open(payload, 'tab') end,
-
-    ['y'] = function(payload) copy_fname(payload) end,
-    ['gy'] = function(payload) copy_fname_full(payload) end,
-
-    ['c.'] = function(payload) chg_dir(payload) end,
-
-    ['xc'] = function(payload) system_start_cmd(payload) end,
-    ['xs'] = function(payload) system_start(payload) end,
-    ['xe'] = function(payload) explorer(payload) end,
-
-    ['.'] = function() hide() end,
-
-    ['O'] = function(payload) go_dir(payload) end,
-
-    ['pf'] = function() unfold_all(0) end,
-    ['pe'] = function() unfold_all(1) end,
-    ['pd'] = function() unfold_all(2) end,
-    ['pr'] = function() unfold_all(3) end,
-    ['pw'] = function() fold_all() end,
-
-    ['U'] = function() go_parent() end,
-    ['K'] = function() go_sibling('up') end,
-    ['J'] = function() go_sibling('down') end,
-
-    ['dp'] = function() search_fname('up') end,
-    ['dn'] = function() search_fname('down') end,
-
-    ['\''] = function(payload) sel_toggle_cur(payload) end,
-    ['"'] = function() sel_toggle_all() end,
-    ['|'] = function(payload) sel_all(payload) end,
-
-    ['dE'] = function() empty_sel_list() end,
-
-    ['dD'] = function() delete_sel_list() end,
-    ['dM'] = function(payload) move_sel_list(payload) end,
-    ['dR'] = function() rename_sel_list() end,
-    ['dC'] = function(payload) copy_sel_list(payload) end,
-
-    ['dX'] = function(payload) system_execute(payload) end,
-
-    ['dY'] = function() copy_2_clip() end,
-    ['dP'] = function(payload) paste_from_clip(payload) end,
-
-    ['cf'] = function(payload) create(payload) end,
-    ['cF'] = function(payload) createmulti(payload) end,
-    ['cd'] = function(payload) create_dir(payload) end,
-    ['cD'] = function(payload) create_dirmulti(payload) end,
-
-    ['D'] = function(payload) delete(payload) end,
-    ['R'] = function(payload) rename(payload) end,
-
-    ['(f5)'] = function() refresh() end,
-  },
+  mappings = mappings,
 }
