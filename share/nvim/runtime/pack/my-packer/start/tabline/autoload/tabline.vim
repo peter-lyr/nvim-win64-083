@@ -193,7 +193,6 @@ fu! tabline#tabline()
   let g:tabline_done = 1
   let g:tabline_onesecond = 0
   let s:curbufnr = bufnr()
-  let s = ''
   let curname = substitute(nvim_buf_get_name(0), '\', '/', 'g')
   let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
   let cnt = 0
@@ -235,6 +234,7 @@ fu! tabline#tabline()
     let curcnt = -1
   endif
   let length = len(L)
+  let s1 = ''
   for i in range(mincnt, maxcnt)
     let key = L[i]
     let bufnr = key[0]
@@ -265,35 +265,35 @@ fu! tabline#tabline()
       exe 'nnoremap <buffer><silent><nowait> <leader>x<bs> :call tabline#bw(' . bufnr .')<cr>'
     endif
     let ext = split(name, '\.')[-1]
-    let s ..= '%' . bufnr
-    let s ..= '@tabline#gobuffer@'
+    let s1 ..= '%' . bufnr
+    let s1 ..= '@tabline#gobuffer@'
     if i == curcnt
-      let s ..= printf('%%#MyTabline%s#▎', ext)
-      let s ..= cnt
+      let s1 ..= printf('%%#MyTabline%s#▎', ext)
+      let s1 ..= cnt
     else
-      let s ..= '%#TablineDim#▎'
-      let s ..= cnt
+      let s1 ..= '%#TablineDim#▎'
+      let s1 ..= cnt
     endif
     if i == curcnt && length >= 7
-      let s ..= '/'
-      let s ..= length
+      let s1 ..= '/'
+      let s1 ..= length
     endif
-    let s ..= ' '
+    let s1 ..= ' '
     if i != curcnt
-      let s ..= '%#TablineDim#'
+      let s1 ..= '%#TablineDim#'
     endif
     try
       let ic = g:tabline_exts[ext][0]
-      let s ..= join(split(name, '\.')[0:-2], '\.')
-      let s ..= printf('%%#MyTabline%s#', ext)
-      let s ..= ' ' .. ic
+      let s1 ..= join(split(name, '\.')[0:-2], '\.')
+      let s1 ..= printf('%%#MyTabline%s#', ext)
+      let s1 ..= ' ' .. ic
     catch
-      let s ..= name
+      let s1 ..= name
     endtry
-    let s ..= ' '
+    let s1 ..= ' '
   endfor
   let s:cnt = cnt
-  let s = trim(s)
+  let s1 = trim(s1)
   if length == curcnt + 1
     if index(keys(L), '0') != -1
       exe 'nnoremap <buffer><silent><nowait> <leader>= :b' . L[0][0] .'<cr>'
@@ -309,22 +309,23 @@ fu! tabline#tabline()
       exe 'nnoremap <buffer><silent><nowait> <c-bs> :b' . L[length-1][0] .'<cr>'
     endif
   endif
-  if len(s) == 0
-    let s ..= '%#TablineDim#'
-    let s ..= '%' . s:curbufnr
-    let s ..= '@tabline#gobuffer@'
-    let s ..= ' 1 empty name '
+  if len(s1) == 0
+    let s1 ..= '%#TablineDim#'
+    let s1 ..= '%' . s:curbufnr
+    let s1 ..= '@tabline#gobuffer@'
+    let s1 ..= ' 1 empty name '
   else
     exe 'nnoremap <buffer><silent><nowait> <leader>0 :b' . bufnr .'<cr>'
     exe 'nnoremap <buffer><silent><nowait> <leader>x0 :call tabline#bw(' . bufnr .')<cr>'
   endif
-  let s ..= '%#TablineDim#%T'
-  let s ..= "%="
-  let s ..= '%#TablineDim#'
+  let s1 ..= '%#TablineDim#%T'
+  let s1 ..= "%="
+  let s1 ..= '%#TablineDim#'
+  let s2 = ''
   if s:showtablineright
-    let s ..= "  ("
-    let s ..= g:process_mem
-    let s ..= "M)  "
+    let s2 ..= "  ("
+    let s2 ..= g:process_mem
+    let s2 ..= "M)  "
     let projectroots = []
     let curtabpgnr = tabpagenr()
     for i in range(tabpagenr('$'))
@@ -363,36 +364,37 @@ fu! tabline#tabline()
       let bufname = nvim_buf_get_name(buflist[winnr-1])
       try
         let ext = split(bufname, '\.')[-1]
-        let s ..= printf('%%#MyTabline%s#', ext)
+        let s2 ..= printf('%%#MyTabline%s#', ext)
       catch
-        let s ..= '%#TablineDim#'
+        let s2 ..= '%#TablineDim#'
       endtry
       try
       catch
       endtry
-      let s ..= '▎'
+      let s2 ..= '▎'
       let projectroot = projectroots[i]
-      let s ..= '%' .. (i + 1) .. 'T'
+      let s2 ..= '%' .. (i + 1) .. 'T'
       if i == curtabpageidx
         try
-          let s ..= printf('%%#MyTabline%s#', curext)
+          let s2 ..= printf('%%#MyTabline%s#', curext)
         catch
-          let s ..= '%#TablineDim#'
+          let s2 ..= '%#TablineDim#'
         endtry
       else
-        let s ..= '%#TablineDim#'
+        let s2 ..= '%#TablineDim#'
       endif
-      let s ..= string(i+1) . ' '
+      let s2 ..= string(i+1) . ' '
       if i == curtabpageidx
-        let s ..= curprojectroot
+        let s2 ..= curprojectroot
       else
-        let s ..= projectroot
+        let s2 ..= projectroot
       endif
-      let s ..= ' '
+      let s2 ..= ' '
     endfor
   else
-    let s ..= printf("  %d/%d", tabpagenr(), tabpagenr('$'))
+    let s2 ..= printf("  %d/%d", tabpagenr(), tabpagenr('$'))
   endif
+  let s = s1 .. s2
   let s:tabline_string = trim(s) . ' '
   return s:tabline_string
 endfu
