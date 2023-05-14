@@ -227,8 +227,8 @@ fu! tabline#tabline()
     let L[cnt] = [bufnr, name]
     let cnt += 1
   endfor
-  let mincnt = max([curcnt - 14, 0])
-  let maxcnt = min([curcnt + 4, cnt - 1])
+  let mincnt = 0
+  let maxcnt = cnt - 1
   let cnt = 0
   if !filereadable(curname)
     let curcnt = -1
@@ -298,6 +298,7 @@ fu! tabline#tabline()
     let temps1 = substitute(temps1, '%#.\{-}#', '', 'g')
     let S1 += [temps1]
   endfor
+  echomsg curcnt
   let s:cnt = cnt
   let s1 = trim(s1)
   if length == curcnt + 1
