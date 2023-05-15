@@ -1,4 +1,5 @@
 local o = vim.opt
+local c = vim.cmd
 
 local M = {}
 
@@ -15,6 +16,14 @@ M.run = function(params)
         o.wrap = false
       else
         o.wrap = true
+      end
+    elseif option == 'diffthis' then
+      if o.diff:get() == true then
+        o.diff = false
+        c('ec "diffoff"')
+      else
+        o.diff = true
+        c('ec "diffthis"')
       end
     end
   end

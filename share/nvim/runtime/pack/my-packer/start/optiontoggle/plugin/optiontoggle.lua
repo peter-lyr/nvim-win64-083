@@ -39,3 +39,4 @@ end, { nargs = '*', })
 local s = vim.keymap.set
 local opt = { silent = true }
 s({ 'n', 'v' }, '<leader>tw', ':<c-u>OptiontogglE wrap<cr>', opt)
+s({ 'n', 'v' }, '<leader>td', ':<c-u>OptiontogglE diffthis<cr>', opt)
