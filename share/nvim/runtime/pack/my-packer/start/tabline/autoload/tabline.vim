@@ -332,107 +332,109 @@ fu! tabline#tabline()
     let temps1 ..= ' '
     let S1 += [temps1]
   endfor
-  let columns = &columns
-  let w1 = columns - strdisplaywidth(temps2)
-  let c1 = strdisplaywidth(S1[curcnt])
-  if curcnt > 0
-    for i1 in range(curcnt - 1, 0, -1)
-      if c1 + strdisplaywidth(S1[i1]) > w1 / 2
-        break
-      endif
-      let c1 += strdisplaywidth(S1[i1])
-    endfor
-  endif
-  let c2 = 0
-  let x2 = 0
-  if curcnt < length - 1
-    for i2 in range(curcnt + 1, len(S1) - 1)
-      if c2 + strdisplaywidth(S1[i2]) > w1 - c1
-        break
-      endif
-      let c2 += strdisplaywidth(S1[i2])
-      let x2 += 1
-    endfor
-  endif
-  let maxcnt = curcnt + x2
-  let mincnt = max([curcnt - (18 - x2), 0])
-  let cnt = 0
-  if !filereadable(curname)
-    let curcnt = -1
-  endif
   let s1 = ''
-  for i in range(mincnt, maxcnt)
-    let key = L[i]
-    let bufnr = key[0]
-    let name = key[1]
-    let cnt += 1
-    if cnt < 10
-      let b1 = cnt
-    else
-      let b1 = '`' . string(cnt-10)
+  if len(S1)
+    let columns = &columns
+    let w1 = columns - strdisplaywidth(temps2)
+    let c1 = strdisplaywidth(S1[curcnt])
+    if curcnt > 0
+      for i1 in range(curcnt - 1, 0, -1)
+        if c1 + strdisplaywidth(S1[i1]) > w1 / 2
+          break
+        endif
+        let c1 += strdisplaywidth(S1[i1])
+      endfor
     endif
-    exe 'nnoremap <buffer><silent><nowait> <leader>' . b1 ' :b' . bufnr .'<cr>'
-    exe 'nnoremap <buffer><silent><nowait> <leader>x' . b1 ' :call tabline#bw(' . bufnr .')<cr>'
-    if i + 1 == curcnt
-      exe 'nnoremap <buffer><silent><nowait> <leader>- :b' . L[i][0] .'<cr>'
-      exe 'nnoremap <buffer><silent><nowait> <c-h> :b' . L[i][0] .'<cr>'
-      exe 'nnoremap <buffer><silent><nowait> <leader>x- :call tabline#bw(' . L[i][0] .')<cr>'
-      exe 'nnoremap <buffer><silent><nowait> <c-bs> :b' . L[i][0] .'<cr>'
-      if i + 1 == length - 1
-        let g:nextbufnr = L[i][0]
+    let c2 = 0
+    let x2 = 0
+    if curcnt < length - 1
+      for i2 in range(curcnt + 1, len(S1) - 1)
+        if c2 + strdisplaywidth(S1[i2]) > w1 - c1
+          break
+        endif
+        let c2 += strdisplaywidth(S1[i2])
+        let x2 += 1
+      endfor
+    endif
+    let maxcnt = curcnt + x2
+    let mincnt = max([curcnt - (18 - x2), 0])
+    let cnt = 0
+    if !filereadable(curname)
+      let curcnt = -1
+    endif
+    for i in range(mincnt, maxcnt)
+      let key = L[i]
+      let bufnr = key[0]
+      let name = key[1]
+      let cnt += 1
+      if cnt < 10
+        let b1 = cnt
+      else
+        let b1 = '`' . string(cnt-10)
       endif
-    elseif i - 1 == curcnt
-      exe 'nnoremap <buffer><silent><nowait> <leader>= :b' . L[i][0] .'<cr>'
-      exe 'nnoremap <buffer><silent><nowait> <c-l> :b' . L[i][0] .'<cr>'
-      exe 'nnoremap <buffer><silent><nowait> <leader>x= :call tabline#bw(' . L[i][0] .')<cr>'
-      exe 'nnoremap <buffer><silent><nowait> <bs> :b' . L[i][0] .'<cr>'
-      let g:nextbufnr = L[i][0]
-    elseif i == curcnt
-      exe 'nnoremap <buffer><silent><nowait> <leader>x<bs> :call tabline#bw(' . bufnr .')<cr>'
-    endif
-    let ext = split(name, '\.')[-1]
-    let s1 ..= '%' . bufnr
-    let s1 ..= '@tabline#gobuffer@'
-    if i == curcnt
-      let s1 ..= printf('%%#MyTabline%s#▎', ext)
-      let s1 ..= cnt
-    else
-      let s1 ..= '%#TablineDim#▎'
-      let s1 ..= cnt
-    endif
-    if i == curcnt && length >= 7
-      let s1 ..= '/'
-      let s1 ..= length
-    endif
-    let s1 ..= ' '
-    if i != curcnt
-      let s1 ..= '%#TablineDim#'
-    endif
-    try
-      let ic = g:tabline_exts[ext][0]
-      let s1 ..= join(split(name, '\.')[0:-2], '\.')
-      let s1 ..= printf('%%#MyTabline%s#', ext)
-      let s1 ..= ' ' .. ic
-    catch
-      let s1 ..= name
-    endtry
-    let s1 ..= ' '
-  endfor
-  let s:cnt = cnt
-  let s1 = trim(s1)
-  if length == curcnt + 1
-    if index(keys(L), '0') != -1
-      exe 'nnoremap <buffer><silent><nowait> <leader>= :b' . L[0][0] .'<cr>'
-      exe 'nnoremap <buffer><silent><nowait> <c-l> :b' . L[0][0] .'<cr>'
-      exe 'nnoremap <buffer><silent><nowait> <leader>x= :call tabline#bw(' . L[0][0] .')<cr>'
-      exe 'nnoremap <buffer><silent><nowait> <bs> :b' . L[0][0] .'<cr>'
-    endif
-  elseif 0 == curcnt
-    if index(keys(L), string(length-1)) != -1
-      exe 'nnoremap <buffer><silent><nowait> <leader>- :b' . L[length-1][0] .'<cr>'
-      exe 'nnoremap <buffer><silent><nowait> <c-h> :b' . L[length-1][0] .'<cr>'
-      exe 'nnoremap <buffer><silent><nowait> <leader>x- :call tabline#bw(' . L[length-1][0] .')<cr>'
-      exe 'nnoremap <buffer><silent><nowait> <c-bs> :b' . L[length-1][0] .'<cr>'
+      exe 'nnoremap <buffer><silent><nowait> <leader>' . b1 ' :b' . bufnr .'<cr>'
+      exe 'nnoremap <buffer><silent><nowait> <leader>x' . b1 ' :call tabline#bw(' . bufnr .')<cr>'
+      if i + 1 == curcnt
+        exe 'nnoremap <buffer><silent><nowait> <leader>- :b' . L[i][0] .'<cr>'
+        exe 'nnoremap <buffer><silent><nowait> <c-h> :b' . L[i][0] .'<cr>'
+        exe 'nnoremap <buffer><silent><nowait> <leader>x- :call tabline#bw(' . L[i][0] .')<cr>'
+        exe 'nnoremap <buffer><silent><nowait> <c-bs> :b' . L[i][0] .'<cr>'
+        if i + 1 == length - 1
+          let g:nextbufnr = L[i][0]
+        endif
+      elseif i - 1 == curcnt
+        exe 'nnoremap <buffer><silent><nowait> <leader>= :b' . L[i][0] .'<cr>'
+        exe 'nnoremap <buffer><silent><nowait> <c-l> :b' . L[i][0] .'<cr>'
+        exe 'nnoremap <buffer><silent><nowait> <leader>x= :call tabline#bw(' . L[i][0] .')<cr>'
+        exe 'nnoremap <buffer><silent><nowait> <bs> :b' . L[i][0] .'<cr>'
+        let g:nextbufnr = L[i][0]
+      elseif i == curcnt
+        exe 'nnoremap <buffer><silent><nowait> <leader>x<bs> :call tabline#bw(' . bufnr .')<cr>'
+      endif
+      let ext = split(name, '\.')[-1]
+      let s1 ..= '%' . bufnr
+      let s1 ..= '@tabline#gobuffer@'
+      if i == curcnt
+        let s1 ..= printf('%%#MyTabline%s#▎', ext)
+        let s1 ..= cnt
+      else
+        let s1 ..= '%#TablineDim#▎'
+        let s1 ..= cnt
+      endif
+      if i == curcnt && length >= 7
+        let s1 ..= '/'
+        let s1 ..= length
+      endif
+      let s1 ..= ' '
+      if i != curcnt
+        let s1 ..= '%#TablineDim#'
+      endif
+      try
+        let ic = g:tabline_exts[ext][0]
+        let s1 ..= join(split(name, '\.')[0:-2], '\.')
+        let s1 ..= printf('%%#MyTabline%s#', ext)
+        let s1 ..= ' ' .. ic
+      catch
+        let s1 ..= name
+      endtry
+      let s1 ..= ' '
+    endfor
+    let s:cnt = cnt
+    let s1 = trim(s1)
+    if length == curcnt + 1
+      if index(keys(L), '0') != -1
+        exe 'nnoremap <buffer><silent><nowait> <leader>= :b' . L[0][0] .'<cr>'
+        exe 'nnoremap <buffer><silent><nowait> <c-l> :b' . L[0][0] .'<cr>'
+        exe 'nnoremap <buffer><silent><nowait> <leader>x= :call tabline#bw(' . L[0][0] .')<cr>'
+        exe 'nnoremap <buffer><silent><nowait> <bs> :b' . L[0][0] .'<cr>'
+      endif
+    elseif 0 == curcnt
+      if index(keys(L), string(length-1)) != -1
+        exe 'nnoremap <buffer><silent><nowait> <leader>- :b' . L[length-1][0] .'<cr>'
+        exe 'nnoremap <buffer><silent><nowait> <c-h> :b' . L[length-1][0] .'<cr>'
+        exe 'nnoremap <buffer><silent><nowait> <leader>x- :call tabline#bw(' . L[length-1][0] .')<cr>'
+        exe 'nnoremap <buffer><silent><nowait> <c-bs> :b' . L[length-1][0] .'<cr>'
+      endif
     endif
   endif
   if len(s1) == 0
