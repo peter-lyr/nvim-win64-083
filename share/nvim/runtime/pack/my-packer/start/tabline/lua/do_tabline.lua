@@ -9,6 +9,12 @@ local s = vim.keymap.set
 
 g.lastbufnr = nil
 
+a.nvim_create_autocmd({ 'VimResized' }, {
+  callback = function()
+    g.tabline_done = 0
+  end,
+})
+
 TablineHi = {}
 
 a.nvim_create_autocmd({ 'ColorScheme' }, {
