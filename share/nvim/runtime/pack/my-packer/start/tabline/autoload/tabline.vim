@@ -395,7 +395,12 @@ fu! tabline#tabline()
       let s1 ..= '%' . bufnr
       let s1 ..= '@tabline#gobuffer@'
       if i == curcnt
-        let s1 ..= printf('%%#MyTabline%s#▎', ext)
+        try
+          let ic = g:tabline_exts[ext][0]
+          let s1 ..= printf('%%#MyTabline%s#▎', ext)
+        catch
+          let s1 ..= '%#TablineHi#▎'
+        endtry
         let s1 ..= cnt
       else
         let s1 ..= '%#TablineDim#▎'
