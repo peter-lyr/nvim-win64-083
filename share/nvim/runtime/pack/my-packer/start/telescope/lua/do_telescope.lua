@@ -136,7 +136,16 @@ local get_setup_table = function(file_ignore_patterns)
   }
 end
 
-telescope.setup(get_setup_table({
+local add = function(t1, t2)
+  for _, v in ipairs(t2) do
+    table.insert(t1, v)
+  end
+  return t1
+end
+
+local t = {}
+
+add(t, {
   '%.svn',
   '%.vs',
   '%.git',
@@ -148,9 +157,22 @@ telescope.setup(get_setup_table({
   '%.asc',
   '%.hex',
   'CMakeLists.txt',
-  -- 'map.txt',
-  -- '%.lst',
-}))
+})
+
+add(t, {
+  'audio_lhdc',
+  'audio_test',
+  'MSVC',
+})
+
+-- add(t, {
+--   'map.txt',
+--   '%.map',
+--   '%.lst',
+--   '%.S',
+-- })
+
+telescope.setup(get_setup_table(t))
 
 
 if add_pack_help({ 'aerial.nvim' }) then
