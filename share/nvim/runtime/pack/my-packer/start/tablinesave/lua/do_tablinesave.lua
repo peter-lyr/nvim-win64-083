@@ -112,8 +112,11 @@ local bwande = function(cwd, fnames)
     local curcwd = f['projectroot#get'](fname)
     curcwd = f['tolower'](curcwd)
     if curcwd == cwd then
-      if not vim.tbl_contains(fnames, fname) then
-        c('bw! ' .. fname)
+      local fpath = Path:new(fname)
+      if not fpath:is_dir() then
+        if not vim.tbl_contains(fnames, fname) then
+          c('bw! ' .. fname)
+        end
       end
     end
   end
