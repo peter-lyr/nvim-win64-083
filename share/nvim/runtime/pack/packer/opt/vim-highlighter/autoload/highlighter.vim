@@ -1971,7 +1971,7 @@ function highlighter#Command(cmd, ...)
   return s:Search
 endfunction
 
-function highlighter#isfollowed()
+function! highlighter#isfollowed()
   if !exists("s:HiMode['>']") || s:HiMode['>'] != '>'
     return 0
   endif
