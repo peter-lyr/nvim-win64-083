@@ -128,11 +128,21 @@ a.nvim_create_autocmd({ 'BufReadPost' }, {
   callback = function()
     if changebuf then
       changebuf = nil
-      c('b' .. g.lastbufnr)
-      c('wincmd v')
-      c('wincmd T')
-      c('b' .. curbufnr)
-      g.tabline_done = 0
+      c([[
+        try
+          b%d
+          wincmd v
+          wincmd T
+          b%d
+          let g:tabline_done = 0
+        catch
+        endtry
+      ]], g.lastbufnr, curbufnr)
+      -- c('b' .. g.lastbufnr)
+      -- c('wincmd v')
+      -- c('wincmd T')
+      -- c('b' .. curbufnr)
+      -- g.tabline_done = 0
     end
   end,
 })
