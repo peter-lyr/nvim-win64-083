@@ -187,7 +187,7 @@
       "Linter"
     ],
     "source": {
-      "id": "pkg:pypi/ansible-lint@6.16.0",
+      "id": "pkg:pypi/ansible-lint@6.16.1",
       "supported_platforms": [
         "darwin_x64",
         "darwin_arm64",
@@ -462,7 +462,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:npm/bash-language-server@4.9.1"
+      "id": "pkg:npm/bash-language-server@4.9.2"
     },
     "schemas": {
       "lsp": "vscode:https://raw.githubusercontent.com/bash-lsp/bash-language-server/server-{{version}}/vscode-client/package.json"
@@ -1051,7 +1051,7 @@
       "Runtime"
     ],
     "source": {
-      "id": "pkg:github/hirosystems/clarinet@v1.6.0",
+      "id": "pkg:github/hirosystems/clarinet@v1.6.1",
       "asset": [
         {
           "target": "darwin_arm64",
@@ -2001,7 +2001,7 @@
       "Formatter"
     ],
     "source": {
-      "id": "pkg:pypi/docformatter@1.6.5"
+      "id": "pkg:pypi/docformatter@1.7.0"
     },
     "bin": {
       "docformatter": "pypi:docformatter"
@@ -2564,7 +2564,7 @@
       "Formatter"
     ],
     "source": {
-      "id": "pkg:nuget/fantomas@6.0.2"
+      "id": "pkg:nuget/fantomas@6.0.3"
     },
     "bin": {
       "fantomas": "nuget:fantomas"
@@ -2776,6 +2776,28 @@
     },
     "bin": {
       "fsautocomplete": "nuget:fsautocomplete"
+    }
+  },
+  {
+    "name": "gdtoolkit",
+    "description": "A set of tools for daily work with GDScript.",
+    "homepage": "https://github.com/Scony/godot-gdscript-toolkit",
+    "licenses": [
+      "MIT"
+    ],
+    "languages": [
+      "GDScript"
+    ],
+    "categories": [
+      "Linter",
+      "Formatter"
+    ],
+    "source": {
+      "id": "pkg:pypi/gdtoolkit@4.0.1"
+    },
+    "bin": {
+      "gdlint": "pypi:gdlint",
+      "gdformat": "pypi:gdformat"
     }
   },
   {
@@ -4290,7 +4312,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:github/mason-org/julia-lsp@v1.38.2",
+      "id": "pkg:github/mason-org/julia-lsp@v1.47.2",
       "asset": [
         {
           "target": "unix",
@@ -5811,7 +5833,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:npm/%40prisma/language-server@31.0.2182"
+      "id": "pkg:npm/%40prisma/language-server@31.0.2206"
     },
     "bin": {
       "prisma-language-server": "npm:prisma-language-server"
@@ -6242,7 +6264,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:npm/pyright@1.1.308"
+      "id": "pkg:npm/pyright@1.1.309"
     },
     "schemas": {
       "lsp": "vscode:https://raw.githubusercontent.com/microsoft/pyright/{{version}}/packages/vscode-pyright/package.json"
@@ -6266,7 +6288,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:pypi/python-lsp-server@1.7.2?extra=all"
+      "id": "pkg:pypi/python-lsp-server@1.7.3?extra=all"
     },
     "schemas": {
       "lsp": "https://raw.githubusercontent.com/python-lsp/python-lsp-server/v{{version}}/pylsp/config/schema.json"
@@ -6566,7 +6588,7 @@
       "Linter"
     ],
     "source": {
-      "id": "pkg:golang/github.com/mgechev/revive@v1.3.1"
+      "id": "pkg:golang/github.com/mgechev/revive@v1.3.2"
     },
     "bin": {
       "revive": "golang:revive"
@@ -6736,7 +6758,7 @@
       "Linter"
     ],
     "source": {
-      "id": "pkg:pypi/ruff@0.0.265"
+      "id": "pkg:pypi/ruff@0.0.267"
     },
     "bin": {
       "ruff": "pypi:ruff"
@@ -6757,7 +6779,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:github/rust-lang/rust-analyzer@2023-05-08",
+      "id": "pkg:github/rust-lang/rust-analyzer@2023-05-15",
       "asset": [
         {
           "target": "linux_x64_gnu",
@@ -6886,7 +6908,7 @@
       "id": "pkg:pypi/salt-lsp@0.0.1"
     },
     "bin": {
-      "salt-lsp": "pypi:salt_lsp_server"
+      "salt_lsp_server": "pypi:salt_lsp_server"
     }
   },
   {
@@ -6953,7 +6975,7 @@
       "Linter"
     ],
     "source": {
-      "id": "pkg:pypi/semgrep@1.21.0"
+      "id": "pkg:pypi/semgrep@1.22.0"
     },
     "bin": {
       "semgrep": "pypi:semgrep"
@@ -7463,7 +7485,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:gem/sorbet@0.5.10826",
+      "id": "pkg:gem/sorbet@0.5.10830",
       "supported_platforms": [
         "darwin_x64",
         "darwin_arm64",
@@ -7494,7 +7516,7 @@
       "LSP"
     ],
     "source": {
-      "id": "pkg:pypi/sourcery-cli@1.2.0"
+      "id": "pkg:pypi/sourcery-cli@1.3.0"
     },
     "schemas": {
       "lsp": "vscode:https://raw.githubusercontent.com/swift-server/vscode-swift/main/package.json"
@@ -7738,7 +7760,7 @@
       "Linter"
     ],
     "source": {
-      "id": "pkg:npm/stylelint@15.6.1"
+      "id": "pkg:npm/stylelint@15.6.2"
     },
     "bin": {
       "stylelint": "npm:stylelint"
@@ -8474,7 +8496,7 @@
       "Linter"
     ],
     "source": {
-      "id": "pkg:github/daveshanley/vacuum@v0.1.1",
+      "id": "pkg:github/daveshanley/vacuum@v0.1.4",
       "asset": [
         {
           "target": "darwin_arm64",
