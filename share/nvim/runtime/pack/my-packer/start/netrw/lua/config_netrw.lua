@@ -776,10 +776,12 @@ local system_execute = function(payload)
   local items = table.concat(g.netrw_sel_list, ' ')
   c("echo '" .. dtarget .. "'")
   local cmd = f['input']('', items)
-  cmd = '!start /min /b cmd /c "' .. 'cd ' .. dtarget .. ' && ' .. cmd .. '"'
-  c(cmd)
-  empty_sel_list()
-  refreshtimes()
+  if cmd and #cmd > 0 and cmd ~= '' then
+    cmd = '!start /min /b cmd /c "' .. 'cd ' .. dtarget .. ' && ' .. cmd .. '"'
+    c(cmd)
+    empty_sel_list()
+    refreshtimes()
+  end
 end
 
 local temppath = Path:new(f['expand']('$temp'))
