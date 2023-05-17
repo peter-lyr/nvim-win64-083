@@ -44,6 +44,7 @@ s({ 'n', 'v' }, '<leader>bs', ':<c-u>call tabline#restorehiddenprojects()<cr>', 
 s({ 'n', 'v' }, '<leader>bu', ':<c-u>call tabline#restoresession()<cr>', opt)
 s({ 'n', 'v' }, '<leader>bv', ':<c-u>call tabline#toggleshowtabline()<cr>', opt)
 s({ 'n', 'v' }, '<leader>by', ':<c-u>call tabline#toggleshowtablineright()<cr>', opt)
+s({ 'n', 'v' }, '<leader>bw', ':<c-u>call tabline#togglecmdheight()<cr>', opt)
 s({ 'n', 'v' }, '<leader>xo', ':<c-u>call tabline#bwothers()<cr>', opt)
 s({ 'n', 'v' }, '<leader>xl', ':<c-u>call tabline#bwright()<cr>', opt)
 s({ 'n', 'v' }, '<leader>xh', ':<c-u>call tabline#bwleft()<cr>', opt)

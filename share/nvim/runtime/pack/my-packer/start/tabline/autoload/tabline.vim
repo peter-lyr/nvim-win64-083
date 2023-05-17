@@ -589,6 +589,14 @@ fu! tabline#toggleshowtablineright()
   endif
 endfu
 
+fu! tabline#togglecmdheight()
+  if &cmdheight == 0
+    set cmdheight=1
+  else
+    set cmdheight=0
+  endif
+endfu
+
 fu! tabline#bwothers()
   let cwd = tolower(substitute(getcwd(), '\', '/', 'g'))
   for bufnr in nvim_list_bufs()
