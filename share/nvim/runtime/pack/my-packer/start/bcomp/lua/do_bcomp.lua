@@ -1,13 +1,14 @@
 local a = vim.api
 local f = vim.fn
 local c = vim.cmd
+local g = vim.g
 
 local M = {}
 
 local Path = require("plenary.path")
 
-local file1 = ''
-local file2 = ''
+g.bcomp1 = ''
+g.bcomp2 = ''
 
 M.run = function(params)
 
@@ -26,20 +27,20 @@ M.run = function(params)
       fpath:write(table.concat(f['getline'](1, f['line']('$')), '\n'), 'w')
     end
     if param == '1' then
-      file1 = fpath.filename
+      g.bcomp1 = fpath.filename
     elseif param == '2' then
-      if #file1 == 0 then
-        file1 = fpath.filename
-        c('echo "bcomp file1: ' .. file1 .. '"')
+      if #g.bcomp1 == 0 then
+        g.bcomp1 = fpath.filename
+        c('echo "bcomp g.bcomp1: ' .. g.bcomp1 .. '"')
       else
-        file2 = fpath.filename
-        c('echo "bcomp file2: ' .. file2 .. '"')
-        c(string.format([[silent !start /b /min cmd /c "bcomp "%s" "%s""]], file1, file2))
+        g.bcomp2 = fpath.filename
+        c("echo 'bcomp g.bcomp2: " .. g.bcomp2 .. "'")
+        c(string.format([[silent !start /b /min cmd /c "bcomp "%s" "%s""]], g.bcomp1, g.bcomp2))
       end
     end
     if param == '3' then
-      if #file1 > 0 and #file2 > 0 then
-        c(string.format([[silent !start /b /min cmd /c "bcomp "%s" "%s""]], file1, file2))
+      if #g.bcomp1 > 0 and #g.bcomp2 > 0 then
+        c(string.format([[silent !start /b /min cmd /c "bcomp "%s" "%s""]], g.bcomp1, g.bcomp2))
       end
     end
   end
