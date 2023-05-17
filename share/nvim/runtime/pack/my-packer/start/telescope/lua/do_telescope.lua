@@ -165,6 +165,10 @@ add(t, {
   'MSVC',
 })
 
+add(t, {
+  'standard',
+})
+
 -- add(t, {
 --   'map.txt',
 --   '%.map',
