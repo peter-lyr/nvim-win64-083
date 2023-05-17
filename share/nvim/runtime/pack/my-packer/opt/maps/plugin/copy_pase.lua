@@ -18,6 +18,7 @@ s({ 't', }, '<a-z>', '<c-\\><c-n>"zpi')
 
 s({ 'n', 'v' }, '<leader>y', '<esc>:let @+ = expand("%:t")<cr>')
 s({ 'n', 'v' }, '<leader>gy', '<esc>:let @+ = substitute(nvim_buf_get_name(0), "/", "\\\\", "g")<cr>')
+s({ 'n', 'v' }, '<leader><leader>gy', '<esc>:let @+ = substitute(getcwd(), "/", "\\\\", "g")<cr>')
 
 local buf_leave = function()
   g.word = f['expand']('<cword>')
