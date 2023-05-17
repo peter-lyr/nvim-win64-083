@@ -149,35 +149,26 @@ a.nvim_create_autocmd({ 'BufReadPost' }, {
 
 local datetime = os.date("%H:%M:%S", g.startuptime)
 
-local function format_time(seconds)
-  local minutes = math.floor(seconds / 60)
-  local hours = math.floor(minutes / 60)
-  local days = math.floor(hours / 24)
-  local years = math.floor(days / 365)
-  local months = math.floor((days % 365) / 30)
-  local result = ""
+local function format_time(secs)
+  local seconds = secs % 60
+  local minutes = math.floor(secs / 60) % 60
+  local hours = math.floor(secs / 60 / 60) % 24
+  local days = math.floor(secs / 60 / 60 / 24) % 30
+  local months = math.floor(secs / 60 / 60 / 24 / 30) % 12
+  local years = math.floor(secs / 60 / 60 / 24 / 30 / 12) % 365
   if years > 0 then
-    result = result .. years .. "/"
-    days = days % 365
+    return string.format("%02d/%02d/%02d %02d:%02d:%02d", years, months, days, hours, minutes, seconds)
+  elseif months > 0 then
+    return string.format("%02d/%02d %02d:%02d:%02d", months, days, hours, minutes, seconds)
+  elseif days > 0 then
+    return string.format("%02d %02d:%02d:%02d", days, hours, minutes, seconds)
+  elseif hours > 0 then
+    return string.format("%02d:%02d:%02d", hours, minutes, seconds)
+  elseif minutes > 0 then
+    return string.format("%02d:%02d", minutes, seconds)
+  else
+    return string.format("%02d", seconds)
   end
-  if months > 0 then
-    result = result .. months .. "/"
-    days = days % 30
-  end
-  if days > 0 then
-    result = result .. days .. " "
-    hours = hours % 24
-  end
-  if hours > 0 then
-    result = result .. hours .. ":"
-    minutes = minutes % 60
-  end
-  if minutes > 0 then
-    result = result .. minutes .. ":"
-    seconds = seconds % 60
-  end
-  result = result .. string.format("%02d", seconds)
-  return result
 end
 
 local timer = vim.loop.new_timer()
