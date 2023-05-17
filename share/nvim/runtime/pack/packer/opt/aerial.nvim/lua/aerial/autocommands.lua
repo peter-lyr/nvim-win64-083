@@ -48,7 +48,6 @@ local function update_aerial_windows()
     if config.close_automatic_events.unfocus and curwin ~= winid then
       -- Close the window if the aerial source win is not the current win
       if src_win ~= vim.api.nvim_get_current_win() then
-        print('22222')
         close = true
       end
     end
@@ -56,7 +55,6 @@ local function update_aerial_windows()
       -- Close the aerial window if its source window has switched buffers
       if config.close_automatic_events.switch_buffer then
         if src_buf ~= util.get_source_buffer(winbuf) then
-        print('ccccc')
           close = true
         end
       end
