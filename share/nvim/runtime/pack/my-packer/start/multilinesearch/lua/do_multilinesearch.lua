@@ -13,10 +13,14 @@ local test2 = function()
   local lines = {}
   for lnr=line1, line2 do
     local line = f['getline'](lnr)
-    if lnr == line1 then
-      line = string.sub(line, col1)
-    elseif lnr == line2 then
-      line = string.sub(line, 0, col2)
+    if lnr == line1 and lnr == line2 then
+      line = string.sub(line, col1, col2)
+    else
+      if lnr == line1 then
+        line = string.sub(line, col1)
+      elseif lnr == line2 then
+        line = string.sub(line, 0, col2)
+      end
     end
     local cells = {}
     for ch in string.gmatch(line, ".") do
