@@ -18,7 +18,6 @@ local test2 = function()
     elseif lnr == line2 then
       line = string.sub(line, 0, col2)
     end
-    print(line)
     local cells = {}
     for ch in string.gmatch(line, ".") do
       if ch == "'" then
@@ -30,7 +29,11 @@ local test2 = function()
         table.insert(cells, string.format([['%s']], ch))
       end
     end
-    table.insert(lines, table.concat(cells, ' . '))
+    if #cells > 0 then
+      table.insert(lines, table.concat(cells, ' . '))
+    else
+      table.insert(lines, "''")
+    end
   end
   local content = table.concat(lines, " . '\\n' . ")
   c(string.format([[let @/ = "\\V" . %s]], content))
