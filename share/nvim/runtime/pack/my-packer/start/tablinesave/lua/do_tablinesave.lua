@@ -128,14 +128,14 @@ end
 
 M.loadsession = function()
   local cwds = loadstring('return ' .. session:read())()
-  vim.ui.select(vim.tbl_keys(cwds), { prompt = 'cwd' }, function(cwd, _)
+  vim.ui.select(f['sort'](vim.tbl_keys(cwds)), { prompt = 'cwd' }, function(cwd, _)
     local branches = cwds[cwd]
     if #vim.tbl_keys(branches) == 1 then
       for _, fnames in pairs(branches) do
         bwande(cwd, fnames)
       end
     else
-      vim.ui.select(vim.tbl_keys(branches), { prompt = 'branch' }, function(branch, _)
+      vim.ui.select(f['sort'](vim.tbl_keys(branches)), { prompt = 'branch' }, function(branch, _)
         local fnames = branches[branch]
         bwande(cwd, fnames)
       end)
