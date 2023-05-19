@@ -468,14 +468,14 @@ previewers.vimgrep = defaulter(function(opts)
       local has_buftype = entry.bufnr and vim.api.nvim_buf_get_option(entry.bufnr, "buftype") ~= "" or false
       local p
       if not has_buftype then
-        p = from_entry.path(entry, true)
+        p = from_entry.path(entry, false)
         if p == nil or p == "" then
           return
         end
       end
 
       -- Workaround for unnamed buffer when using builtin.buffer
-      if entry.bufnr and (p == "[No Name]" or has_buftype) then
+      if entry.bufnr and (p == "[No\\ Name]" or has_buftype) then
         local lines = vim.api.nvim_buf_get_lines(entry.bufnr, 0, -1, false)
         vim.api.nvim_buf_set_lines(self.state.bufnr, 0, -1, false, lines)
         jump_to_line(self, self.state.bufnr, entry.lnum)
