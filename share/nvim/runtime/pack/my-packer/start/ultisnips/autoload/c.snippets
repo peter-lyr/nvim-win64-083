@@ -41,3 +41,15 @@ endsnippet
 snippet pl "printf line"
 my_printf("## %s# %d\n", __func__, __LINE__);
 endsnippet
+
+snippet cm "c main"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int main(int argc, char *argv[])
+{
+    $1
+    return 0;
+}
+endsnippet
