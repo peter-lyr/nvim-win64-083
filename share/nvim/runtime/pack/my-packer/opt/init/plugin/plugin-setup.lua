@@ -96,6 +96,8 @@ local plugins = function(use)
 
   -- use({ 'itchyny/vim-gitbranch' }) -- 不再更新官方修改
 
+  use({ 'luukvbaal/statuscol.nvim' })
+
 end
 
 return packer.startup(function(use)

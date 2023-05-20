@@ -27,3 +27,4 @@ o.fileformats = 'dos'
 o.foldmethod = "indent"
 o.foldlevel = 99
 o.signcolumn = "auto:9"
+o.foldcolumn = "auto:9"
