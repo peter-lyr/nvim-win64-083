@@ -24,7 +24,7 @@ local init = function()
   return true
 end
 
-local statuscol = function(params)
+local statuscol = function()
   if not init() then
     return
   end
