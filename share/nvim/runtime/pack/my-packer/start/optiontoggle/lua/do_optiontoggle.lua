@@ -19,10 +19,10 @@ M.run = function(params)
       end
     elseif option == 'diffthis' then
       if o.diff:get() == true then
-        o.diff = false
+        c([[call feedkeys(":\<c-u>windo diffoff\<cr>")]])
         c('ec "diffoff"')
       else
-        o.diff = true
+        c([[call feedkeys(":\<c-u>diffthis\<cr>")]])
         c('ec "diffthis"')
       end
     end
