@@ -14,6 +14,8 @@ for _, v in pairs(vim.fn.getcompletion("", "color")) do
   table.insert(ColorSchemes, v)
 end
 
+math.randomseed(os.time())
+
 local colors = {}
 local do_tabline
 local lastcwd = ''
